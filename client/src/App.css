@@ -1,0 +1,38 @@
+html { 
+  background:  url("https://i.pinimg.com/736x/9f/ec/db/9fecdba47cfcda751e4eadce08ff95a7.jpg")no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+
+}
+
+p{
+  padding: 0;
+  margin: 0;
+  background-color: powderblue;
+  border-radius: 10px;
+}
+
+.App {
+  text-align: center;
+}
+
+.refresh{
+  
+}
+
+.box {
+  height:90px;
+  width: 80px;
+  background: url("https://cdn.pixabay.com/photo/2019/08/19/23/27/wizard-4417430_960_720.png") no-repeat center end ;
+  background-size: contain;
+}
+
+.container {
+  height:100px;
+  width: 80px;
+  text-align: center;
+}
+
+
+
