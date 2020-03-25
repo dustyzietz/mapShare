@@ -7,11 +7,7 @@ import { getPlayers } from './actions/players';
 const Map = ({players, getPlayers}) => {
  
   
- useEffect( () => {
-  setTimeout(function(){window.location.reload(false); }, 5000);
- }, [players]
- ) 
-    
+
  
 
   useEffect( () => {
