@@ -18,8 +18,8 @@ const Item = ({ updatePosition, getPlayers, name, url, pos, players }) => {
   const [activeDrags, setActiveDrags] = useState(0);
   const [deltaPosition, setDeltaPosition] = useState({ x: 0, y: 0 });
   const [controlledPosition, setControlledPosition] = useState({
-    x: pos.x,
-    y: pos.y
+    x: 0,
+    y: 0
   });
 
   const handleDrag = (e, ui) => {
@@ -69,7 +69,7 @@ const Item = ({ updatePosition, getPlayers, name, url, pos, players }) => {
         getPlayers();
       }
       refresh();
-    }, 5000);
+    }, 10000);
   }, []);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const Item = ({ updatePosition, getPlayers, name, url, pos, players }) => {
     async function postPosition() {
       const x = controlledPosition.x;
       const y = controlledPosition.y;
-      updatePosition(name, x, y);
+   await   updatePosition(name, x, y);
       console.log(x, y);
     }
     postPosition();

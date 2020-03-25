@@ -18,6 +18,7 @@ const Map = ({players, getPlayers}) => {
 
     return (
       <div >
+        <img className="map" src='https://i.pinimg.com/736x/9f/ec/db/9fecdba47cfcda751e4eadce08ff95a7.jpg' />
         { players &&
          players.map(p => {
            return (
