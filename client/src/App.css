@@ -19,15 +19,15 @@ p{
 
 
 .box {
-  height:90px;
-  width: 80px;
+  height:5vw;
+  width: 5vw;
   background: url("https://cdn.pixabay.com/photo/2019/08/19/23/27/wizard-4417430_960_720.png") no-repeat center end ;
   background-size: contain;
 }
 
 .container {
-  height:100px;
-  width: 80px;
+  height:5vw;
+  width: 5vw;
   text-align: center;
 }
 

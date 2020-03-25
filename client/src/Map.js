@@ -11,7 +11,7 @@ const Map = ({players, getPlayers}) => {
  
 
   useEffect( () => {
-    async function loadPlayers(){
+       async function loadPlayers(){
       await getPlayers(); }
    loadPlayers();
   }, []); 
