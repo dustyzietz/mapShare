@@ -23,7 +23,22 @@ router.get('/', async (req, res) => {
   try {
     const map = await Map.findOne();
     res.json(map.players);
-console.log(map.players);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/add-player', async (req, res) => {
+  const { name, url } = req.body;
+ try {
+    const map = await Map.findOne();
+   // console.log(map);
+   // console.log(name, url);
+if (map.players.every(p => p.name !== name)){
+   map.players = [ ...map.players, { name: name , playerUrl: url , controlledPosition :{ x:750, y:-750 } }];
+  await  map.save();
+  console.log(map);
+}
   } catch (err) {
     console.log(err);
   }
