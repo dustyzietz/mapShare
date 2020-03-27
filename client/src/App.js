@@ -1,5 +1,5 @@
 import React from 'react';
-import Map from './Map';
+import Map from './components/Map';
 import './App.css';
 
 import { Provider } from 'react-redux';

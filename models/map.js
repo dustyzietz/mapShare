@@ -31,6 +31,27 @@ const mapSchema = new Schema({
        }
       }
       }
+    ],
+    savedPlayers : [ 
+      { name: {
+        type: String,
+        required: true
+      },
+      url: {
+        type: String,
+        required: true
+      },
+      controlledPosition : {
+        x: {
+           type: Number,
+          required: true 
+        },
+        y: {
+          type: Number,
+         required: true 
+       }
+      }
+    }
     ]
 });
 

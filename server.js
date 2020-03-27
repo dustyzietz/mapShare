@@ -23,6 +23,17 @@ const connectDB = async () => {
              name: 'Roan',
              playerUrl: 'https://cdna.artstation.com/p/assets/images/images/013/185/354/medium/john-paul-balmet-446fdc97-b723-467b-8b07-ac8d9e997013.jpg?1538463980',
              controlledPosition: { x: 100, y: 100} }
+        ],
+        savedPlayers: [
+          {name: 'Rusty',
+          url: 'https://i.ya-webdesign.com/images/dd-fighter-png-2.png',
+          controlledPosition: { x: 100, y: 100}
+        },
+          {
+            name: 'odan',
+            url: 'https://cdna.artstation.com/p/assets/images/images/013/185/354/medium/john-paul-balmet-446fdc97-b723-467b-8b07-ac8d9e997013.jpg?1538463980'
+          , controlledPosition: { x: 100, y: 100}
+          }
         ]
       });
      await map.save()

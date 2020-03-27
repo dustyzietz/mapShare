@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
 //import axios from 'axios';
-import { updatePosition, getPlayers } from "./actions/players";
+import { updatePosition, deletePlayer } from "../actions/players";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const Item = ({ updatePosition, getPlayers, name, url, pos, players, setActiveDrags, activeDrags }) => {
+const Item = ({ updatePosition, name, url, pos, id, players, setActiveDrags, activeDrags, deletePlayer }) => {
   // state = {
   //   activeDrags: 0,
   //   deltaPosition: {
@@ -63,9 +63,13 @@ const Item = ({ updatePosition, getPlayers, name, url, pos, players, setActiveDr
     onStop();
   };
 
+  const handleDelete = () => {
+   deletePlayer(id);
+  }
+
   useEffect(() => {
      players.map(p => {
-       if (p.name == name) {
+       if (p.name === name) {
           if( controlledPosition.x !== p.controlledPosition.x){
              setControlledPosition(p.controlledPosition); }
           }
@@ -73,17 +77,10 @@ const Item = ({ updatePosition, getPlayers, name, url, pos, players, setActiveDr
   },[players]);
 
   useEffect(() => {
-   const player = players.find(p => p.name === name );
-  {
-    // console.log(player);
-     // function postPosition() {
       const x = controlledPosition.x;
       const y = controlledPosition.y;
       updatePosition(name, x, y);
       console.log(x, y);
-    }
-   // postPosition();
-  // }
   }, [controlledPosition]);
   const dragHandlers = { onStart: onStart, onStop: onStop };
   return (
@@ -94,14 +91,8 @@ const Item = ({ updatePosition, getPlayers, name, url, pos, players, setActiveDr
         onStop={onControlledDragStop}
       >
         <div className="container">
-          <div
-            className="box"
-            style={{
-              background: `url(${url}) no-repeat center center `,
-              backgroundSize: "contain"
-            }}
-          ></div>
-          <p>{name}</p>
+          <img draggable="false" src={url} alt="" width='100px' height='auto' className='playerImg'/>
+          <p className='playerName'>{name} <button className='deleteBtn' onClick={handleDelete}>X</button></p>
         </div>
       </Draggable>
     </div>
@@ -110,12 +101,13 @@ const Item = ({ updatePosition, getPlayers, name, url, pos, players, setActiveDr
 
 Item.propTypes = {
   players: PropTypes.array,
-  getPlayers: PropTypes.func.isRequired,
-  updatePosition: PropTypes.func.isRequired
+  updatePosition: PropTypes.func,
+  deletePlayer: PropTypes.func,
+
 };
 
 const mapStateToProps = state => ({
   players: state.players
 });
 
-export default connect(mapStateToProps, { updatePosition, getPlayers })(Item);
+export default connect(mapStateToProps, { updatePosition, deletePlayer })(Item);
