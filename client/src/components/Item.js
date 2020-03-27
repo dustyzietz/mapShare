@@ -21,7 +21,7 @@ const Item = ({ updatePosition, name, url, pos, id, players, setActiveDrags, act
     x: pos.x,
     y: pos.y
   });
-
+const [loading, setLoading] = useState(false);
   // const handleDrag = (e, ui) => {
   //   const { x, y } = deltaPosition;
   //   setDeltaPosition({
@@ -59,6 +59,7 @@ const Item = ({ updatePosition, name, url, pos, id, players, setActiveDrags, act
   };
 
   const onControlledDragStop = (e, position) => {
+    setLoading(true);
     onControlledDrag(e, position);
     onStop();
   };
@@ -70,9 +71,12 @@ const Item = ({ updatePosition, name, url, pos, id, players, setActiveDrags, act
   useEffect(() => {
      players.map(p => {
        if (p.name === name) {
-          if( controlledPosition.x !== p.controlledPosition.x){
-             setControlledPosition(p.controlledPosition); }
-          }
+          if( controlledPosition.x === p.controlledPosition.x){
+            setLoading(false); }else{
+              if (!loading ) {
+                  setControlledPosition(p.controlledPosition);
+              } 
+            }}
      })
   },[players]);
 

@@ -12,12 +12,13 @@ import {SavedPlayers} from "./SavedPlayers";
 const Map = ({ players, getPlayers, addPlayer, savedPlayers, getSavedPlayers, addSavedPlayer }) => {
 
   const [activeDrags, setActiveDrags] = useState(0);
+  //const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setInterval(function() {
-   //  if(activeDrags === 0){
-        getPlayers();
-   //  } 
+    setInterval(  function() {
+    // if(!loading ){
+         getPlayers();
+  //  } 
     }, 5000);
   }, []);
 
@@ -36,11 +37,15 @@ const Map = ({ players, getPlayers, addPlayer, savedPlayers, getSavedPlayers, ad
         className="map "
         src="https://i.pinimg.com/736x/9f/ec/db/9fecdba47cfcda751e4eadce08ff95a7.jpg" 
         alt="map"
+     //   height="1000px"
+      //  width="1000px"
       />
       {players &&
         players.map(p => {
           return (
             <Item
+           // loading={loading}
+           // setLoading={setLoading}
             activeDrags={activeDrags}
             setActiveDrags={setActiveDrags}
               key={p.name}
