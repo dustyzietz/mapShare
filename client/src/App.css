@@ -38,7 +38,7 @@ ul {
 
 
 .container {
-  height:12  0px;
+  height: 100px;
   width: 100px;
   text-align: center;
  position: relative;
@@ -49,6 +49,7 @@ ul {
 }
 
 .btn {
+  
   display: inline-block;
   background: var(--primary-color);
   color: #333;
