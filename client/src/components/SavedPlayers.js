@@ -25,12 +25,7 @@ export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSave
         <button
       className='btn'
       onClick={handleClickOpen}
-         style={{
-           position: "absolute",
-           zIndex: "1",
-           left: "25px",
-           top: "75px"
-         }}
+      style={{ marginBottom: '20px'}}
       >
         Add Character
       </button>
@@ -42,7 +37,7 @@ export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSave
 <h2>Saved Characters</h2>
 {savedPlayers && 
 savedPlayers.map(p => {
-      const  player = { name: p.name , url: p.url };
+      const  player = { name: p.name , url: p.url, hp: p.hp, ac: p.ac, attacks: p.attacks, spells: p.spells, items: p.items };
   return (
   <div key={p.name} onClick={() => {makePlayer(player)}} className="savedPlayersContainer" >
   <div

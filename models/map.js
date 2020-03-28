@@ -29,7 +29,12 @@ const mapSchema = new Schema({
           type: Number,
          required: true 
        }
-      }
+      },
+      hp:{type: Number},
+      ac: {type: Number},
+      attacks: {type: String},
+      spells: {type: String},
+      items: {type: String}
       }
     ],
     savedPlayers : [ 
@@ -49,8 +54,13 @@ const mapSchema = new Schema({
         y: {
           type: Number,
          required: true 
-       }
-      }
+         }
+       },
+          hp:{type: Number},
+       ac: {type: Number},
+       attacks: {type: String},
+       spells: {type: String},
+       items: {type: String}
     }
     ]
 });

@@ -29,13 +29,13 @@ router.get('/players', async (req, res) => {
 })
 
 router.post('/add-player', async (req, res) => {
-  const { name, url } = req.body;
+  const { name, url, hp, ac, attacks, spells, items } = req.body;
  try {
     const map = await Map.findOne();
    // console.log(map);
    // console.log(name, url);
 if (map.players.every(p => p.name !== name)){
-   map.players = [ ...map.players, { name: name , playerUrl: url , controlledPosition :{ x:750, y:-750 } }];
+   map.players = [ ...map.players, { name: name , playerUrl: url , hp, ac, attacks, spells, items, controlledPosition :{ x:750, y:-750 } }];
   await  map.save();
   res.json(map.players);
 }
@@ -68,16 +68,42 @@ router.get('/saved-players', async (req, res) => {
 })
 
 router.post('/add-saved-player', async (req, res) => {
-  const { name, url } = req.body;
+  const { name, url, hp, ac, attacks, spells, items } = req.body;
  try {
     const map = await Map.findOne();
    //console.log(map);
     console.log(name, url);
 if (map.savedPlayers.every(p => p.name !== name)){
-   map.savedPlayers = [ { name: name , url: url , controlledPosition :{ x:750, y:-750 }}, ...map.savedPlayers  ];
+   map.savedPlayers = [ {name , url , hp, ac, attacks, spells, items,  controlledPosition :{ x:750, y:-750 }},  ...map.savedPlayers  ];
   await  map.save(); 
   res.json(map.savedPlayers);
 }
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.get('/map', async (req, res) => {
+ try {
+    const map = await Map.findOne();
+   const oldMap = { name: map.mapName, url: map.mapUrl}
+  res.json(oldMap);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+module.exports = router;
+
+router.post('/map', async (req, res) => {
+  const { name, url } = req.body;
+ try {
+    const map = await Map.findOne();
+    map.mapName = name;
+    map.mapUrl = url;
+  await  map.save(); 
+  const newMap = {name: map.mapName, url: map.mapUrl}
+  res.json(newMap);
   } catch (err) {
     console.log(err);
   }

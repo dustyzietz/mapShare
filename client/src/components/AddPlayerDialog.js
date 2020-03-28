@@ -7,6 +7,11 @@ export  const AddPlayerDialog = ({addPlayer, addSavedPlayer }) => {
   const [player, setPlayer] = useState({
     name: '',
     url: '',
+      hp: 0,
+      ac: 0,
+      attacks: '',
+      spells: '',
+      items: ''
   });
 
   const handleClickOpen = () => {
@@ -21,14 +26,21 @@ export  const AddPlayerDialog = ({addPlayer, addSavedPlayer }) => {
   const {
     name,
     url,
+     hp,
+      ac,
+      attacks,
+      spells,
+      items,
   } = player;
+
+  
 
   const onChange = e =>
     setPlayer({ ...player, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
-    addPlayer(player);
+    //addPlayer(player);
     onSaveOnly();
   };
 
@@ -37,6 +49,11 @@ export  const AddPlayerDialog = ({addPlayer, addSavedPlayer }) => {
     setPlayer({
       name: '',
       url: '',
+        hp: 0,
+        ac: 0,
+        attacks: '',
+        spells: '',
+        items: ''
     });
     handleClose();
   };
@@ -84,6 +101,54 @@ export  const AddPlayerDialog = ({addPlayer, addSavedPlayer }) => {
             placeholder="Name"
             name="name"
             value={name}
+            onChange={onChange}
+          />
+          <small className="form-text">
+            The name of your character
+          </small>
+        </div>
+        <div className="form-group">
+          <input
+            type="number"
+            placeholder="Hit Points"
+            name="hp"
+            value={hp}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="number"
+            placeholder="Armor Class"
+            name="ac"
+            value={ac}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Attacks/toHit/Damage"
+            name="attacks"
+            value={attacks}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Spell/Abilities"
+            name="spells"
+            value={spells}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Usable Items"
+            name="items"
+            value={items}
             onChange={onChange}
           />
           <small className="form-text">

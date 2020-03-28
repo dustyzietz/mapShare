@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOAD_PLAYERS, UPDATE_SAVED_PLAYERS } from './types';
+import { LOAD_PLAYERS, UPDATE_SAVED_PLAYERS, LOAD_MAP } from './types';
 
 export const updatePosition = (name, x, y) => async dispatch => {
  
@@ -79,6 +79,35 @@ export const addSavedPlayer = (player) => async dispatch => {
    const res = await axios.post('/map/add-saved-player', player, config);
    dispatch({
      type: UPDATE_SAVED_PLAYERS,
+     payload: res.data
+   });
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
+ export const getMap = () => async dispatch => {
+  try {
+   const res = await axios.get('/map/map');
+   dispatch({
+     type: LOAD_MAP,
+     payload: res.data
+   });
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
+ export const addMap = (map) => async dispatch => {
+  try {
+   const config = {
+     headers: {
+       'Content-Type': 'application/json'
+     }
+   };
+   const res = await axios.post('/map/map', map, config);
+   dispatch({
+     type: LOAD_MAP,
      payload: res.data
    });
   } catch (error) {

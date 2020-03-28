@@ -5,7 +5,7 @@ import { updatePosition, deletePlayer } from "../actions/players";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const Item = ({ updatePosition, name, url, pos, id, players, setActiveDrags, activeDrags, deletePlayer }) => {
+const Item = ({ updatePosition, name, url, pos, id, players, deletePlayer }) => {
   // state = {
   //   activeDrags: 0,
   //   deltaPosition: {
@@ -30,13 +30,7 @@ const [loading, setLoading] = useState(false);
   //   });
   // };
 
-  const onStart = () => {
-    setActiveDrags(activeDrags + 1);
-  };
 
-  const onStop = () => {
-    setActiveDrags(activeDrags - 1);
-  };
 
   // For controlled component
   // const adjustXPos = e => {
@@ -61,7 +55,6 @@ const [loading, setLoading] = useState(false);
   const onControlledDragStop = (e, position) => {
     setLoading(true);
     onControlledDrag(e, position);
-    onStop();
   };
 
   const handleDelete = () => {
@@ -86,12 +79,10 @@ const [loading, setLoading] = useState(false);
       updatePosition(name, x, y);
       console.log(x, y);
   }, [controlledPosition]);
-  const dragHandlers = { onStart: onStart, onStop: onStop };
   return (
     <div>
       <Draggable
         position={controlledPosition}
-        {...dragHandlers}
         onStop={onControlledDragStop}
       >
         <div className="container">
