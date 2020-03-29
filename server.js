@@ -9,8 +9,8 @@ const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost/users';
 const connectDB = async () => {
   try {
     await mongoose.connect(
-     // CONNECTION_URI
-     "mongodb+srv://dzietz:kqQIl8PlTEV2SEfh@cluster0-uvrcp.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true"
+     CONNECTION_URI
+    // "mongodb+srv://dzietz:kqQIl8PlTEV2SEfh@cluster0-uvrcp.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true"
       ,
     { useNewUrlParser: true, useUnifiedTopology: true  });
     console.log('mongo connected!');
