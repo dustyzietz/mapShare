@@ -34,7 +34,8 @@ const mapSchema = new Schema({
       ac: {type: Number},
       attacks: {type: String},
       spells: {type: String},
-      items: {type: String}
+      items: {type: String},
+      size: {type: Number}
       }
     ],
     savedPlayers : [ 
@@ -61,6 +62,16 @@ const mapSchema = new Schema({
        attacks: {type: String},
        spells: {type: String},
        items: {type: String}
+    }
+    ],
+    savedMaps : [ 
+      { name: {
+        type: String
+      },
+      url: {
+        type: String,
+        required: true
+      }
     }
     ]
 });

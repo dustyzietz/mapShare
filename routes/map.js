@@ -7,7 +7,7 @@ router.post('/',async (req, res) => {
   try {
     let map = await Map.findOne();
     map.players.map(player => {
-     if (player.name.toLowerCase() == req.body.name.toLowerCase()) {
+     if (player._id == req.body._id) {
        player.controlledPosition.x = req.body.x
        player.controlledPosition.y = req.body.y
      }
@@ -34,11 +34,9 @@ router.post('/add-player', async (req, res) => {
     const map = await Map.findOne();
    // console.log(map);
    // console.log(name, url);
-if (map.players.every(p => p.name !== name)){
-   map.players = [ ...map.players, { name: name , playerUrl: url , hp, ac, attacks, spells, items, controlledPosition :{ x:750, y:-750 } }];
+   map.players = [ ...map.players, { name: name , playerUrl: url , hp, ac, attacks, spells, items, controlledPosition :{ x:1000, y:-1000 } , size: 10}];
   await  map.save();
   res.json(map.players);
-}
   } catch (err) {
     console.log(err);
   }
@@ -97,6 +95,7 @@ module.exports = router;
 
 router.post('/map', async (req, res) => {
   const { name, url } = req.body;
+  console.log(name, url);
  try {
     const map = await Map.findOne();
     map.mapName = name;
@@ -108,5 +107,42 @@ router.post('/map', async (req, res) => {
     console.log(err);
   }
 })
+
+router.post('/saved-map', async (req, res) => {
+  const { name, url} = req.body;
+  console.log(name, url);
+ try {
+    const map = await Map.findOne();
+   map.savedMaps = [ {name , url },  ...map.savedMaps  ];
+  await  map.save(); 
+  res.json(map.savedMaps); 
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.get('/saved-maps', async (req, res) => {
+  try {
+    const map = await Map.findOne();
+    res.json(map.savedMaps);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/size',async (req, res) => {
+  try {
+    let map = await Map.findOne();
+    map.players.map(player => {
+     if (player._id == req.body.id) {
+       player.size = req.body.mySize
+     }
+    });
+   await map.save();
+    res.json(map.null);
+  } catch (err) {
+    console.log(err)
+  }
+});
 
 module.exports = router;

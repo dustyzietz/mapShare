@@ -1,55 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
 //import axios from 'axios';
-import { updatePosition, deletePlayer } from "../actions/players";
+import { updatePosition, deletePlayer, updateSize } from "../actions/players";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import PlayerStats from "./PlayerStats";
 
-const Item = ({ updatePosition, name, url, pos, id, players, deletePlayer }) => {
-  // state = {
-  //   activeDrags: 0,
-  //   deltaPosition: {
-  //     x: 0, y: 0
-  //   },
-  //   controlledPosition: {
-  //     x: 400, y: 200
-  //   }
-  // };
- // const [activeDrags, setActiveDrags] = useState(0);
- // const [deltaPosition, setDeltaPosition] = useState({ x: 0, y: 0 });
-  const [controlledPosition, setControlledPosition] = useState({
-    x: pos.x,
-    y: pos.y
+const Item = ({ player, players, deletePlayer, updateSize }) => {
+  const { controlledPosition, size, _id, name, playerUrl } = player;
+  const [myPosition, setMyPosition] = useState({
+    x: controlledPosition.x,
+    y: controlledPosition.y
   });
-const [loading, setLoading] = useState(false);
-  // const handleDrag = (e, ui) => {
-  //   const { x, y } = deltaPosition;
-  //   setDeltaPosition({
-  //     x: x + ui.deltaX,
-  //     y: y + ui.deltaY
-  //   });
-  // };
-
-
-
-  // For controlled component
-  // const adjustXPos = e => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   const { x, y } = controlledPosition;
-  //   setControlledPosition({ x: x - 10, y });
-  // };
-
-  // const adjustYPos = e => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   const { x, y } = controlledPosition;
-  //   setControlledPosition({ controlledPosition: { x, y: y - 10 } });
-  // };
+  const [loading, setLoading] = useState(false);
+  const [mySize, setMySize] = useState(size);
 
   const onControlledDrag = (e, position) => {
     const { x, y } = position;
-    setControlledPosition({ x, y });
+    setMyPosition({ x, y });
   };
 
   const onControlledDragStop = (e, position) => {
@@ -58,36 +26,62 @@ const [loading, setLoading] = useState(false);
   };
 
   const handleDelete = () => {
-   deletePlayer(id);
-  }
+    deletePlayer(_id);
+  };
+
+  const handleGrow = () => {
+    const newSize = mySize + 1;
+    setMySize(newSize);
+    updateSize(newSize, _id);
+  };
+
+  const handleShrink = () => {
+    const newSize = mySize - 1;
+    setMySize(newSize);
+    updateSize(newSize, _id);
+  };
 
   useEffect(() => {
-     players.map(p => {
-       if (p.name === name) {
-          if( controlledPosition.x === p.controlledPosition.x){
-            setLoading(false); }else{
-              if (!loading ) {
-                  setControlledPosition(p.controlledPosition);
-              } 
-            }}
-     })
-  },[players]);
+    players.map(p => {
+      if (p._id === _id) {
+        if (p.size !== mySize) {
+          setMySize(p.size);
+        }
+        if (myPosition.x === p.controlledPosition.x) {
+          setLoading(false);
+        } else {
+          if (!loading) {
+            setMyPosition(p.controlledPosition);
+          }
+        }
+      }
+    });
+  }, [players]);
 
   useEffect(() => {
-      const x = controlledPosition.x;
-      const y = controlledPosition.y;
-      updatePosition(name, x, y);
-      console.log(x, y);
-  }, [controlledPosition]);
+    const x = myPosition.x;
+    const y = myPosition.y;
+    updatePosition(name, x, y, _id);
+    console.log(x, y);
+  }, [myPosition]);
   return (
     <div>
-      <Draggable
-        position={controlledPosition}
-        onStop={onControlledDragStop}
-      >
+      <Draggable position={myPosition} onStop={onControlledDragStop}>
         <div className="container">
-          <img draggable="false" src={url} alt="" width='100px' height='auto' className='playerImg'/>
-          <p className='playerName'>{name} <button className='deleteBtn' onClick={handleDelete}>X</button></p>
+          <img
+            draggable="false"
+            src={playerUrl}
+            alt=""
+            style={{ width: `${mySize * 10}px`}}
+            className="playerImg"
+          />
+          <PlayerStats
+            handleGrow={handleGrow}
+            handleShrink={handleShrink}
+            handleDelete={handleDelete}
+            key={_id}
+            player={player}
+          />
         </div>
       </Draggable>
     </div>
@@ -98,11 +92,15 @@ Item.propTypes = {
   players: PropTypes.array,
   updatePosition: PropTypes.func,
   deletePlayer: PropTypes.func,
-
+  updateSize: PropTypes.func
 };
 
 const mapStateToProps = state => ({
   players: state.players
 });
 
-export default connect(mapStateToProps, { updatePosition, deletePlayer })(Item);
+export default connect(mapStateToProps, {
+  updatePosition,
+  deletePlayer,
+  updateSize
+})(Item);

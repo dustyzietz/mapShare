@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 
 
 
-export  const AddMap = ({addMap}) => {
+export  const AddMap = ({addSavedMap}) => {
   const [open, setOpen] = useState(false);
   const [map, setMap] = useState({
     name: '',
@@ -33,11 +33,11 @@ export  const AddMap = ({addMap}) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    addMap(map);
-    onSaveOnly();
+    addSavedMap(map);
+    reset();
   };
 
-  const onSaveOnly = e => {
+  const reset = e => {
   //  addSavedmap(map);
     setMap({
       name: '',
@@ -52,15 +52,16 @@ export  const AddMap = ({addMap}) => {
       className='btn'
       onClick={handleClickOpen}
          style={{
-          marginBottom: '20px'
+          marginBottom: '20px',
+          float: 'left',
          }}
       >
-        Change Map
+        Add New Map
       </button>
       <Dialog maxWidth='sm' fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title" style={{zIndex:'1'}}>
         <DialogContent style={{textAlign: 'center'}}>
           <div>
-<h2>Change Map</h2>
+<h2>Add Map</h2>
 <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
           <textarea

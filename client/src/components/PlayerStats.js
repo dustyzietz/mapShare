@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PlayerStats({player}) {
+export default function PlayerStats({player, handleGrow, handleShrink, handleDelete}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const {name, hp, ac, attacks, spells, items} = player;
@@ -41,7 +41,7 @@ export default function PlayerStats({player}) {
 
   return (
     <div className='statTitle'>
-       <div style={{margin: '6px', display: 'inline-block'}}>{name} </div>     
+       <div style={{margin: '6px', display: 'inline-block'}}>{name} </div> 
         <IconButton
         size="small"
           className={clsx(classes.expand, {
@@ -54,11 +54,14 @@ export default function PlayerStats({player}) {
           <ExpandMoreIcon />
         </IconButton>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
+         <button className='plusBtn' onClick={handleGrow} >+</button> 
+          <button className='minusBtn' onClick={handleShrink}>-</button>
+          <button className='deleteBtn' onClick={handleDelete}>X</button>    
           <Typography paragraph>
            Hit Points: {hp} <br/>
            Armor Class: {ac} <br/>
-           Attacks: {attacks} <br/><hr/>
-           Spells: {spells} <br/><hr/>
+           Attacks: {attacks} <hr/>
+           Spells: {spells} <hr/>
            Items: {items} <br/>
           </Typography>
       </Collapse>

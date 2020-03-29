@@ -42,12 +42,13 @@ margin: auto;
   height: 100px;
   width: 100px;
   text-align: center;
- position: relative;
+ position: absolute;
 }
 
 .playerImg {
   width: 80px;
   object-fit: contain;
+  margin: auto;
 }
 
 .btn {
@@ -101,7 +102,6 @@ button {
 
 .savedPlayersContainer {
   height:auto;
-  width: 100px;
   text-align: center;
   margin: 25px;
   display: inline-block
@@ -112,18 +112,20 @@ button {
 }
 
 .deleteBtn {
-  display: none;
   border-radius: 50%;
   background-color: var(--danger-color);
 }
- .playerName:hover .deleteBtn{
-  display: inline;
-  float: right;  
- }
 
- .container:hover .playerName{
-   display: block;
- }
+.plusBtn {
+  border-radius: 50%;
+  background-color: var(--success-color);
+}
+
+.minusBtn {
+  border-radius: 50%;
+  background-color: var(--light-color);
+}
+
 
  .statContainer {
    position: fixed;
@@ -136,4 +138,9 @@ button {
    margin-bottom: 25px;
    justify-content: space-between;
    width: 200px;
+   display: none;
+ }
+
+ .container:hover .statTitle {
+   display: block;
  }

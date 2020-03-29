@@ -2,22 +2,42 @@ import React, { useEffect } from "react";
 import Item from "./Item";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getPlayers, addPlayer, getSavedPlayers, addSavedPlayer, addMap, getMap } from "../actions/players";
-import {SavedPlayers} from "./SavedPlayers";
-import PlayerStats from './PlayerStats';
-import { AddMap } from "./AddMap";
+import { SavedPlayers } from "./SavedPlayers";
+import { SavedMaps } from "./SavedMaps";
 
-const Map = ({ players, getPlayers, addPlayer, savedPlayers, getSavedPlayers, addSavedPlayer, addMap, map, getMap }) => {
+import {
+  getPlayers,
+  addPlayer,
+  getSavedPlayers,
+  addSavedPlayer,
+  addMap,
+  getSavedMaps,
+  getMap,
+  addSavedMap
+} from "../actions/players";
 
 
+const Map = ({
+  players,
+  getPlayers,
+  addPlayer,
+  savedPlayers,
+  getSavedPlayers,
+  addSavedPlayer,
+  addMap,
+  map,
+  getMap,
+  getSavedMaps,
+  addSavedMap,
+  savedMaps
+}) => {
   useEffect(() => {
-    setInterval(  function() {
+    setInterval(function() {
       getMap();
-         getPlayers();
+      getPlayers();
     }, 5000);
   }, []);
 
- 
   useEffect(() => {
     async function loadPlayers() {
       getMap();
@@ -27,33 +47,28 @@ const Map = ({ players, getPlayers, addPlayer, savedPlayers, getSavedPlayers, ad
   }, []);
 
   return (
-    <div className='mapContainer'>
- 
-      <img
-      draggable='false'
-        className="map "
-        src={map.url}
-        alt="map"
-      /> 
-      <div className='statContainer'>
-         <SavedPlayers getSavedPlayers={getSavedPlayers} addPlayer={addPlayer} savedPlayers={savedPlayers}  addSavedPlayer={addSavedPlayer}/>
-         <AddMap addMap={addMap} />
-        {players &&
-        players.map(p => {
-          return (   
-             <PlayerStats key={p._id} player={p } />
-          );
-        })
-        }</div>
+    <div className="mapContainer">
+      <img draggable="false" className="map " src={map.url} alt="map" />
+      <div className="statContainer">
+        <SavedPlayers
+          getSavedPlayers={getSavedPlayers}
+          addPlayer={addPlayer}
+          savedPlayers={savedPlayers}
+          addSavedPlayer={addSavedPlayer}
+        />
+        <SavedMaps
+          addSavedMap={addSavedMap}
+          getSavedMaps={getSavedMaps}
+          addMap={addMap}
+          savedMaps={savedMaps  }
+        />
+      </div>
       {players &&
         players.map(p => {
-          return (  
+          return (
             <Item
-              key={p.name}
-              name={p.name}
-              url={p.playerUrl}
-              id={p._id}
-              pos={p.controlledPosition}
+              key={p._id}
+             player={p}
             />
           );
         })}
@@ -64,18 +79,31 @@ const Map = ({ players, getPlayers, addPlayer, savedPlayers, getSavedPlayers, ad
 Map.propTypes = {
   players: PropTypes.array,
   savedPlayers: PropTypes.array,
+  savedMaps: PropTypes.array,
   getPlayers: PropTypes.func.isRequired,
   addPlayer: PropTypes.func.isRequired,
-  getSavedPlayers:PropTypes.func.isRequired,
+  getSavedPlayers: PropTypes.func.isRequired,
   addSavedPlayer: PropTypes.func.isRequired,
   addMap: PropTypes.func.isRequired,
   getMap: PropTypes.func.isRequired,
+  getSavedMaps: PropTypes.func.isRequired,
+  addSavedMap: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   players: state.players,
   savedPlayers: state.savedPlayers,
   map: state.map,
+  savedMaps: state.savedMaps
 });
 
-export default connect(mapStateToProps, { getPlayers, addPlayer, getSavedPlayers, addSavedPlayer, addMap, getMap })(Map);
+export default connect(mapStateToProps, {
+  getPlayers,
+  addPlayer,
+  getSavedPlayers,
+  addSavedPlayer,
+  addMap,
+  getMap,
+  getSavedMaps,
+  addSavedMap
+})(Map);
