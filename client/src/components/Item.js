@@ -75,6 +75,7 @@ const Item = ({ player, players, deletePlayer, updateSize }) => {
             style={{ width: `${mySize * 10}px`}}
             className="playerImg"
           />
+          
           <PlayerStats
             handleGrow={handleGrow}
             handleShrink={handleShrink}
