@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import PlayerStats from "./PlayerStats";
 
-const Item = ({ player, players, deletePlayer, updateSize }) => {
+const Item = ({ player, players, deletePlayer, updateSize, updatePosition }) => {
   const { controlledPosition, size, _id, name, playerUrl } = player;
   const [myPosition, setMyPosition] = useState({
     x: controlledPosition.x,
@@ -75,7 +75,7 @@ const Item = ({ player, players, deletePlayer, updateSize }) => {
             style={{ width: `${mySize * 10}px`}}
             className="playerImg"
           />
-          
+
           <PlayerStats
             handleGrow={handleGrow}
             handleShrink={handleShrink}

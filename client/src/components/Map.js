@@ -69,6 +69,7 @@ const Map = ({
             <Item
               key={p._id}
              player={p}
+             players={players}
             />
           );
         })}

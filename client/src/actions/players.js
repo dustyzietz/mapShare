@@ -5,6 +5,7 @@ export const updatePosition = (name, x, y, _id) => async dispatch => {
  
   const config = {headers: {'Content-Type': 'application/json' } };
   const body = JSON.stringify({name, x, y, _id});
+  console.log(name, x, y, _id);
   try {
      await axios.post('/map', body, config);
   // await dispatch({
