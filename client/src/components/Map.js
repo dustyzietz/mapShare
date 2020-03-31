@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Item from "./Item";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -13,8 +13,10 @@ import {
   addMap,
   getSavedMaps,
   getMap,
-  addSavedMap
+  addSavedMap,
+  deleteSavedPlayer,
 } from "../actions/players";
+import EditPlayer from "./EditPlayer";
 
 
 const Map = ({
@@ -29,8 +31,18 @@ const Map = ({
   getMap,
   getSavedMaps,
   addSavedMap,
-  savedMaps
+  savedMaps,
+  deleteSavedPlayer
 }) => {
+
+  const [editedPlayer, setEditedPlayer] = useState({});
+  const [openPlayerEdit, setOpenPlayerEdit] = useState(false);
+
+const openEdit = (player) => {
+  setEditedPlayer(player);
+setOpenPlayerEdit(true);
+}
+
   useEffect(() => {
     setInterval(function() {
       getMap();
@@ -48,6 +60,7 @@ const Map = ({
 
   return (
     <div className="mapContainer">
+      <EditPlayer open={openPlayerEdit} editedPlayer={editedPlayer} setOpen={setOpenPlayerEdit} />
       <img draggable="false" className="map " src={map.url} alt="map" />
       <div className="statContainer">
         <SavedPlayers
@@ -55,6 +68,7 @@ const Map = ({
           addPlayer={addPlayer}
           savedPlayers={savedPlayers}
           addSavedPlayer={addSavedPlayer}
+          deleteSavedPlayer={deleteSavedPlayer}
         />
         <SavedMaps
           addSavedMap={addSavedMap}
@@ -67,6 +81,7 @@ const Map = ({
         players.map(p => {
           return (
             <Item
+            openEdit={openEdit}
               key={p._id}
              player={p}
              players={players}
@@ -88,7 +103,8 @@ Map.propTypes = {
   addMap: PropTypes.func.isRequired,
   getMap: PropTypes.func.isRequired,
   getSavedMaps: PropTypes.func.isRequired,
-  addSavedMap: PropTypes.func.isRequired
+  addSavedMap: PropTypes.func.isRequired,
+  deleteSavedPlayer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -106,5 +122,6 @@ export default connect(mapStateToProps, {
   addMap,
   getMap,
   getSavedMaps,
-  addSavedMap
+  addSavedMap,
+  deleteSavedPlayer,
 })(Map);

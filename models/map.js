@@ -32,9 +32,13 @@ const mapSchema = new Schema({
       },
       hp:{type: Number},
       ac: {type: Number},
+      speed: {type: Number},
       attacks: {type: String},
       spells: {type: String},
       items: {type: String},
+      skills: {type: String},
+      saves: {type: String},
+      abilities: {types: String},
       size: {type: Number}
       }
     ],
@@ -57,11 +61,16 @@ const mapSchema = new Schema({
          required: true 
          }
        },
-          hp:{type: Number},
+       hp:{type: Number},
        ac: {type: Number},
+       speed: {type: Number},
        attacks: {type: String},
        spells: {type: String},
-       items: {type: String}
+       items: {type: String},
+       skills: {type: String},
+       abilities: {types: String},
+       saves: {type: String},
+       
     }
     ],
     savedMaps : [ 

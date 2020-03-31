@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import PlayerStats from "./PlayerStats";
 
-const Item = ({ player, players, deletePlayer, updateSize, updatePosition }) => {
+const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openEdit }) => {
   const { controlledPosition, size, _id, name, playerUrl } = player;
   const [myPosition, setMyPosition] = useState({
     x: controlledPosition.x,
@@ -77,6 +77,7 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition }) => 
           />
 
           <PlayerStats
+            openEdit={openEdit}
             handleGrow={handleGrow}
             handleShrink={handleShrink}
             handleDelete={handleDelete}

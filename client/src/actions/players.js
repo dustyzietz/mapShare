@@ -5,7 +5,6 @@ export const updatePosition = (name, x, y, _id) => async dispatch => {
  
   const config = {headers: {'Content-Type': 'application/json' } };
   const body = JSON.stringify({name, x, y, _id});
-  console.log(name, x, y, _id);
   try {
      await axios.post('/map', body, config);
   // await dispatch({
@@ -46,6 +45,23 @@ export const addPlayer = (player) => async dispatch => {
  }
 }
 
+export const editPlayer = (player) => async dispatch => {
+  try {
+   const config = {
+     headers: {
+       'Content-Type': 'application/json'
+     }
+   };
+   const res = await axios.post('/map/edit-player', player, config);
+   dispatch({
+     type: LOAD_PLAYERS,
+     payload: res.data
+   });
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
 export const deletePlayer = id => async dispatch => {
   try {
   const res = await axios.delete(`/map/player/${id}`);
@@ -70,6 +86,23 @@ export const getSavedPlayers = () => async dispatch => {
   }
 }
 
+export const editSavedPlayer = (player) => async dispatch => {
+  try {
+   const config = {
+     headers: {
+       'Content-Type': 'application/json'
+     }
+   };
+   const res = await axios.post('/map/edit-saved-player', player, config);
+   dispatch({
+     type: UPDATE_SAVED_PLAYERS,
+     payload: res.data
+   });
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
 export const addSavedPlayer = (player) => async dispatch => {
   try {
    const config = {
@@ -86,6 +119,18 @@ export const addSavedPlayer = (player) => async dispatch => {
     console.log(error);
   }
  }
+
+ export const deleteSavedPlayer = id => async dispatch => {
+  try {
+  const res = await axios.delete(`/map/saved-player/${id}`);
+   dispatch({
+    type: UPDATE_SAVED_PLAYERS,
+    payload: res.data
+  });
+  } catch (err) {
+    console.log(err);
+  }
+}
 
  export const getMap = () => async dispatch => {
   try {

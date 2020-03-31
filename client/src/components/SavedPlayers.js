@@ -2,8 +2,9 @@ import React,{useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import {AddPlayerDialog} from './AddPlayerDialog';
+import SavedPlayerStats from './SavedPlayerStats'; 
 
-export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSavedPlayer}) => {
+export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSavedPlayer, deleteSavedPlayer}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -20,6 +21,7 @@ export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSave
     setOpen(false);
   };
 
+
   return (
     <div>
         <button
@@ -30,21 +32,20 @@ export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSave
         Add Character
       </button>
       <Dialog maxWidth='md' fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title" style={{zIndex:'1'}}>
-        <DialogContent style={{textAlign: 'center'}}>
+        <DialogContent style={{textAlign: 'center',marginBottom: '400px'}}>
                 <AddPlayerDialog addPlayer={addPlayer}  addSavedPlayer={addSavedPlayer} />
           <div>
-            <button className="btn" style={{float:'right'}} onClick={handleClose}>cancel</button>
+            <button className="btn"    style={{position:'absolute',right: '25px', top: '25px'}} onClick={handleClose}>cancel</button>
 <h2>Saved Characters</h2>
 {savedPlayers && 
-savedPlayers.map(p => {
-      const  player = { name: p.name , url: p.url, hp: p.hp, ac: p.ac, attacks: p.attacks, spells: p.spells, items: p.items };
+savedPlayers.map(p => { 
   return (
-  <div key={p.name} onClick={() => {makePlayer(player)}} className="savedPlayersContainer" >
+  <div key={p.name}  className="savedPlayersContainer"  >
   <div
     className="box">
-    <img draggable="false" src={p.url} alt="" width='100px' height='auto'/>
+    <img draggable="false" className='savedPlayersImg' src={p.url} alt="" width='100px' height='auto' onClick={() => {makePlayer(p)}}/>
   </div> 
-  <p>{p.name}</p>
+ <SavedPlayerStats deleteSavedPlayer={deleteSavedPlayer} player={p} />
 </div>
   )}
 )

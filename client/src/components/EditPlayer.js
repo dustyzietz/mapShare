@@ -1,10 +1,14 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import {editPlayer} from "../actions/players"
 
-export  const AddPlayerDialog = ({ addSavedPlayer }) => {
-  const [open, setOpen] = useState(false);
+
+  const EditPlayer = ({ editPlayer, open, setOpen, editedPlayer }) => {
   const [player, setPlayer] = useState({
+    _id:'',
     name: '',
       url: '',
         hp: 0,
@@ -16,7 +20,12 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
         items: '',
         saves: '',
         abilities: '',
+        controlledPosition: {x:0,y:0},
   });
+
+ useEffect( () => {
+ setPlayer(editedPlayer)
+ }, [editedPlayer])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,7 +38,7 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
 
   const {
     name,
-    url,
+    playerUrl,
      hp,
       ac,
       speed,
@@ -48,37 +57,13 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    //addPlayer(player);
-    onSaveOnly();
+   editPlayer(player)
+  handleClose();
   };
 
-  const onSaveOnly = e => {
-    addSavedPlayer(player);
-    setPlayer({
-      name: '',
-      url: '',
-        hp: 0,
-        ac: 0,
-        speed: 0,
-        attacks: '',
-        spells: '',
-        skills: '',
-        items: '',
-        saves: '',
-        abilities: '',
-    });
-    handleClose();
-  };
 
   return (
-    <div>
-        <button
-      className='btn addPlayerBtn'
-      onClick={handleClickOpen}
-      style={{position:'absolute',left: '25px', top: '25px'}}
-      >
-        Make New Player
-      </button>
+    <div >
       <Dialog maxWidth='sm' fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title" style={{zIndex:'1'}}>
         <DialogContent style={{textAlign: 'center'}}>
           <div>
@@ -96,8 +81,8 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
           <textarea
             type="text"
             placeholder="Your Image Address"
-            name="url"
-            value={url}
+            name="playerUrl"
+            value={playerUrl}
             onChange={onChange}
             rows='3'
           />
@@ -205,3 +190,13 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
     </div>
   )
 }
+
+EditPlayer.propTypes = {
+ editPlayer: PropTypes.func.isRequired,
+};
+
+
+
+export default connect(null, {
+  editPlayer
+})(EditPlayer);

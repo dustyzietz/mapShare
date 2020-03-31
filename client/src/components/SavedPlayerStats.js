@@ -1,16 +1,13 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ControlPoint from '@material-ui/icons/ControlPoint';
-import RemoveCircle from '@material-ui/icons/RemoveCircle';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 import Edit from '@material-ui/icons/Edit';
 
-import  EditPlayer  from './EditPlayer';
-
+import SavedPlayerEdit from './SavedPlayerEdit';
 
 const useStyles = makeStyles(theme => ({
   expand: {
@@ -26,16 +23,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PlayerStats({player, handleGrow, handleShrink, handleDelete, openEdit}) {
+export default function SavedPlayerStats({player, deleteSavedPlayer}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const {name, hp, ac, speed, attacks, spells, skills, items, saves, abilities} = player;
+  const {name, hp, ac, speed, attacks, spells, skills, items, saves, abilities, _id} = player;
+  const [open, setOpen] = useState(false);
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 const isExpanded = expanded ? 'statTitle statOpen' : 'statTitle';
   return (
-    <div className={isExpanded}  >
+    <div className={isExpanded} style={{position: 'absolute'}} > 
+    
        <div style={{padding: '6px' ,display: 'inline-block'}}>{name} </div> 
          <IconButton
         size="small"
@@ -48,14 +53,7 @@ const isExpanded = expanded ? 'statTitle statOpen' : 'statTitle';
         >
          <ExpandMoreIcon />
         </IconButton >
-       {expanded && <span>
-        <IconButton onClick={handleGrow}>
-          <ControlPoint/>
-        </IconButton>
-        <IconButton onClick={handleShrink}>
-          <RemoveCircle/>
-        </IconButton>
-        </span>}
+      
       <Collapse in={expanded} timeout="auto" unmountOnExit>   
            HP: {hp} {' '}
          AC: {ac}{' '}
@@ -72,12 +70,13 @@ const isExpanded = expanded ? 'statTitle statOpen' : 'statTitle';
          {saves && `Fort/Ref/Will: ${saves}`}
          {/* Abilities: {abilities} */}
          <br/>
-         <IconButton onClick={handleDelete} style={{display: 'inline-block'}}>
+        <IconButton onClick={() => {deleteSavedPlayer(_id)}}>
           <HighlightOffOutlinedIcon/>
         </IconButton> 
-        <IconButton onClick={() => {openEdit(player)}}>
+        <IconButton onClick={handleClickOpen}>
           <Edit/>
         </IconButton> 
+        <SavedPlayerEdit open={open} setOpen={setOpen} oldPlayer={player} />
       </Collapse>
     </div>
   );

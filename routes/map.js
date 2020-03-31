@@ -29,12 +29,26 @@ router.get('/players', async (req, res) => {
 })
 
 router.post('/add-player', async (req, res) => {
-  const { name, url, hp, ac, attacks, spells, items } = req.body;
+  const { name, url, hp, ac, speed, attacks, spells, skills, items, saves, abilities } = req.body;
  try {
     const map = await Map.findOne();
    // console.log(map);
    // console.log(name, url);
-   map.players = [ ...map.players, { name: name , playerUrl: url , hp, ac, attacks, spells, items, controlledPosition :{ x:1000, y:-1000 } , size: 10}];
+   map.players = [ ...map.players, { name: name , playerUrl: url , hp, ac, speed, attacks, spells, skills, items, saves, abilities,  controlledPosition :{ x:1000, y:-1000 } , size: 10}];
+  await  map.save();
+  res.json(map.players);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/edit-player', async (req, res) => {
+  const newPlayer = req.body;
+ try {
+    const map = await Map.findOne();
+    console.log(newPlayer._id)
+  map.players = map.players.filter(p => p._id.toString() !== newPlayer._id);
+   map.players = [ ...map.players, newPlayer ];
   await  map.save();
   res.json(map.players);
   } catch (err) {
@@ -65,14 +79,28 @@ router.get('/saved-players', async (req, res) => {
   }
 })
 
-router.post('/add-saved-player', async (req, res) => {
-  const { name, url, hp, ac, attacks, spells, items } = req.body;
+router.post('/edit-saved-player', async (req, res) => {
+  const newPlayer = req.body;
  try {
     const map = await Map.findOne();
-   //console.log(map);
-    console.log(name, url);
-if (map.savedPlayers.every(p => p.name !== name)){
-   map.savedPlayers = [ {name , url , hp, ac, attacks, spells, items,  controlledPosition :{ x:750, y:-750 }},  ...map.savedPlayers  ];
+  //  console.log(newPlayer._id)
+  map.savedPlayers = map.savedPlayers.filter(p => p._id.toString() !== newPlayer._id);
+  map.savedPlayers = [ {  controlledPosition :{ x:750, y:-750 } , ...newPlayer },  ...map.savedPlayers  ];
+  await  map.save();
+  res.json(map.savedPlayers);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/add-saved-player', async (req, res) => {
+  const player = req.body;
+  console.log(player);
+ try {
+    const map = await Map.findOne();
+  
+if (map.savedPlayers.every(p => p.name !== player.name)){
+   map.savedPlayers = [ {  controlledPosition :{ x:750, y:-750 } , ...player },  ...map.savedPlayers  ];
   await  map.save(); 
   res.json(map.savedPlayers);
 }
@@ -80,6 +108,20 @@ if (map.savedPlayers.every(p => p.name !== name)){
     console.log(err);
   }
 })
+
+router.delete('/saved-player/:_id', async (req, res) => {
+  try {
+    const map = await Map.findOne();
+    map.savedPlayers = map.savedPlayers.filter(
+      p => p._id.toString() !== req.params._id
+    );
+    await map.save();
+    return res.status(200).json(map.savedPlayers);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: 'Server error' });
+  }
+});
 
 router.get('/map', async (req, res) => {
  try {

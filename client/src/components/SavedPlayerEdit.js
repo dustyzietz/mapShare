@@ -1,9 +1,11 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import { editSavedPlayer } from "../actions/players";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-export  const AddPlayerDialog = ({ addSavedPlayer }) => {
-  const [open, setOpen] = useState(false);
+  const SavedPlayerEdit = ({ open, setOpen, oldPlayer, editSavedPlayer }) => {
   const [player, setPlayer] = useState({
     name: '',
       url: '',
@@ -18,9 +20,11 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
         abilities: '',
   });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  useEffect(() => {
+    setPlayer(oldPlayer);
+  },[oldPlayer])
+
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -48,37 +52,13 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    //addPlayer(player);
-    onSaveOnly();
-  };
-
-  const onSaveOnly = e => {
-    addSavedPlayer(player);
-    setPlayer({
-      name: '',
-      url: '',
-        hp: 0,
-        ac: 0,
-        speed: 0,
-        attacks: '',
-        spells: '',
-        skills: '',
-        items: '',
-        saves: '',
-        abilities: '',
-    });
+    editSavedPlayer(player);
     handleClose();
   };
 
+
   return (
     <div>
-        <button
-      className='btn addPlayerBtn'
-      onClick={handleClickOpen}
-      style={{position:'absolute',left: '25px', top: '25px'}}
-      >
-        Make New Player
-      </button>
       <Dialog maxWidth='sm' fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title" style={{zIndex:'1'}}>
         <DialogContent style={{textAlign: 'center'}}>
           <div>
@@ -205,3 +185,12 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
     </div>
   )
 }
+SavedPlayerEdit.propTypes = {
+  editSavedPlayer: PropTypes.func,
+};
+
+
+
+export default connect(null, {
+  editSavedPlayer
+})(SavedPlayerEdit);
