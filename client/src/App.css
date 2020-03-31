@@ -45,6 +45,10 @@ margin: auto;
  position: absolute;
 }
 
+.container:hover {
+z-index: 3;
+}
+
 .playerImg {
   width: 80px;
   object-fit: contain;
