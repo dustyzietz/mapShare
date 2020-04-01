@@ -32,7 +32,7 @@ export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSave
         Add Character
       </button>
       <Dialog maxWidth='md' fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title" style={{zIndex:'1'}}>
-        <DialogContent style={{textAlign: 'center',marginBottom: '400px'}}>
+        <DialogContent style={{textAlign: 'center'}}>
                 <AddPlayerDialog addPlayer={addPlayer}  addSavedPlayer={addSavedPlayer} />
           <div>
             <button className="btn"    style={{position:'absolute',right: '25px', top: '25px'}} onClick={handleClose}>cancel</button>
