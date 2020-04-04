@@ -4,7 +4,7 @@ const Map = require("./models/map");
 const app = express();
 const path = require("path");
 const CONNECTION_URI = process.env.MONGODB_URI || "mongodb://localhost/users";
-export  aconst PORT = process.env.PORT || 5000;
+export const PORT = process.env.PORT || 5000;
 
 // const socketio = require("socket.io");
 // const http = require('http');
