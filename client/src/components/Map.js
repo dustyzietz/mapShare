@@ -6,6 +6,7 @@ import { SavedPlayers } from "./SavedPlayers";
 import { SavedMaps } from "./SavedMaps";
 import openSocket from 'socket.io-client';
 import { Chatbox } from './Chatbox';
+import { PORT } from '../../../server';
 
 import {
   getPlayers,
@@ -50,7 +51,6 @@ const Map = ({
   const [openPlayerEdit, setOpenPlayerEdit] = useState(false);
   const [chatsOpen, setChatsOpen] = useState(false);
   const [chatName, setChatName] = useState('');
-  const PORT = process.env.PORT || 5000;
 
   useEffect(() => {
 
