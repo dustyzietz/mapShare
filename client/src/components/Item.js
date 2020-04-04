@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
-//import axios from 'axios';
-import { updatePosition, deletePlayer, updateSize } from "../actions/players";
+import { updatePosition, deletePlayer, updateSize, sendMessage } from "../actions/players";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import PlayerStats from "./PlayerStats";
 
-const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openEdit }) => {
+
+const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openEdit, openChat, sendMessage }) => {
   const { controlledPosition, size, _id, name, playerUrl } = player;
   const [myPosition, setMyPosition] = useState({
     x: controlledPosition.x,
@@ -14,6 +14,8 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
   });
   const [loading, setLoading] = useState(false);
   const [mySize, setMySize] = useState(size);
+ 
+
 
   const onControlledDrag = (e, position) => {
     const { x, y } = position;
@@ -75,8 +77,9 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
             style={{ width: `${mySize * 10}px`}}
             className="playerImg"
           />
-
           <PlayerStats
+          sendMessage={sendMessage}
+          openChat={openChat}
             openEdit={openEdit}
             handleGrow={handleGrow}
             handleShrink={handleShrink}
@@ -94,7 +97,8 @@ Item.propTypes = {
   players: PropTypes.array,
   updatePosition: PropTypes.func,
   deletePlayer: PropTypes.func,
-  updateSize: PropTypes.func
+  updateSize: PropTypes.func,
+  sendMessage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -104,5 +108,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   updatePosition,
   deletePlayer,
-  updateSize
+  updateSize,
+  sendMessage
 })(Item);

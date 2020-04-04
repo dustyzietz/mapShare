@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOAD_PLAYERS, UPDATE_SAVED_PLAYERS, LOAD_MAP, UPDATE_SAVED_MAPS } from './types';
+import { LOAD_PLAYERS, UPDATE_SAVED_PLAYERS, LOAD_MAP, UPDATE_SAVED_MAPS, ADD_CHAT } from './types';
 
 export const updatePosition = (name, x, y, _id) => async dispatch => {
  
@@ -15,6 +15,40 @@ export const updatePosition = (name, x, y, _id) => async dispatch => {
     console.log(err); 
   }
 }
+
+export const sendMessage = (message, chatName) => async dispatch => {
+  const config = {headers: {'Content-Type': 'application/json' } };
+  const body = JSON.stringify({message, chatName});
+  try {
+    await axios.post('/map/messages', body, config);
+  } catch (err) {
+    console.log(err); 
+  }
+}
+
+export const syncPlayers = data => dispatch => {
+  dispatch({
+    type: LOAD_PLAYERS,
+    payload: data.newPlayers
+  });
+}
+
+export const syncMap = data => dispatch => {
+  const {name , url} = data.newMap;
+  dispatch({
+    type: LOAD_MAP,
+    payload: {name, url}
+  });
+}
+
+export const syncMessage = data => dispatch => {
+ // console.log(data);
+   dispatch({
+     type: ADD_CHAT,
+     payload: data.newMessage
+   });
+}
+
 
 export const getPlayers = () => async dispatch => {
   try {

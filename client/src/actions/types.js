@@ -2,3 +2,4 @@ export const LOAD_MAP = 'LOAD_MAP';
 export const LOAD_PLAYERS = 'LOAD_PLAYERS';
 export const UPDATE_SAVED_PLAYERS = 'UPDATE_SAVED_PLAYERS';
 export const UPDATE_SAVED_MAPS = 'UPDATE_SAVED_MAPS';
+export const ADD_CHAT = 'ADD_CHAT';

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const io = require('../client/src/socket');
 
 const Map = require('../models/map');
 
@@ -13,10 +14,18 @@ router.post('/',async (req, res) => {
      }
     });
    await map.save();
+  io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
     res.json(map.players);
   } catch (err) {
     console.log(err)
   }
+});
+
+router.post('/messages', (req, res) => {
+  const {message, chatName} = req.body;
+
+  io.getIO().emit('maps', { action: 'message', newMessage: {message, chatName} });
+    res.json({message, chatName});
 });
 
 router.get('/players', async (req, res) => {
@@ -133,7 +142,7 @@ router.get('/map', async (req, res) => {
   }
 })
 
-module.exports = router;
+
 
 router.post('/map', async (req, res) => {
   const { name, url } = req.body;
@@ -143,10 +152,11 @@ router.post('/map', async (req, res) => {
     map.mapName = name;
     map.mapUrl = url;
   await  map.save(); 
-  const newMap = {name: map.mapName, url: map.mapUrl}
+  const newMap = {name: map.mapName, url: map.mapUrl};
+  io.getIO().emit('maps', { action: 'create', newMap: newMap });
   res.json(newMap);
   } catch (err) {
-    console.log(err);
+    console.log(err); 
   }
 })
 

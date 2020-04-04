@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { SavedPlayers } from "./SavedPlayers";
 import { SavedMaps } from "./SavedMaps";
+import openSocket from 'socket.io-client';
+import { Chatbox } from './Chatbox';
 
 import {
   getPlayers,
@@ -15,6 +17,10 @@ import {
   getMap,
   addSavedMap,
   deleteSavedPlayer,
+  syncMap,
+  syncPlayers,
+  sendMessage,
+  syncMessage
 } from "../actions/players";
 import EditPlayer from "./EditPlayer";
 
@@ -32,23 +38,44 @@ const Map = ({
   getSavedMaps,
   addSavedMap,
   savedMaps,
-  deleteSavedPlayer
+  deleteSavedPlayer,
+  syncMap,
+  syncPlayers,
+  chatbox,
+  sendMessage,
+  syncMessage
 }) => {
 
   const [editedPlayer, setEditedPlayer] = useState({});
   const [openPlayerEdit, setOpenPlayerEdit] = useState(false);
+  const [chatsOpen, setChatsOpen] = useState(false);
+  const [chatName, setChatName] = useState('');
+
+  useEffect(() => {
+    const socket = openSocket('http://localhost:5000');
+     socket.on('maps', data => {
+       if (data.action === 'create') {
+         syncMap(data)
+       };
+       if (data.action === 'players') {
+           syncPlayers(data)
+       };
+       if (data.action === 'message') {
+        syncMessage(data)
+    };
+  } )
+      },[])
+
 
 const openEdit = (player) => {
   setEditedPlayer(player);
 setOpenPlayerEdit(true);
 }
 
-  useEffect(() => {
-    setInterval(function() {
-      getMap();
-      getPlayers();
-    }, 5000);
-  }, []);
+const openChat = (name) => {
+setChatName(name);
+setChatsOpen(true);
+};
 
   useEffect(() => {
     async function loadPlayers() {
@@ -63,6 +90,7 @@ setOpenPlayerEdit(true);
       <EditPlayer open={openPlayerEdit} editedPlayer={editedPlayer} setOpen={setOpenPlayerEdit} />
       <img draggable="false" className="map " src={map.url} alt="map" />
       <div className="statContainer">
+      <Chatbox messages={chatbox} chatsOpen={chatsOpen}  chatName={chatName} sendMessage={sendMessage} setChatsOpen={setChatsOpen} />
         <SavedPlayers
           getSavedPlayers={getSavedPlayers}
           addPlayer={addPlayer}
@@ -81,6 +109,7 @@ setOpenPlayerEdit(true);
         players.map(p => {
           return (
             <Item
+            openChat={openChat}
             openEdit={openEdit}
               key={p._id}
              player={p}
@@ -105,13 +134,19 @@ Map.propTypes = {
   getSavedMaps: PropTypes.func.isRequired,
   addSavedMap: PropTypes.func.isRequired,
   deleteSavedPlayer: PropTypes.func.isRequired,
+  syncMap: PropTypes.func.isRequired,
+  syncPlayers: PropTypes.func.isRequired,
+  chatbox: PropTypes.array.isRequired,
+  sendMessage: PropTypes.func.isRequired,
+  syncMessage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   players: state.players,
   savedPlayers: state.savedPlayers,
   map: state.map,
-  savedMaps: state.savedMaps
+  savedMaps: state.savedMaps,
+  chatbox: state.chatbox
 });
 
 export default connect(mapStateToProps, {
@@ -124,4 +159,8 @@ export default connect(mapStateToProps, {
   getSavedMaps,
   addSavedMap,
   deleteSavedPlayer,
+  syncMap,
+  syncPlayers,
+  sendMessage,
+  syncMessage
 })(Map);
