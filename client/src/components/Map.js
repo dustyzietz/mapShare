@@ -50,9 +50,11 @@ const Map = ({
   const [openPlayerEdit, setOpenPlayerEdit] = useState(false);
   const [chatsOpen, setChatsOpen] = useState(false);
   const [chatName, setChatName] = useState('');
+  const PORT = process.env.PORT || 5000;
 
   useEffect(() => {
-    const socket = openSocket('http://localhost:5000');
+
+    const socket = openSocket(`http://localhost:${PORT}`);
      socket.on('maps', data => {
        if (data.action === 'create') {
          syncMap(data)
