@@ -4,9 +4,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { SavedPlayers } from "./SavedPlayers";
 import { SavedMaps } from "./SavedMaps";
-import openSocket from 'socket.io-client';
+import io from 'socket.io-client';
 import { Chatbox } from './Chatbox';
-import { PORT } from '../../../server';
 
 import {
   getPlayers,
@@ -53,8 +52,7 @@ const Map = ({
   const [chatName, setChatName] = useState('');
 
   useEffect(() => {
-
-    const socket = openSocket(`https://secure-journey-23152.herokuapp.com/`);
+    const socket = io.connect();
      socket.on('maps', data => {
        if (data.action === 'create') {
          syncMap(data)
