@@ -54,7 +54,7 @@ const Map = ({
 
   useEffect(() => {
 
-    const socket = openSocket(`http://localhost:${PORT}`);
+    const socket = openSocket(`https://secure-journey-23152.herokuapp.com/`);
      socket.on('maps', data => {
        if (data.action === 'create') {
          syncMap(data)

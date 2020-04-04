@@ -4,20 +4,18 @@ const Map = require("./models/map");
 const app = express();
 const path = require("path");
 const CONNECTION_URI = process.env.MONGODB_URI || "mongodb://localhost/users";
-export const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 // const socketio = require("socket.io");
 // const http = require('http');
 // const server = http.createServer(app);
 // const io = socketio(server);
 
-
-
 const connectDB = async () => {
   try {
     await mongoose.connect(
        CONNECTION_URI,
-      //"mongodb+srv://dzietz:kqQIl8PlTEV2SEfh@cluster0-uvrcp.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true",
+     // "mongodb+srv://dzietz:kqQIl8PlTEV2SEfh@cluster0-uvrcp.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true",
       { useNewUrlParser: true, useUnifiedTopology: true }
     );
     console.log("mongo connected!");
