@@ -54,6 +54,7 @@ export  const AddMap = ({addSavedMap}) => {
          style={{
           marginBottom: '20px',
           float: 'left',
+          fontSize: '20px'
          }}
       >
         Add New Map

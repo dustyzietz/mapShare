@@ -230,11 +230,11 @@ export const addSavedPlayer = (player) => async dispatch => {
   const config = {headers: {'Content-Type': 'application/json' } };
   const body = JSON.stringify({mySize, id});
   try {
-     await axios.post('/map/size', body, config);
-  // await dispatch({
-   //   type: UPDATE_PLAYERS,
-    //  payload: res.data
-  //  });
+   const res = await axios.post('/map/size', body, config);
+  //  await dispatch({
+  //     type: LOAD_PLAYERS,
+  //     payload: res.data
+  //   });
   } catch (err) {
     console.log(err); 
   }

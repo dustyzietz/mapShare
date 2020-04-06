@@ -13,11 +13,7 @@ import ChatBubble from "@material-ui/icons/ChatBubble";
 
 const useStyles = makeStyles((theme) => ({
   expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
+    transform: "rotate(0deg)"
   },
   expandOpen: {
     transform: "rotate(180deg)",
@@ -97,50 +93,51 @@ const handleRoll = num => {
         <img
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-twenty-faces-twenty.svg"
           alt="20sided"
-          height="50px"
-          width="50px"
+         // height="15%"
+          width="15%"
           onClick={() => {handleRoll(20)}}
         />
         <img
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d12.svg"
           alt="12sided"
-          height="50px"
-          width="50px"
+         // height="15%"
+          width="15%"
           onClick={() => {handleRoll(12)}}
 
         />
         <img
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d10.svg"
           alt="10sided"
-          height="50px"
-          width="50px"
+        //  height="15%"
+          width="15%"
           onClick={() => {handleRoll(10)}}
 
         />
         <img
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-eight-faces-eight.svg"
           alt="8sided"
-          height="50px"
-          width="50px"
+        //  height="15%"
+          width="15%"
           onClick={() => {handleRoll(8)}}
 
         />
         <img
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/perspective-dice-six.svg"
           alt="6sided"
-          height="50px"
-          width="50px"
+        //  height="15%"
+          width="15%"
           onClick={() => {handleRoll(6)}}
 
         />
         <img
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d4.svg"
           alt="4sided"
-          height="50px"
-          width="50px"
+        //  height="15%"
+          width="15%"
           onClick={() => {handleRoll(4)}}
 
         />
+        <br/>
         HP: {hp} AC: {ac} Speed: {speed}
         {attacks && <hr />}
         {attacks && `Attacks: ${attacks}`}

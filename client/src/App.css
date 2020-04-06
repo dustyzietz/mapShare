@@ -6,14 +6,19 @@
   --danger-color: #dc3545;
   --success-color: #28a745;
 }
+* {
+  font-size: 1vw;
+}
+
+
 
 ul {
   margin: 0 100px;
 }
 
 .mapContainer{
-  height: 2000px;
-  width: 2000px;
+  height: 1200px;
+  width: 1200px;
   position: relative;
 margin: auto;
 }
@@ -156,7 +161,8 @@ button {
 }
 
  .statOpen {
-   width: 300px;
+   width: 20vw;
+   min-width: 250px;
    padding: 0 20px;
     transform: translate(-100px, 0);
  }
@@ -176,3 +182,28 @@ button {
  .addPlayerBtn:hover {
   background-color: var(--success-color);
 }
+
+
+  .chatbox  {
+    position: fixed;
+    top: 2vw;
+    right: 2vw;
+    height: 30vw;
+    width: 15vw;
+    max-width: 450px;
+    min-width: 200px;
+    min-height: 300px;
+    background-color: black;
+    color: white;
+    overflow: auto;
+  }
+
+  @media only screen and (max-width: 800px) {
+    * {
+      font-size: 15px;
+    }
+    .chatbox {
+      left: 2vw;
+      top: 40vh;
+    }
+  }

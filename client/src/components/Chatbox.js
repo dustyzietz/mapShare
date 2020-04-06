@@ -1,23 +1,15 @@
 import React, {useState} from 'react';
 import Send from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
+import Draggable from "react-draggable";
+
 
 
 
 
 export const Chatbox = ({chatsOpen, messages, chatName, sendMessage, setChatsOpen}) => {
  
-  const styles = {
-    Chatbox : {
-      position: 'fixed',
-      top: '25px',
-      right: '25px',
-      height: '300px',
-      width: '300px',
-      backgroundColor: 'black',
-      color: 'white'
-    }
-  }
+ 
 
   const [message, setMessage] = useState('');
 
@@ -27,9 +19,12 @@ setChatsOpen(false);
 setMessage('');    
   }
   return (
-    <div style={styles.Chatbox}>
+    <Draggable >
+    <div className='chatbox'>
       CHATBOX
-    {chatsOpen && <form>
+     {/* {chatsOpen &&
+     <div style={{position: 'fixed', top: 0, backgroundColor: 'black'}}>
+        <form>
     <div className="form-group">
         <input
           type="text"
@@ -42,11 +37,13 @@ setMessage('');
           <Send style={{color:'white'}}/>
         </IconButton>
       </div>
-      </form> }
+      </form>
+      </div> }  */}
       {messages.length > 0 &&
       messages.map((m, i) => 
       <div key={i}> {m.chatName}{' : '}{m.message} </div>
       )}
     </div>
+    </Draggable>
   )
 }

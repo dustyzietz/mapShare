@@ -34,7 +34,7 @@ export  const SavedMaps = ({addMap,  getSavedMaps, addSavedMap, savedMaps }) => 
            <div>   
             <AddMap  addSavedMap={addSavedMap} />
             <button className="btn" style={{float:'right'}} onClick={handleClose}>cancel</button>
-<h2>Saved Maps</h2>
+<h2 style={{fontSize:'20px'}}>Saved Maps</h2>
 {savedMaps && 
 savedMaps.map(m => {
       const  map = { name: m.name , url: m.url};

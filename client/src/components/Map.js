@@ -6,6 +6,7 @@ import { SavedPlayers } from "./SavedPlayers";
 import { SavedMaps } from "./SavedMaps";
 import io from 'socket.io-client';
 import { Chatbox } from './Chatbox';
+import { ChatInput } from './ChatInput';
 
 import {
   getPlayers,
@@ -91,6 +92,7 @@ setChatsOpen(true);
       <img draggable="false" className="map " src={map.url} alt="map" />
       <div className="statContainer">
       <Chatbox messages={chatbox} chatsOpen={chatsOpen}  chatName={chatName} sendMessage={sendMessage} setChatsOpen={setChatsOpen} />
+      <ChatInput sendMessage={sendMessage} chatsOpen={chatsOpen} chatName={chatName} setChatsOpen={setChatsOpen} />
         <SavedPlayers
           getSavedPlayers={getSavedPlayers}
           addPlayer={addPlayer}
@@ -104,6 +106,7 @@ setChatsOpen(true);
           addMap={addMap}
           savedMaps={savedMaps  }
         />
+       <a href="http://dzietz.com/" target="_blank"> <button className='btn'>Refrences</button></a>
       </div>
       {players &&
         players.map(p => {

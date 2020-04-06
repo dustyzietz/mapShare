@@ -36,14 +36,14 @@ export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSave
                 <AddPlayerDialog addPlayer={addPlayer}  addSavedPlayer={addSavedPlayer} />
           <div>
             <button className="btn"    style={{position:'absolute',right: '25px', top: '25px'}} onClick={handleClose}>cancel</button>
-<h2>Saved Characters</h2>
+<h2 style={{fontSize:'20px'}}>Saved Characters</h2>
 {savedPlayers && 
 savedPlayers.map(p => { 
   return (
   <div key={p.name}  className="savedPlayersContainer"  >
   <div
     className="box">
-    <img draggable="false" className='savedPlayersImg' src={p.url} alt="" width='100px' height='auto' onClick={() => {makePlayer(p)}}/>
+    <img draggable="false" className='savedPlayersImg' src={p.url} alt="" width='50px' height='auto' onClick={() => {makePlayer(p)}}/>
   </div> 
  <SavedPlayerStats deleteSavedPlayer={deleteSavedPlayer} player={p} />
 </div>

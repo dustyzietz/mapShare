@@ -12,18 +12,13 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
     x: controlledPosition.x,
     y: controlledPosition.y
   });
-  const [loading, setLoading] = useState(false);
-  const [mySize, setMySize] = useState(size);
  
-
-
   const onControlledDrag = (e, position) => {
     const { x, y } = position;
     setMyPosition({ x, y });
   };
 
   const onControlledDragStop = (e, position) => {
-    setLoading(true);
     onControlledDrag(e, position);
   };
 
@@ -32,30 +27,21 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
   };
 
   const handleGrow = () => {
-    const newSize = mySize + 1;
-    setMySize(newSize);
+    const newSize = size + 1;
     updateSize(newSize, _id);
   };
 
   const handleShrink = () => {
-    const newSize = mySize - 1;
-    setMySize(newSize);
+    const newSize = size - 1;
     updateSize(newSize, _id);
   };
 
   useEffect(() => {
     players.map(p => {
       if (p._id === _id) {
-        if (p.size !== mySize) {
-          setMySize(p.size);
-        }
-        if (myPosition.x === p.controlledPosition.x) {
-          setLoading(false);
-        } else {
-          if (!loading) {
-            setMyPosition(p.controlledPosition);
-          }
-        }
+        if (myPosition.x !== p.controlledPosition.x) {
+         setMyPosition(p.controlledPosition);
+        } 
       }
     });
   }, [players]);
@@ -74,7 +60,7 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
             draggable="false"
             src={playerUrl}
             alt=""
-            style={{ width: `${mySize * 10}px`}}
+            style={{ width: `${size * 5}px`}}
             className="playerImg"
           />
           <PlayerStats
