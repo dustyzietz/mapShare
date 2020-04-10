@@ -72,6 +72,7 @@ router.delete('/player/:_id', async (req, res) => {
       p => p._id.toString() !== req.params._id
     );
     await map.save();
+    io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
     return res.status(200).json(map.players);
   } catch (error) {
     console.error(error);
@@ -131,6 +132,31 @@ router.delete('/saved-player/:_id', async (req, res) => {
     return res.status(500).json({ msg: 'Server error' });
   }
 });
+
+router.get('/saved-monsters', async (req, res) => {
+  try {
+    const map = await Map.findOne();
+    res.json(map.savedMonsters);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/add-saved-monster', async (req, res) => {
+  const monster = req.body;
+  console.log(monster);
+ try {
+    const map = await Map.findOne();
+  
+if (map.savedMonsters.every(m => m.name !== monster.name)){
+   map.savedMonsters = [ {  controlledPosition :{ x:500, y:-1000 } , ...monster },  ...map.savedMonsters  ];
+  await  map.save(); 
+  res.json(map.savedMonsters);
+}
+  } catch (err) {
+    console.log(err);
+  }
+})
 
 router.get('/map', async (req, res) => {
  try {
@@ -197,5 +223,15 @@ router.post('/size',async (req, res) => {
     console.log(err)
   }
 });
+
+router.post('/hit-points',async (req, res) => {
+
+ console.log(req.body)
+   io.getIO().emit('maps', { action: 'hit points', newHitPoints: req.body });
+    res.json(null);
+ 
+});
+
+
 
 module.exports = router;

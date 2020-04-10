@@ -73,6 +73,37 @@ const mapSchema = new Schema({
        
     }
     ],
+    savedMonsters : [ 
+      { name: {
+        type: String,
+        required: true
+      },
+      url: {
+        type: String,
+        required: true
+      },
+      controlledPosition : {
+        x: {
+           type: Number,
+          required: true 
+        },
+        y: {
+          type: Number,
+         required: true 
+         }
+       },
+       hp:{type: Number},
+       ac: {type: Number},
+       speed: {type: Number},
+       attacks: {type: String},
+       spells: {type: String},
+       items: {type: String},
+       skills: {type: String},
+       abilities: {types: String},
+       saves: {type: String},
+       
+    }
+    ],
     savedMaps : [ 
       { name: {
         type: String

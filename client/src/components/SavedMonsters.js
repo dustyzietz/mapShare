@@ -1,14 +1,14 @@
 import React,{useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import {AddPlayerDialog} from './AddPlayerDialog';
+import {AddMonster} from './AddMonster';
 import SavedPlayerStats from './SavedPlayerStats'; 
 
-export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSavedPlayer, deleteSavedPlayer}) => {
+export  const SavedMonsters = ({addPlayer, savedMonsters, getSavedMonsters, addSavedMonster, deleteSavedMonster}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    getSavedPlayers();
+    getSavedMonsters();
     setOpen(true);
   };
 
@@ -25,27 +25,27 @@ export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSave
   return (
     <div>
         <button
-      className='btn'
+      className='btn dangerColor'
       onClick={handleClickOpen}
       style={{ marginBottom: '20px'}}
       >
-        Add Character
+       Monsters
       </button>
       <Dialog maxWidth='md' fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title" style={{zIndex:'1'}}>
         <DialogContent style={{textAlign: 'center'}}>
-                <AddPlayerDialog addPlayer={addPlayer}  addSavedPlayer={addSavedPlayer} />
+                <AddMonster  addSavedMonster={addSavedMonster} />
           <div>
             <button className="btn"    style={{position:'absolute',right: '25px', top: '25px'}} onClick={handleClose}>cancel</button>
-<h2 style={{fontSize:'20px'}}>Saved Characters</h2>
-{savedPlayers && 
-savedPlayers.map(p => { 
+<h2 style={{fontSize:'20px'}}>Saved Monsters</h2>
+{savedMonsters && 
+savedMonsters.map(m => { 
   return (
-  <div key={p.name}  className="savedPlayersContainer"  >
+  <div key={m.name}  className="savedPlayersContainer"  >
   <div
     className="box">
-    <img draggable="false" className='savedPlayersImg' src={p.url} alt="" width='100px' height='auto' onClick={() => {makePlayer(p)}}/>
+    <img draggable="false" className='savedPlayersImg' src={m.url} alt="" width='100px' height='auto' onClick={() => {makePlayer(m)}}/>
   </div> 
- <SavedPlayerStats deleteSavedPlayer={deleteSavedPlayer} player={p} />
+ <SavedPlayerStats deleteSavedMonster={deleteSavedMonster} player={m} />
 </div>
   )}
 )

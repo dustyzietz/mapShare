@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOAD_PLAYERS, UPDATE_SAVED_PLAYERS, LOAD_MAP, UPDATE_SAVED_MAPS, ADD_CHAT } from './types';
+import { LOAD_PLAYERS, UPDATE_SAVED_PLAYERS, LOAD_MAP, UPDATE_SAVED_MAPS, ADD_CHAT, UPDATE_SAVED_MONSTERS, LOAD_HITPOINTS } from './types';
 
 export const updatePosition = (name, x, y, _id) => async dispatch => {
  
@@ -48,6 +48,14 @@ export const syncMessage = data => dispatch => {
      payload: data.newMessage
    });
 }
+
+export const syncHitPoints = data => dispatch => {
+  // console.log(data);
+    dispatch({
+      type: LOAD_HITPOINTS,
+      payload: data.newHitPoints
+    });
+ }
 
 
 export const getPlayers = () => async dispatch => {
@@ -154,6 +162,35 @@ export const addSavedPlayer = (player) => async dispatch => {
   }
  }
 
+ export const getSavedMonsters = () => async dispatch => {
+  try {
+    const res = await axios.get('/map/saved-monsters');
+    dispatch({
+      type: UPDATE_SAVED_MONSTERS,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const addSavedMonster = (monster) => async dispatch => {
+  try {
+   const config = {
+     headers: {
+       'Content-Type': 'application/json'
+     }
+   };
+   const res = await axios.post('/map/add-saved-monster', monster, config);
+   dispatch({
+     type: UPDATE_SAVED_MONSTERS,
+     payload: res.data
+   });
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
  export const deleteSavedPlayer = id => async dispatch => {
   try {
   const res = await axios.delete(`/map/saved-player/${id}`);
@@ -238,4 +275,18 @@ export const addSavedPlayer = (player) => async dispatch => {
   } catch (err) {
     console.log(err); 
   }
+}
+
+export const setHp = (newHitPoints) => async dispatch => {
+   const config = {headers: {'Content-Type': 'application/json' } };
+   const body = JSON.stringify(newHitPoints);
+   try {
+    await axios.post('/map/hit-points', body, config);
+     await dispatch({
+        type: LOAD_HITPOINTS,
+        payload: newHitPoints
+      }); 
+   } catch (err) {
+     console.log(err); 
+ }
 }
