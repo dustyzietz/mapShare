@@ -12,6 +12,7 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
     x: controlledPosition.x,
     y: controlledPosition.y
   });
+  const [loading, setLoading] = useState(false);
  
   const onControlledDrag = (e, position) => {
     const { x, y } = position;
@@ -39,7 +40,10 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
   useEffect(() => {
     players.map(p => {
       if (p._id === _id) {
-        if (myPosition.x !== p.controlledPosition.x) {
+        if (loading && myPosition.x === p.controlledPosition.x){
+        setLoading(false);
+        }
+        if (!loading && myPosition.x !== p.controlledPosition.x) {
          setMyPosition(p.controlledPosition);
         } 
       }
@@ -49,6 +53,7 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
   useEffect(() => {
     const x = myPosition.x;
     const y = myPosition.y;
+    setLoading(true);
     updatePosition(name, x, y, _id);
     console.log(x, y);
   }, [myPosition]);

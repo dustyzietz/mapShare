@@ -9,7 +9,7 @@ export const updatePosition = (name, x, y, _id) => async dispatch => {
      await axios.post('/map', body, config);
   // await dispatch({
    //   type: UPDATE_PLAYERS,
-    //  payload: res.data
+   //   payload: res.data
   //  });
   } catch (err) {
     console.log(err); 
