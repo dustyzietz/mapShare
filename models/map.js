@@ -33,6 +33,7 @@ const mapSchema = new Schema({
       hp:{type: Number},
       ac: {type: Number},
       speed: {type: Number},
+      currentHp: {type: Number},
       attacks: {type: String},
       spells: {type: String},
       items: {type: String},

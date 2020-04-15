@@ -6,11 +6,6 @@ const path = require("path");
 const CONNECTION_URI = process.env.MONGODB_URI || "mongodb://localhost/users";
 const PORT = process.env.PORT || 5000;
 
-// const socketio = require("socket.io");
-// const http = require('http');
-// const server = http.createServer(app);
-// const io = socketio(server);
-
 const connectDB = async () => {
   try {
     await mongoose.connect(

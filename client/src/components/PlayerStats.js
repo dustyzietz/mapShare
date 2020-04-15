@@ -8,7 +8,7 @@ import ControlPoint from "@material-ui/icons/ControlPoint";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import HighlightOffOutlinedIcon from "@material-ui/icons/HighlightOffOutlined";
 import Edit from "@material-ui/icons/Edit";
-import EditPlayer from "./EditPlayer";
+import Save from "@material-ui/icons/Save";
 import ChatBubble from "@material-ui/icons/ChatBubble";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,8 @@ export default function PlayerStats({
   handleDelete,
   openEdit,
   openChat,
-  sendMessage
+  sendMessage,
+  editSavedPlayer
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -36,6 +37,7 @@ export default function PlayerStats({
     hp,
     ac,
     speed,
+    currentHp,
     attacks,
     spells,
     skills,
@@ -138,7 +140,7 @@ const handleRoll = num => {
 
         />
         <br/>
-        HP: {hp} AC: {ac} Speed: {speed}
+        HP: {hp} AC: {ac} Speed: {speed} currentHP: {currentHp}
         {attacks && <hr />}
         {attacks && `Attacks: ${attacks}`}
         {spells && <hr />}
@@ -160,6 +162,9 @@ const handleRoll = num => {
           }}
         >
           <Edit />
+        </IconButton>
+        <IconButton onClick={() => {editSavedPlayer(player)}} >
+          <Save />
         </IconButton>
       </Collapse>
     </div>

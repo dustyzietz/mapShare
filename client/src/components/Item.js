@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
-import { updatePosition, deletePlayer, updateSize, sendMessage } from "../actions/players";
+import { updatePosition, deletePlayer, updateSize, sendMessage, editSavedPlayer } from "../actions/players";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import PlayerStats from "./PlayerStats";
 
 
-const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openEdit, openChat, sendMessage }) => {
+const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openEdit, openChat, sendMessage, editSavedPlayer }) => {
   const { controlledPosition, size, _id, name, playerUrl } = player;
   const [myPosition, setMyPosition] = useState({
     x: controlledPosition.x,
@@ -69,6 +69,7 @@ const Item = ({ player, players, deletePlayer, updateSize, updatePosition, openE
             className="playerImg"
           />
           <PlayerStats
+          editSavedPlayer={editSavedPlayer}
           sendMessage={sendMessage}
           openChat={openChat}
             openEdit={openEdit}
@@ -90,6 +91,7 @@ Item.propTypes = {
   deletePlayer: PropTypes.func,
   updateSize: PropTypes.func,
   sendMessage: PropTypes.func.isRequired,
+  editSavedPlayer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -100,5 +102,6 @@ export default connect(mapStateToProps, {
   updatePosition,
   deletePlayer,
   updateSize,
-  sendMessage
+  sendMessage,
+  editSavedPlayer
 })(Item);

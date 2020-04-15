@@ -14,6 +14,7 @@ import {editPlayer} from "../actions/players"
         hp: 0,
         ac: 0,
         speed: 0,
+        currentHp: 0,
         attacks: '',
         spells: '',
         skills: '',
@@ -42,6 +43,7 @@ import {editPlayer} from "../actions/players"
      hp,
       ac,
       speed,
+      currentHp,
       attacks,
       spells,
       skills,
@@ -124,6 +126,17 @@ import {editPlayer} from "../actions/players"
             placeholder="Speed"
             name="speed"
             value={speed}
+            onChange={onChange}
+          />
+        </span>
+        {''}
+        <span className="form-group inline-input">
+           CurrentHP:
+          <input
+            type="number"
+            placeholder="CurrentHP"
+            name="currentHp"
+            value={currentHp}
             onChange={onChange}
           />
         </span>
