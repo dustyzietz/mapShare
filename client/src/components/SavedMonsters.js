@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import {AddMonster} from './AddMonster';
-import SavedPlayerStats from './SavedPlayerStats'; 
+
 
 export  const SavedMonsters = ({addPlayer, savedMonsters, getSavedMonsters, addSavedMonster, deleteSavedMonster}) => {
   const [open, setOpen] = useState(false);
@@ -45,7 +45,6 @@ savedMonsters.map(m => {
     className="box">
     <img draggable="false" className='savedPlayersImg' src={m.url} alt="" width='100px' height='auto' onClick={() => {makePlayer(m)}}/>
   </div> 
- <SavedPlayerStats deleteSavedMonster={deleteSavedMonster} player={m} />
 </div>
   )}
 )

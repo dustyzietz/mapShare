@@ -9,7 +9,9 @@ import { connect } from "react-redux";
 
 
  const HitPointsPlayer = ({players, p, editPlayer}) => { 
+   const [initialHp, setInitialHp] = useState(p.currentHp);
   const [currentHp, setCurrentHp] = useState(p.currentHp);
+
  
 useEffect(()=> {
 const newPlayer = players.filter(player => {
@@ -17,6 +19,7 @@ const newPlayer = players.filter(player => {
 })
 const newHp = newPlayer[0].currentHp;
 setCurrentHp(newHp);
+setInitialHp(newHp);
 },[players]);
 
   const handleChange = (e) => {
@@ -33,7 +36,7 @@ editPlayer(p);
   return (
        <div >
          <span >{p.name } : </span>
-             <span >{currentHp} </span>
+             <span >{initialHp} </span>
         <div className='hp-input'  >
           <form onSubmit={handleSubmit} >
              <input className='hp-input' type="number" value={currentHp} onChange={handleChange} />

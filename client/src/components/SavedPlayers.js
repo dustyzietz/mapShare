@@ -2,11 +2,12 @@ import React,{useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import {AddPlayerDialog} from './AddPlayerDialog';
-import SavedPlayerStats from './SavedPlayerStats'; 
+import { playerPage, PlayerPage } from './PlayerPage';
+ 
 
 export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSavedPlayer, deleteSavedPlayer}) => {
   const [open, setOpen] = useState(false);
-
+  const [openOne, setOpenOne] = useState(false);
   const handleClickOpen = () => {
     getSavedPlayers();
     setOpen(true);
@@ -16,14 +17,10 @@ export  const SavedPlayers = ({addPlayer, savedPlayers, getSavedPlayers, addSave
     setOpen(false);
   };
 
-  const makePlayer = (player) => {
-    addPlayer(player);
-    setOpen(false);
-  };
-
 
   return (
     <div>
+      <PlayerPage openOne={openOne} setOpenOne={setOpenOne} />
         <button
       className='btn'
       onClick={handleClickOpen}
@@ -42,10 +39,11 @@ savedPlayers.map(p => {
   return (
   <div key={p.name}  className="savedPlayersContainer"  >
   <div
-    className="box">
-    <img draggable="false" className='savedPlayersImg' src={p.url} alt="" width='100px' height='auto' onClick={() => {makePlayer(p)}}/>
+    className="box" onClick={() => setOpenOne(true)} >
+    <img draggable="false" className='savedPlayersImg' src={p.url} alt="" width='100px' height='auto'/>
+    <br/>
+    {p.name}
   </div> 
- <SavedPlayerStats deleteSavedPlayer={deleteSavedPlayer} player={p} />
 </div>
   )}
 )
