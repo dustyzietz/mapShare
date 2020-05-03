@@ -66,7 +66,7 @@ import {editPlayer} from "../actions/players"
 
   return (
     <div >
-      <Dialog maxWidth='sm' fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title" style={{zIndex:'1'}}>
+      <Dialog maxWidth='sm' fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title" >
         <DialogContent style={{textAlign: 'center'}}>
           <div>
 <h2>Create Character</h2>

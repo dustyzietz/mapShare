@@ -71,7 +71,7 @@ const Map = ({
         syncPlayers(data);
       }
       if (data.action === "message") {
-        syncMessage(data);
+        syncMessage(data); 
       }
       if (data.action === "hit points") {
         syncHitPoints(data);

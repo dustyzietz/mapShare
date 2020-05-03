@@ -60,7 +60,7 @@ const handleRoll = num => {
 
   const isExpanded = expanded ? "statTitle statOpen" : "statTitle";
   return (
-    <div className={isExpanded}>
+    <div className={isExpanded} >
       <div style={{ padding: "6px", display: "inline-block" }}>{name}</div>
       <IconButton
         size="small"

@@ -18,7 +18,7 @@ const mapSchema = new Schema({
         required: true 
         },
        playerUrl : {
-         
+         type: String
           },
       controlledPosition : {
         x: {

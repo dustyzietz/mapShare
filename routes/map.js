@@ -13,7 +13,7 @@ router.post('/',async (req, res) => {
        player.controlledPosition.y = req.body.y
      }
     });
-   await map.save();
+   await map.save(); 
   io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
     res.json(map.players);
   } catch (err) {
@@ -55,9 +55,10 @@ router.post('/edit-player', async (req, res) => {
   const newPlayer = req.body;
  try {
     const map = await Map.findOne();
-    console.log(newPlayer._id)
-  map.players = map.players.filter(p => p._id.toString() !== newPlayer._id);
-   map.players = [ ...map.players, newPlayer ];
+  //  console.log(newPlayer._id)
+  const editedIndex = map.players.findIndex(p => p._id.toString() === newPlayer._id);
+map.players[editedIndex] = newPlayer;
+  // map.players = [ ...map.players, newPlayer ];
   await  map.save();
   io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
   res.json(map.players);

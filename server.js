@@ -39,7 +39,7 @@ app.use(express.json({ extended: false }));
 
 app.use("/map", require("./routes/map"));
 
-// Serve static assets in production
+// Serve static assets in production 
 if (process.env.NODE_ENV === "production") {
   // Set static folder
   app.use(express.static("client/build"));

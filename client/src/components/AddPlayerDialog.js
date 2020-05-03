@@ -93,7 +93,7 @@ export  const AddPlayerDialog = ({ addSavedPlayer }) => {
               <li>Paste it in below</li>
             </ul>
           </small>
-          <textarea
+          <input
             type="text"
             placeholder="Your Image Address"
             name="url"

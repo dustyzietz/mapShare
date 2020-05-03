@@ -108,6 +108,11 @@ z-index: 3;
   font-size: 1.2rem;
   border: 1px solid #ccc;
 }
+ input[type='number'] {
+  width: 50px;
+  display: inline-block;
+}
+
 .form input[type='number'] {
   width: 50px;
   display: inline-block;
@@ -152,6 +157,7 @@ button {
  }
 
  .statTitle {
+   max-width: 20vw;
    background-color: var(--light-color);
    display: none;
  }
@@ -200,6 +206,14 @@ button {
     background-color: black;
     color: white;
     overflow: auto;
+  }
+
+.hp-input {
+  display: none;
+}
+
+  .hit-points:hover .hp-input {
+display: inline;
   }
 
   @media only screen and (max-width: 800px) {
