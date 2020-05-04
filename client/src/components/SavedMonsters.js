@@ -2,10 +2,14 @@ import React,{useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import {AddMonster} from './AddMonster';
+import { PlayerPage } from "./PlayerPage";
+
 
 
 export  const SavedMonsters = ({addPlayer, savedMonsters, getSavedMonsters, addSavedMonster, deleteSavedMonster}) => {
   const [open, setOpen] = useState(false);
+  const [openOne, setOpenOne] = useState(false);
+  const [currentPlayer, setCurrentPlayer] = useState();
 
   const handleClickOpen = () => {
     getSavedMonsters();
@@ -19,6 +23,11 @@ export  const SavedMonsters = ({addPlayer, savedMonsters, getSavedMonsters, addS
   const makePlayer = (player) => {
     addPlayer(player);
     setOpen(false);
+  };
+
+  const openPlayerPage = (m) => {
+    setCurrentPlayer(m);
+    setOpenOne(true);
   };
 
 
@@ -41,9 +50,16 @@ export  const SavedMonsters = ({addPlayer, savedMonsters, getSavedMonsters, addS
 savedMonsters.map(m => { 
   return (
   <div key={m.name}  className="savedPlayersContainer"  >
+       <PlayerPage
+                      setOpen={setOpen}
+                      openOne={openOne}
+                      setOpenOne={setOpenOne}
+                      currentPlayer={currentPlayer}
+                      addPlayer={addPlayer}
+                    />
   <div
-    className="box">
-    <img draggable="false" className='savedPlayersImg' src={m.url} alt="" width='100px' height='auto' onClick={() => {makePlayer(m)}}/>
+    className="box" onClick={()=>{openPlayerPage(m)}}>
+    <img draggable="false" className='savedPlayersImg' src={m.url} alt="" width='100px' height='auto' />
   </div> 
 </div>
   )}

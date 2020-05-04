@@ -1,12 +1,19 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 
-export  const PlayerPage = ({ openOne, setOpenOne, currentPlayer }) => {
+
+
+export  const PlayerPage = ({ openOne, setOpenOne, currentPlayer, addPlayer, setOpen }) => {
  
   const handleClose = () => {
     setOpenOne(false);
   };
+
+  const addToMap = () => {
+    addPlayer(currentPlayer);
+    setOpenOne(false);
+    setOpen(false);
+  }
 return (   
       <Dialog maxWidth='md' fullWidth open={openOne} onClose={handleClose} aria-labelledby="form-dialog-title" style={{zIndex:'1'}}>
         
@@ -22,7 +29,8 @@ Attacks:{currentPlayer.attacks}<br/>
 Spells/Abilities:{currentPlayer.spells}<br/>
 Skills:{currentPlayer.skills}<br/>
 Items:{currentPlayer.Items}<br/>
-
+<button style={{marginBottom:'25px'}} className='btn' onClick={addToMap} >Add To Map</button><br/>
+<button className='btn' onClick={()=> {setOpenOne(false)}} >Cancel</button>
 
  </div>
        } 
