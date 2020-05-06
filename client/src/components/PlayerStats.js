@@ -79,7 +79,7 @@ export default function PlayerStats({
       let damage = Math.floor(
         Math.random() * myAttack.diceType + myAttack.plus + 1
       );
-      const crit = hitRoll >= myAttack.critOn ? true : false;
+      const crit = roll >= myAttack.critOn ? true : false;
       if (crit) {
         damage = damage * myAttack.critTimes;
       }
