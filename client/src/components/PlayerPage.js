@@ -1,5 +1,6 @@
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
+import uuid from 'uuid';
 
 
 
@@ -25,7 +26,14 @@ return (
 HP:{currentPlayer.hp}<br/>
 AC:{currentPlayer.ac}<br/>
 Speed:{currentPlayer.speed}<br/>
-Attacks:{currentPlayer.attacks}<br/>
+Attacks:
+{currentPlayer.attacks.length > 0 &&
+        currentPlayer.attacks.map(a => {
+            return (
+            <div key={uuid()}>{`${a.weapon} Hit:+${a.hit} Damage: ${a.amountOfDice}D${a.diceType}+${a.plus} CRIT${a.critOn}x${a.critTimes} `} <br/></div>
+            )
+          })
+          }
 Spells/Abilities:{currentPlayer.spells}<br/>
 Skills:{currentPlayer.skills}<br/>
 Items:{currentPlayer.Items}<br/>

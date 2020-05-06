@@ -1,6 +1,10 @@
 import React,{useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import { AttackForm } from './AttackForm';
+import Input from "@material-ui/core/Input";
+import uuid from 'uuid';
+
 
 export  const AddMonster = ({ addSavedMonster }) => {
   const [open, setOpen] = useState(false);
@@ -10,13 +14,14 @@ export  const AddMonster = ({ addSavedMonster }) => {
         hp: 0,
         ac: 0,
         speed: 0,
-        attacks: '',
         spells: '',
         skills: '',
         items: '',
         saves: '',
-        abilities: '',
+        attacks:[]
   });
+
+ 
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,6 +31,11 @@ export  const AddMonster = ({ addSavedMonster }) => {
     setOpen(false);
   };
 
+  const addAttack = (e, attack) => {
+    console.log(attack);
+    e.preventDefault();
+    setMonster({ ...monster, attacks: [...attacks, attack] });
+  };
 
   const {
     name,
@@ -33,12 +43,12 @@ export  const AddMonster = ({ addSavedMonster }) => {
      hp,
       ac,
       speed,
-      attacks,
       spells,
       skills,
       items,
       saves,
       abilities,
+      attacks
   } = monster;
 
   
@@ -55,7 +65,7 @@ export  const AddMonster = ({ addSavedMonster }) => {
         hp: 0,
         ac: 0,
         speed: 0,
-        attacks: '',
+        attacks: [],
         spells: '',
         skills: '',
         items: '',
@@ -64,6 +74,11 @@ export  const AddMonster = ({ addSavedMonster }) => {
     });
     handleClose();
   };
+  
+  const submitAction = (e) => {
+    e.preventDefault();
+    console.log('Action Added');
+  }
 
   return (
     <div>
@@ -78,7 +93,8 @@ export  const AddMonster = ({ addSavedMonster }) => {
         <DialogContent style={{textAlign: 'center'}}>
           <div>
 <h2>Create Monster</h2>
-<form className="form" onSubmit={onSubmit}>
+<form id="actionForm" onSubmit={submitAction}></form>
+<form id="form" className="form" onSubmit={onSubmit}> </form>
         <div className="form-group">
         <small className="form-text">
             <ul>
@@ -88,7 +104,9 @@ export  const AddMonster = ({ addSavedMonster }) => {
               <li>Paste it in below</li>
             </ul>
           </small>
-          <textarea
+          <Input
+           style={{width:'80%'}} 
+            form='form'
             type="text"
             placeholder="Your Image Address"
             name="url"
@@ -98,7 +116,8 @@ export  const AddMonster = ({ addSavedMonster }) => {
           />
         </div>
         <div className="form-group">
-          <input
+          <Input
+          form='form'
             type="text"
             placeholder="Name"
             name="name"
@@ -108,7 +127,9 @@ export  const AddMonster = ({ addSavedMonster }) => {
         </div>
         <span className="form-group inline-input">
           HP:
-          <input
+          <Input
+           style={{width:'80px'}} 
+          form='form'
             type="number"
             placeholder="Hit Points"
             name="hp"
@@ -118,7 +139,9 @@ export  const AddMonster = ({ addSavedMonster }) => {
         </span>
         <span className="form-group inline-input">
           AC:
-          <input
+          <Input
+           style={{width:'80px'}} 
+          form='form'
             type="number"
             placeholder="Armor Class"
             name="ac"
@@ -129,7 +152,9 @@ export  const AddMonster = ({ addSavedMonster }) => {
        {''}
         <span className="form-group inline-input">
            Speed:
-          <input
+          <Input
+           style={{width:'80px'}} 
+          form='form'
             type="number"
             placeholder="Speed"
             name="speed"
@@ -137,36 +162,41 @@ export  const AddMonster = ({ addSavedMonster }) => {
             onChange={onChange}
           />
         </span>
+       <AttackForm addAttack={addAttack}/>
         <div className="form-group">
-          <input
-            type="text"
-            placeholder="Attacks/toHit/Damage"
-            name="attacks"
-            value={attacks}
-            onChange={onChange}
-          />
-        </div>
-        <div className="form-group">
-          <input
+          {attacks.length > 0 &&
+          attacks.map(a => {
+            return (
+            <div key={uuid()}>{`${a.weapon} HIT +${a.hit} DAM ${a.amountOfDice}D${a.diceType}+${a.plus} CRIT${a.critOn}x${a.critTimes} `}</div>
+            )
+          })
+          }
+          <Input
+          form='form'
             type="text"
             placeholder="Spell/Abilities"
             name="spells"
             value={spells}
             onChange={onChange}
+            style={{width:'80%'}} 
           />
         </div>
         
         <div className="form-group">
-          <input
+          <Input
+          form='form'
             type="text"
             placeholder="Skills"
             name="skills"
             value={skills}
             onChange={onChange}
+            style={{width:'80%'}} 
           />
         </div>
         <div className="form-group">
-          <input
+          <Input
+            style={{width:'80%'}} 
+          form='form'
             type="text"
             placeholder="Usable Items"
             name="items"
@@ -175,7 +205,9 @@ export  const AddMonster = ({ addSavedMonster }) => {
           />
         </div>
         <div className="form-group">
-          <input
+          <Input
+            style={{width:'80%'}} 
+          form='form'
             type="text"
             placeholder="Saves: Fortitude/Reflex/Will"
             name="saves"
@@ -184,7 +216,9 @@ export  const AddMonster = ({ addSavedMonster }) => {
           />
         </div>
         <div className="form-group">
-          <input
+          <Input
+            style={{width:'80%'}} 
+          form='form'
             type="text"
             placeholder="Abilities: Str/Dex/Con/Int/Wis/Cha"
             name="abilities"
@@ -192,8 +226,7 @@ export  const AddMonster = ({ addSavedMonster }) => {
             onChange={onChange}
           />
         </div>
-<input type="submit" className="btn btn-primary my-1" />
-      </form>
+<input form='form' type="submit" className="btn btn-primary my-1" />
 </div>
         </DialogContent>
       </Dialog>

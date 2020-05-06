@@ -34,7 +34,17 @@ const mapSchema = new Schema({
       ac: {type: Number},
       speed: {type: Number},
       currentHp: {type: Number},
-      attacks: {type: String},
+      attacks:[
+         {
+          weapon: String,
+          hit: Number,
+          amountOfDice: Number,
+          diceType: Number,
+          plus: Number,
+          critOn: Number,
+          critTimes: Number
+        }
+      ],
       spells: {type: String},
       items: {type: String},
       skills: {type: String},
@@ -65,7 +75,17 @@ const mapSchema = new Schema({
        hp:{type: Number},
        ac: {type: Number},
        speed: {type: Number},
-       attacks: {type: String},
+       attacks:[
+        {
+         weapon: String,
+         hit: Number,
+         amountOfDice: Number,
+         diceType: Number,
+         plus: Number,
+         critOn: Number,
+         critTimes: Number
+       }
+     ],
        spells: {type: String},
        items: {type: String},
        skills: {type: String},
@@ -96,7 +116,17 @@ const mapSchema = new Schema({
        hp:{type: Number},
        ac: {type: Number},
        speed: {type: Number},
-       attacks: {type: String},
+       attacks:[
+        {
+         weapon: String,
+         hit: Number,
+         amountOfDice: Number,
+         diceType: Number,
+         plus: Number,
+         critOn: Number,
+         critTimes: Number
+       }
+     ],
        spells: {type: String},
        items: {type: String},
        skills: {type: String},

@@ -108,14 +108,17 @@ z-index: 3;
   font-size: 1.2rem;
   border: 1px solid #ccc;
 }
- input[type='number'] {
-  width: 50px;
-  display: inline-block;
+.form select {
+  display:inline-block ;
+  width: 70px;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
 }
 
-.form input[type='number'] {
-  width: 50px;
+.form input[type='number']{
   display: inline-block;
+  width: 30px;
 }
 
 .form input[type='submit'],

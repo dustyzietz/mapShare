@@ -10,7 +10,6 @@ export const ChatInput = ({sendMessage, chatsOpen, setChatsOpen, chatName}) => {
 
   const onSubmit = () => {
     sendMessage(message, chatName);
-    setChatsOpen(false);
     setMessage('');    
       }
 
