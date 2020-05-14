@@ -225,7 +225,7 @@ export default function PlayerStats({
               );
             })}
         </select>
-        <button onClick={handleAttack}>Attack</button>
+        <button onClick={handleAttack} className='btn'>Attack</button>
         {spells && <hr />}
         {spells && `Spells/Abilities: ${spells}`}
         {items && <hr />}
