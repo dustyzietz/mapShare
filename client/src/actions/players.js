@@ -49,14 +49,6 @@ export const syncMessage = data => dispatch => {
    });
 }
 
-export const syncHitPoints = data => dispatch => {
-  // console.log(data);
-    dispatch({
-      type: LOAD_HITPOINTS,
-      payload: data.newHitPoints
-    });
- }
-
 
 export const getPlayers = () => async dispatch => {
   try {
@@ -94,11 +86,11 @@ export const editPlayer = (player) => async dispatch => {
        'Content-Type': 'application/json'
      }
    };
-   const res = await axios.post('/map/edit-player', player, config);
-   dispatch({
-     type: LOAD_PLAYERS,
-     payload: res.data
-   });
+   await axios.post('/map/edit-player', player, config);
+    // dispatch({
+    //   type: LOAD_PLAYERS,
+    //  payload: res.data
+    // });
   } catch (error) {
     console.log(error);
   }

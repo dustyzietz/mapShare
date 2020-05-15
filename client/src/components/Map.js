@@ -24,7 +24,6 @@ import {
   syncMessage,
   getSavedMonsters,
   addSavedMonster,
-  syncHitPoints,
 } from "../actions/players";
 import EditPlayer from "./EditPlayer";
 
@@ -46,7 +45,6 @@ const Map = ({
   getSavedMonsters,
   addSavedMonster,
   savedMonsters,
-  syncHitPoints,
   hitPoints,
 }) => {
   const [editedPlayer, setEditedPlayer] = useState({});
@@ -65,9 +63,6 @@ const Map = ({
       }
       if (data.action === "message") {
         syncMessage(data); 
-      }
-      if (data.action === "hit points") {
-        syncHitPoints(data);
       }
     });
   }, []);
@@ -167,7 +162,6 @@ Map.propTypes = {
   getSavedMonsters: PropTypes.func.isRequired,
   addSavedMonster: PropTypes.func.isRequired,
   savedMonsters: PropTypes.array.isRequired,
-  syncHitPoints: PropTypes.func.isRequired,
   hitPoints: PropTypes.array.isRequired,
 };
 
@@ -194,5 +188,4 @@ export default connect(mapStateToProps, {
   syncMessage,
   getSavedMonsters,
   addSavedMonster,
-  syncHitPoints,
 })(Map);

@@ -10,6 +10,10 @@
   font-size: 1vw;
 }
 
+body {
+  /* Disables pull-to-refresh but allows overscroll glow effects. */
+  overscroll-behavior-y: contain;
+}
 
 .mapContainer{
   height: 1600px;
