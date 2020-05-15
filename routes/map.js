@@ -43,8 +43,9 @@ router.post('/add-player', async (req, res) => {
     const map = await Map.findOne();
    // console.log(map);
    // console.log(name, url);
-   map.players = [ ...map.players, { name: name , playerUrl: url , hp, ac, speed, currentHp: hp, attacks, spells, skills, items, saves, abilities,  controlledPosition :{ x:500, y:-1000 } , size: 10}];
+   map.players = [ ...map.players, { name: name , playerUrl: url , hp, ac, speed, currentHp: hp, attacks, spells, skills, items, saves, abilities,  controlledPosition :{ x:600, y:-800 } , size: 10}];
   await  map.save();
+  io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
   res.json(map.players);
   } catch (err) {
     console.log(err);
@@ -233,6 +234,19 @@ router.post('/hit-points',async (req, res) => {
     res.json(null);
  
 });
+
+router.post('/edit-all-players', async (req, res) => {
+  const newPlayers = req.body;
+ try {
+    const map = await Map.findOne();
+ map.players = newPlayers;
+  await  map.save();
+  io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
+  res.json(map.players);
+  } catch (err) {
+    console.log(err);
+  }
+})
 
 
 

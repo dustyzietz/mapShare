@@ -5,21 +5,18 @@ import PropTypes from "prop-types";
 import { SavedPlayers } from "./SavedPlayers";
 import { SavedMonsters } from "./SavedMonsters";
 
-import { SavedMaps } from "./SavedMaps";
+import  SavedMaps  from "./SavedMaps";
 import io from "socket.io-client";
 import { Chatbox } from "./Chatbox";
 import { ChatInput } from "./ChatInput";
 import HitPoints from "./HitPoints";
 
 import {
+  getMap,
   getPlayers,
   addPlayer,
   getSavedPlayers,
   addSavedPlayer,
-  addMap,
-  getSavedMaps,
-  getMap,
-  addSavedMap,
   deleteSavedPlayer,
   syncMap,
   syncPlayers,
@@ -38,12 +35,8 @@ const Map = ({
   savedPlayers,
   getSavedPlayers,
   addSavedPlayer,
-  addMap,
   map,
   getMap,
-  getSavedMaps,
-  addSavedMap,
-  savedMaps,
   deleteSavedPlayer,
   syncMap,
   syncPlayers,
@@ -127,12 +120,7 @@ const Map = ({
           addSavedPlayer={addSavedPlayer}
           deleteSavedPlayer={deleteSavedPlayer}
         />
-        <SavedMaps
-          addSavedMap={addSavedMap}
-          getSavedMaps={getSavedMaps}
-          addMap={addMap}
-          savedMaps={savedMaps}
-        />
+        <SavedMaps />
         <a href="http://dzietz.com/" target="_blank">
           {" "}
           <button className="btn" style={{ marginBottom: "20px" }}>
@@ -166,15 +154,10 @@ const Map = ({
 Map.propTypes = {
   players: PropTypes.array,
   savedPlayers: PropTypes.array,
-  savedMaps: PropTypes.array,
   getPlayers: PropTypes.func.isRequired,
   addPlayer: PropTypes.func.isRequired,
   getSavedPlayers: PropTypes.func.isRequired,
   addSavedPlayer: PropTypes.func.isRequired,
-  addMap: PropTypes.func.isRequired,
-  getMap: PropTypes.func.isRequired,
-  getSavedMaps: PropTypes.func.isRequired,
-  addSavedMap: PropTypes.func.isRequired,
   deleteSavedPlayer: PropTypes.func.isRequired,
   syncMap: PropTypes.func.isRequired,
   syncPlayers: PropTypes.func.isRequired,
@@ -199,14 +182,11 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
+  getMap,
   getPlayers,
   addPlayer,
   getSavedPlayers,
   addSavedPlayer,
-  addMap,
-  getMap,
-  getSavedMaps,
-  addSavedMap,
   deleteSavedPlayer,
   syncMap,
   syncPlayers,

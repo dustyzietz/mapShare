@@ -65,6 +65,9 @@ export default function PlayerStats({
   };
 
   const handleAttack = () => {
+    if( attacks.length === 0){
+      return;
+    }
     const myAttack = attacks[attackIndex];
     const myTarget = players.find((p) => {
       return p._id.toString() === target.toString();
@@ -128,7 +131,9 @@ export default function PlayerStats({
         </span>
       )}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <div style={{display:'flex'}}>
         <img
+        style={{flexGrow:'1'}}
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-twenty-faces-twenty.svg"
           alt="20sided"
           // height="15%"
@@ -138,6 +143,7 @@ export default function PlayerStats({
           }}
         />
         <img
+         style={{flexGrow:'1'}}
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d12.svg"
           alt="12sided"
           // height="15%"
@@ -147,6 +153,7 @@ export default function PlayerStats({
           }}
         />
         <img
+         style={{flexGrow:'1'}}
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d10.svg"
           alt="10sided"
           //  height="15%"
@@ -156,6 +163,7 @@ export default function PlayerStats({
           }}
         />
         <img
+         style={{flexGrow:'1'}}
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-eight-faces-eight.svg"
           alt="8sided"
           //  height="15%"
@@ -165,6 +173,7 @@ export default function PlayerStats({
           }}
         />
         <img
+         style={{flexGrow:'1'}}
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/perspective-dice-six.svg"
           alt="6sided"
           //  height="15%"
@@ -174,6 +183,7 @@ export default function PlayerStats({
           }}
         />
         <img
+         style={{flexGrow:'1'}}
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d4.svg"
           alt="4sided"
           //  height="15%"
@@ -182,22 +192,25 @@ export default function PlayerStats({
             handleRoll(4);
           }}
         />
+        </div>
         <br />
         HP: {hp} AC: {ac} Speed: {speed} currentHP: {currentHp}
         {attacks && (
+          
           <span>
             {" "}
             <hr />
-            attacks:
+            attacks:     
           </span>
         )}
         <select
+         style={{width: '100%'}}
+        className='select-css'
           name="attackIndex"
           value={attackIndex}
           onChange={(e) => {
             setAttackIndex(e.target.value);
           }}
-          style={{ width: "100px" }}
         >
           {attacks.length > 0 &&
             attacks.map((a, i) => {
@@ -209,12 +222,13 @@ export default function PlayerStats({
             })}
         </select>
         <select
+          className='select-css'
           name="target"
           value={target}
           onChange={(e) => {
             setTarget(e.target.value);
           }}
-          style={{ width: "100px" }}
+          style={{width: '50%', display: 'inline-block'}}
         >
           {players &&
             players.map((p, i) => {
@@ -225,7 +239,7 @@ export default function PlayerStats({
               );
             })}
         </select>
-        <button onClick={handleAttack} className='btn'>Attack</button>
+        <button style={{margin:'25px'}} onClick={handleAttack} className='btn'>Attack</button>
         {spells && <hr />}
         {spells && `Spells/Abilities: ${spells}`}
         {items && <hr />}

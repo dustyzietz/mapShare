@@ -290,3 +290,20 @@ export const setHp = (newHitPoints) => async dispatch => {
      console.log(err); 
  }
 }
+
+export const editAllPlayers = (players) => async dispatch => {
+  try {
+   const config = {
+     headers: {
+       'Content-Type': 'application/json'
+     }
+   };
+   const res = await axios.post('/map/edit-all-players', players, config);
+   dispatch({
+     type: LOAD_PLAYERS,
+     payload: res.data
+   });
+  } catch (error) {
+    console.log(error);
+  }
+ }

@@ -34,20 +34,16 @@ editPlayer(p);
 
   
   return (
-       <div >
-         <span >{p.name } : </span>
-             <span >{initialHp} </span>
-        <div className='hp-input'  >
-          <form onSubmit={handleSubmit} >
-             <input className='hp-input' type="number" value={currentHp} onChange={handleChange} />
-               {  
+          <form onSubmit={handleSubmit} className='hp-line'  style={{ display:'flex'}}>
+             <span >{p.name } : </span> 
+             <span style={{ flexGrow: '1'}}>{ initialHp} </span> 
+             {  
            currentHp !== p.currentHp &&
             <IconButton type='submit' size='small' >
               <Send style={{color:'white'}} />
             </IconButton>}
+             <input className='hp-input' type="number" value={currentHp} onChange={handleChange} />
              </form>
-          </div>
-        </div>
   )
 }
 

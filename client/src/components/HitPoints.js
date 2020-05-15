@@ -1,19 +1,19 @@
 import React, {useState, useEffect} from "react";
 import  HitPointsPlayer  from "./HitPointsPlayer";
+import { editAllPlayers, editPlayer } from '../actions/players';
+import { connect } from "react-redux";
 
-const HitPoints = ({ players }) => {
+const HitPoints = ({ players, editAllPlayers }) => {
   const [editing, setEditing] = useState(false);
  const [shuffled, setShuffled] = useState([]);
  
 
  useEffect(()=> {
 if(shuffled.length == 0) {setShuffled(players);} 
-console.log('it ran');
-console.log(shuffled);
  },[players]);
 
   const handleInitiative = () => {
-    let array = shuffled;
+    let array = players;
     for (let i = array.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
   
@@ -24,7 +24,7 @@ console.log(shuffled);
       // let t = array[i]; array[i] = array[j]; array[j] = t
       [array[i], array[j]] = [array[j], array[i]];
     }
-    setShuffled([...array]);
+    editAllPlayers(array);
     
   }
  
@@ -35,8 +35,8 @@ console.log(shuffled);
      HIT POINTS <button 
     onClick={handleInitiative}
       >Initiative</button>
-      { shuffled &&
-        shuffled.map((p) =>{
+      { players &&
+        players.map((p) =>{
         return (
        <HitPointsPlayer key={p._id} p={p} editing={editing} players={players} />
       )
@@ -46,4 +46,11 @@ console.log(shuffled);
   );
 };
 
-export default HitPoints;
+const mapStateToProps = (state) => ({
+  players: state.players
+});
+
+export default connect(mapStateToProps, {
+  editAllPlayers
+})(HitPoints);
+
