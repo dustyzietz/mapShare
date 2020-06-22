@@ -17,8 +17,9 @@ const mapSchema = new Schema({
         type: String,
         required: true 
         },
-       playerUrl : {
-         type: String
+       url : {
+         type: String,
+         required: true
           },
       controlledPosition : {
         x: {
@@ -30,10 +31,11 @@ const mapSchema = new Schema({
          required: true 
        }
       },
-      hp:{type: Number},
-      ac: {type: Number},
-      speed: {type: Number},
-      currentHp: {type: Number},
+      monster: Boolean,
+      hp: Number,
+      ac: Number,
+      speed:  Number,
+      currentHp:  Number,
       attacks:[
          {
           weapon: String,
@@ -45,95 +47,99 @@ const mapSchema = new Schema({
           critTimes: Number
         }
       ],
-      spells: {type: String},
+      spells: [
+        {
+          name: String,
+          effect: String,
+          dc: String,
+          other: String,
+        }
+      ],
+      usableItems: [
+        {
+          name: String,
+          quantity: Number,
+          effect: String,
+        }
+      ],
+      skills:[ 
+        {
+          name: String,
+          bonus: Number,   
+        }
+      ],
       items: {type: String},
-      skills: {type: String},
-      saves: {type: String},
-      abilities: {types: String},
+      str: {type: String},
+      int: {type: String},
+      wis: {type: String},
+      dex: {type: String},
+      con: {type: String},
+      cha: {type: String},
+      ref: {type: String},
+      fort: {type: String},
+      will: {type: String},
       size: {type: Number}
       }
     ],
     savedPlayers : [ 
-      { name: {
+      {
+        name: {
         type: String,
-        required: true
-      },
-      url: {
-        type: String,
-        required: true
-      },
-      controlledPosition : {
-        x: {
-           type: Number,
-          required: true 
+        required: true 
         },
-        y: {
-          type: Number,
-         required: true 
-         }
-       },
-       hp:{type: Number},
-       ac: {type: Number},
-       speed: {type: Number},
-       attacks:[
+        url : {
+         type: String,
+         required: true
+          },
+      monster: Boolean,
+      hp: Number,
+      ac: Number,
+      speed:  Number,
+      currentHp:  Number,
+      attacks:[
+         {
+          weapon: String,
+          hit: Number,
+          amountOfDice: Number,
+          diceType: Number,
+          plus: Number,
+          critOn: Number,
+          critTimes: Number
+        }
+      ],
+      spells: [
         {
-         weapon: String,
-         hit: Number,
-         amountOfDice: Number,
-         diceType: Number,
-         plus: Number,
-         critOn: Number,
-         critTimes: Number
-       }
-     ],
-       spells: {type: String},
-       items: {type: String},
-       skills: {type: String},
-       abilities: {types: String},
-       saves: {type: String},
-       
-    }
-    ],
-    savedMonsters : [ 
-      { name: {
-        type: String,
-        required: true
-      },
-      url: {
-        type: String,
-        required: true
-      },
-      controlledPosition : {
-        x: {
-           type: Number,
-          required: true 
-        },
-        y: {
-          type: Number,
-         required: true 
-         }
-       },
-       hp:{type: Number},
-       ac: {type: Number},
-       speed: {type: Number},
-       attacks:[
+          name: String,
+          effect: String,
+          dc: String,
+          other: String,
+        }
+      ],
+      usableItems: [
         {
-         weapon: String,
-         hit: Number,
-         amountOfDice: Number,
-         diceType: Number,
-         plus: Number,
-         critOn: Number,
-         critTimes: Number
-       }
-     ],
-       spells: {type: String},
-       items: {type: String},
-       skills: {type: String},
-       abilities: {types: String},
-       saves: {type: String},
-       
-    }
+          name: String,
+          quantity: Number,
+          effect: String,
+        }
+      ],
+      skills:[ 
+        {
+          name: String,
+          bonus: Number,   
+        }
+      ],
+      items: {type: String},
+      str: {type: String},
+      int: {type: String},
+      wis: {type: String},
+      dex: {type: String},
+      con: {type: String},
+      cha: {type: String},
+      ref: {type: String},
+      fort: {type: String},
+      will: {type: String},
+      size: {type: Number}
+      }
     ],
     savedMaps : [ 
       { name: {

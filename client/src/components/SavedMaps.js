@@ -36,13 +36,7 @@ import PropTypes from "prop-types";
 
   return (
     <div>
-      <button
-        className="btn"
-        onClick={handleClickOpen}
-        style={{ marginBottom: "20px" }}
-      >
-        Add Map
-      </button>
+      <button type="button" className="btn btn-success" onClick={handleClickOpen}>Add Map</button>
       <Dialog
         maxWidth="md"
         fullWidth

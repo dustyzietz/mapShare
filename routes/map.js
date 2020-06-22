@@ -28,6 +28,13 @@ router.post('/messages', (req, res) => {
     res.json({message, chatName});
 });
 
+router.post('/alerts', (req, res) => {
+  const {msg, alertType, timeout} = req.body;
+
+  io.getIO().emit('maps', { action: 'alert', newAlert: {msg, alertType, timeout}});
+    res.json(null);
+});
+
 router.get('/players', async (req, res) => {
   try {
     const map = await Map.findOne();
@@ -38,12 +45,11 @@ router.get('/players', async (req, res) => {
 })
 
 router.post('/add-player', async (req, res) => {
-  const { name, url, hp, ac, speed, attacks, spells, skills, items, saves, abilities } = req.body;
  try {
     const map = await Map.findOne();
    // console.log(map);
    // console.log(name, url);
-   map.players = [ ...map.players, { name: name , playerUrl: url , hp, ac, speed, currentHp: hp, attacks, spells, skills, items, saves, abilities,  controlledPosition :{ x:600, y:-800 } , size: 10}];
+   map.players = [ ...map.players, { ...req.body,  controlledPosition :{ x:600, y:-800 } , size: 10}];
   await  map.save();
   io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
   res.json(map.players);
@@ -108,7 +114,6 @@ router.post('/edit-saved-player', async (req, res) => {
 
 router.post('/add-saved-player', async (req, res) => {
   const player = req.body;
-  console.log(player);
  try {
     const map = await Map.findOne();
   

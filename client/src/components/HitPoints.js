@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import  HitPointsPlayer  from "./HitPointsPlayer";
 import { editAllPlayers, editPlayer } from '../actions/players';
 import { connect } from "react-redux";
+import Draggable from "react-draggable";
 
 const HitPoints = ({ players, editAllPlayers }) => {
   const [editing, setEditing] = useState(false);
@@ -31,18 +32,26 @@ if(shuffled.length == 0) {setShuffled(players);}
 
 
   return (
-    <div className='hit-points' style={{ backgroundColor: "black", color: "white" }}>
-     HIT POINTS <button 
-    onClick={handleInitiative}
-      >Initiative</button>
-      { players &&
-        players.map((p) =>{
-        return (
-       <HitPointsPlayer key={p._id} p={p} editing={editing} players={players} />
-      )
-      }
-      )}
-    </div>
+    <Draggable>
+    <div className="card text-white bg-primary mb-3" style={{maxWidth: "20rem"}}>
+  <div className="card-header">HIT POINTS <button 
+  className="btn btn-light ml-5" 
+     onClick={handleInitiative}
+       >Initiative</button>
+       </div>
+  <div className="card-body">
+    <div className="card-text">
+    { players &&
+         players.map((p) =>{
+         return (
+        <HitPointsPlayer key={p._id} p={p} editing={editing} players={players} />
+       )
+       }
+         )}
+      </div>
+  </div>
+</div>
+</Draggable>
   );
 };
 

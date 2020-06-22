@@ -6,6 +6,7 @@ import map from './map';
 import chatbox from './chatbox';
 import savedMonsters from './savedMonsters';
 import hitPoints from './hitPoints';
+import alert from './alert';
 
 export default combineReducers({
   hitPoints,
@@ -14,5 +15,6 @@ export default combineReducers({
   map,
   savedMaps,
   chatbox,
-  savedMonsters
+  savedMonsters,
+  alert
 });

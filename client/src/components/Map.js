@@ -5,11 +5,12 @@ import PropTypes from "prop-types";
 import { SavedPlayers } from "./SavedPlayers";
 import { SavedMonsters } from "./SavedMonsters";
 
-import  SavedMaps  from "./SavedMaps";
+import SavedMaps from "./SavedMaps";
 import io from "socket.io-client";
 import { Chatbox } from "./Chatbox";
-import { ChatInput } from "./ChatInput";
+import ChatInput from "./ChatInput";
 import HitPoints from "./HitPoints";
+import Alert from "./Alert";
 
 import {
   getMap,
@@ -22,6 +23,7 @@ import {
   syncPlayers,
   sendMessage,
   syncMessage,
+  syncAlert,
   getSavedMonsters,
   addSavedMonster,
 } from "../actions/players";
@@ -42,6 +44,7 @@ const Map = ({
   chatbox,
   sendMessage,
   syncMessage,
+  syncAlert,
   getSavedMonsters,
   addSavedMonster,
   savedMonsters,
@@ -62,7 +65,10 @@ const Map = ({
         syncPlayers(data);
       }
       if (data.action === "message") {
-        syncMessage(data); 
+        syncMessage(data);
+      }
+      if (data.action === "alert") {
+        syncAlert(data);
       }
     });
   }, []);
@@ -86,21 +92,23 @@ const Map = ({
   }, []);
 
   return (
-    <div className="mapContainer">
+    <div style={{ position: "relative", height: "1200px", width: "1200px" }}>
       <EditPlayer
         open={openPlayerEdit}
         editedPlayer={editedPlayer}
         setOpen={setOpenPlayerEdit}
       />
-      <img draggable="false" className="map " src={map.url} alt="map" />
-      <div className="statContainer">
-        <Chatbox
-          messages={chatbox}
-          chatsOpen={chatsOpen}
-          chatName={chatName}
-          sendMessage={sendMessage}
-          setChatsOpen={setChatsOpen}
-        />
+      <img
+        draggable="false"
+        src={map.url}
+        alt="map"
+        style={{ height: "1200px" }}
+      />
+      <Alert />
+      <div
+        className="main-buttons"
+        style={{ position: "fixed", top: "0", left: "20px" }}
+      >
         <ChatInput
           sendMessage={sendMessage}
           chatsOpen={chatsOpen}
@@ -116,19 +124,29 @@ const Map = ({
           deleteSavedPlayer={deleteSavedPlayer}
         />
         <SavedMaps />
-        <a href="http://dzietz.com/" target="_blank">
-          {" "}
-          <button className="btn" style={{ marginBottom: "20px" }}>
-            Refrences
-          </button>
-        </a>
+        <div>
+          <a href="http://dzietz.com/" target="_blank">
+            <button type="button" className="btn btn-info">
+              {" "}
+              Refrences
+            </button>
+          </a>
+        </div>
         <SavedMonsters
-          getSavedMonsters={getSavedMonsters}
-          addSavedMonster={addSavedMonster}
-          savedMonsters={savedMonsters}
+          getSavedPlayers={getSavedPlayers}
           addPlayer={addPlayer}
+          savedPlayers={savedPlayers}
+          addSavedPlayer={addSavedPlayer}
+          deleteSavedPlayer={deleteSavedPlayer}
         />
         <HitPoints players={players} hitPoints={hitPoints} />
+        <Chatbox
+          messages={chatbox}
+          chatsOpen={chatsOpen}
+          chatName={chatName}
+          sendMessage={sendMessage}
+          setChatsOpen={setChatsOpen}
+        />
       </div>
       {players &&
         players.map((p) => {
@@ -163,6 +181,7 @@ Map.propTypes = {
   addSavedMonster: PropTypes.func.isRequired,
   savedMonsters: PropTypes.array.isRequired,
   hitPoints: PropTypes.array.isRequired,
+  syncAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -188,4 +207,5 @@ export default connect(mapStateToProps, {
   syncMessage,
   getSavedMonsters,
   addSavedMonster,
+  syncAlert,
 })(Map);

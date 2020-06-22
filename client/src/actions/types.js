@@ -5,5 +5,6 @@ export const UPDATE_SAVED_MAPS = 'UPDATE_SAVED_MAPS';
 export const ADD_CHAT = 'ADD_CHAT';
 export const UPDATE_SAVED_MONSTERS = 'UPDATE_SAVED_MONSTERS';
 export const LOAD_HITPOINTS = 'LOAD_HITPOINTS';
-
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';
 

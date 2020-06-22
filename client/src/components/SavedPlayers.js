@@ -32,13 +32,7 @@ export const SavedPlayers = ({
 
   return (
     <div>
-      <button
-        className="btn"
-        onClick={handleClickOpen}
-        style={{ marginBottom: "20px" }}
-      >
-        Add Character
-      </button>
+      <div className="btn btn-primary" onClick={handleClickOpen}>Add Character</div>
       <Dialog
         maxWidth="md"
         fullWidth
@@ -50,18 +44,19 @@ export const SavedPlayers = ({
         <DialogContent style={{ textAlign: "center" }}>
           <div>
             <AddPlayerDialog addSavedPlayer={addSavedPlayer} />
+            <h2 style={{ fontSize: "20px",display: "inline-block" }}>Saved Characters</h2>
             <button
-              className="btn"
-              style={{ position: "absolute", right: "25px", top: "25px" }}
+              className="btn btn-info"
+              style={{float: "right" }}
               onClick={handleClose}
             >
               cancel
             </button>
-            <h2 style={{ fontSize: "20px" }}>Saved Characters</h2>
             {savedPlayers &&
               savedPlayers.map((p) => {
                 return (
-                  <div key={p.name} className="savedPlayersContainer">
+                   !p.monster ?
+                    <div key={p.name}>
                     <PlayerPage
                       setOpen={setOpen}
                       openOne={openOne}
@@ -69,10 +64,9 @@ export const SavedPlayers = ({
                       currentPlayer={currentPlayer}
                       addPlayer={addPlayer}
                     />
-                    <div className="box" onClick={() => openPlayerPage(p)}>
+                    <div onClick={() => openPlayerPage(p)}>
                       <img
                         draggable="false"
-                        className="savedPlayersImg"
                         src={p.url}
                         alt=""
                         width="100px"
@@ -82,7 +76,9 @@ export const SavedPlayers = ({
                       {p.name}
                     </div>
                   </div>
-                );
+                  :
+                null 
+                )
               })}
           </div>
         </DialogContent>

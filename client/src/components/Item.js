@@ -6,8 +6,10 @@ import PropTypes from "prop-types";
 import PlayerStats from "./PlayerStats";
 
 
+
 const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePosition, openEdit, openChat, sendMessage, editSavedPlayer }) => {
-  const { controlledPosition, size, _id, name, playerUrl } = player;
+  const { controlledPosition, size, _id, name, url } = player;
+  const [isShown, setIsShown] = useState(false);
   const [myPosition, setMyPosition] = useState({
     x: controlledPosition.x,
     y: controlledPosition.y
@@ -58,29 +60,32 @@ const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePos
     console.log(x, y);
   }, [myPosition]);
   return (
-    <div>
+    <div className="item-div"  onMouseEnter={() => setIsShown(true)}
+    onMouseLeave={() => setIsShown(false)} style={{position: "absolute",zIndex:"0"}}>
       <Draggable position={myPosition} onStop={onControlledDragStop}>
-        <div className="container">
+        <div>
           <img
             draggable="false"
-            src={playerUrl}
+            src={url}
             alt=""
             style={{ width: `${size * 5}px`}}
             className="playerImg"
           />
-          <PlayerStats
-          editPlayer={editPlayer}
-          players={players}
-          editSavedPlayer={editSavedPlayer}
-          sendMessage={sendMessage}
-          openChat={openChat}
-            openEdit={openEdit}
-            handleGrow={handleGrow}
-            handleShrink={handleShrink}
-            handleDelete={handleDelete}
-            key={_id}
-            player={player}
-          />
+           {isShown && (
+       <PlayerStats
+       editPlayer={editPlayer}
+       players={players}
+       editSavedPlayer={editSavedPlayer}
+       sendMessage={sendMessage}
+       openChat={openChat}
+         openEdit={openEdit}
+         handleGrow={handleGrow}
+         handleShrink={handleShrink}
+         handleDelete={handleDelete}
+         key={_id}
+         player={player}
+       />
+      )} 
         </div>
       </Draggable>
     </div>

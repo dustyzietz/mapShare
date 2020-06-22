@@ -52,7 +52,6 @@ export  const AddMap = ({addSavedMap}) => {
       className='btn'
       onClick={handleClickOpen}
          style={{
-          marginBottom: '20px',
           float: 'left',
           fontSize: '20px'
          }}

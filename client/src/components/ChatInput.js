@@ -2,15 +2,19 @@ import React, {useState} from 'react';
 import Send from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
+import { connect } from 'react-redux'
+import { setAlert } from "../actions/alert"
 
 
-export const ChatInput = ({sendMessage, chatsOpen, setChatsOpen, chatName}) => {
+const ChatInput = ({sendMessage, chatsOpen, setChatsOpen, chatName, setAlert}) => {
 
   const [message, setMessage] = useState('');
 
   const onSubmit = () => {
     sendMessage(message, chatName);
-    setMessage('');    
+    setAlert(message, 'secondary', 10000)
+    setMessage(''); 
+    
       }
 
   return (
@@ -43,3 +47,6 @@ export const ChatInput = ({sendMessage, chatsOpen, setChatsOpen, chatName}) => {
     </div>
   )
 }
+
+
+export default connect(null, {setAlert})(ChatInput)
