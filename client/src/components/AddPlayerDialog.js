@@ -5,15 +5,24 @@ import { AttackForm } from "./AttackForm";
 import SpellForm from "./SpellForm";
 import ItemForm from "./ItemForm";
 import SkillForm from "./SkillForm";
-import Input from "@material-ui/core/Input";
 import uuid from "uuid";
+import { connect } from "react-redux";
+import { addSavedPlayer, editPlayer  } from "../actions/players";
+import { useEffect } from "react";
+import IconButton from "@material-ui/core/IconButton";
+import Delete from "@material-ui/icons/Delete";
+import Edit from "@material-ui/icons/Edit";
 
-export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
-  const [open, setOpen] = useState(false);
+ const AddPlayerDialog = ({ isMonster, playerToEdit, edit, formOpen, setFormOpen, editPlayer, addSavedPlayer }) => {
   const [attackOpen, setAttackOpen] = useState(false);
   const [spellsOpen, setSpellsOpen] = useState(false);
   const [itemOpen, setItemOpen] = useState(false);
   const [skillOpen, setSkillOpen] = useState(false);
+  const [currentAttack, setCurrentAttack] = useState() 
+  const [currentSpell, setCurrentSpell] = useState() 
+  const [currentItem, setCurrentItem] = useState() 
+  const [currentSkill, setCurrentSkill] = useState() 
+
 
   const [player, setPlayer] = useState({
     name: "",
@@ -38,37 +47,58 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
     will: 0,
   });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  useEffect(()=>{
+    if(edit){
+    setPlayer(playerToEdit)
+    }
+  },[playerToEdit])
 
   const handleClose = () => {
-    setOpen(false);
+    setFormOpen(false);
   };
 
   const addAttack = (e, attack) => {
-    console.log(attack);
     e.preventDefault();
+  if(currentAttack){
+   let newAttacks = attacks.filter(a => a.weapon !== currentAttack.weapon) 
+   setPlayer({ ...player, attacks: [...newAttacks, attack] });
+  }else{
     setPlayer({ ...player, attacks: [...attacks, attack] });
+  }
+
   };
 
   const addSpell = (e, spell) => {
-    console.log(spell);
     e.preventDefault();
-    setPlayer({ ...player, spells: [...spells, spell] });
+    if(currentSpell){
+      let newSpells = spells.filter(a => a.name !== currentSpell.name) 
+      setPlayer({ ...player, attacks: [...newSpells, spell] });
+     }else{
+       setPlayer({ ...player, spells: [...spells, spell] });
+     }
   };
 
   const addItem = (e, item) => {
-    console.log(item);
     e.preventDefault();
-    setPlayer({ ...player, usableItems: [...usableItems, item] });
+    if(currentItem){
+      let newItems = usableItems.filter(a => a.name !== currentItem.name) 
+      setPlayer({ ...player, usableItems: [...newItems, item] });
+     }else{
+       setPlayer({ ...player, usableItems: [...usableItems, item] });
+     }
   };
 
   const addSkill = (e, skill) => {
-    console.log(skill);
     e.preventDefault();
-    setPlayer({ ...player, skills: [...skills, skill] });
+    if(currentSkill){
+      let newSkills = skills.filter(a => a.name !== currentSkill.name) 
+      setPlayer({ ...player, skills: [...newSkills, skill] });
+     }else{
+       setPlayer({ ...player, skills: [...skills, skill] });
+     }
   };
+
+
 
   const {
     name,
@@ -97,12 +127,17 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
     setPlayer({ ...player, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
+    console.log(edit)
     e.preventDefault();
-    addSavedPlayer(player);
+ if(edit){editPlayer(player)} 
+ else{
+  console.log(player) 
+  addSavedPlayer(player)}
+  
     setPlayer({
       name: "",
       url: "",
-      monster: false,
+      monster: isMonster,
       hp: 0,
       ac: 0,
       speed: 0,
@@ -139,24 +174,44 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
     console.log("Skill Added");
   };
 
+const handleAttackEdit = (index) => {
+   setAttackOpen(true)
+   setCurrentAttack(attacks[index])
+}
+
+const handleAttackDelete = () => {
+
+}
+
+const handleSpellEdit = () => {
+  
+}
+
+const handleSpellDelete = () => {
+  
+}
+
+const handleItemEdit = () => {
+  
+}
+
+const handleItemDelete = () => {
+  
+}
+
+const handleSkillEdit = () => {
+  
+}
+
+const handleSkillDelete = () => {
+  
+}
   return (
     <div>
-      <button
-        className={`btn btn-${isMonster ? 'danger' : 'info'}`}
-        onClick={handleClickOpen}
-        style={{ float: "left" }}
-      >
-       {isMonster
-       ?
-       'New Monster' 
-       :
-       'Make New Player'
-       } 
-      </button>
       <Dialog
         maxWidth="lg"
         fullWidth
-        open={open}
+        open={formOpen}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
         style={{ zIndex: "1" }}
@@ -287,15 +342,18 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
                   <strong> Attacks: </strong>
                   {attackOpen ? (
                     <>
-                      <AttackForm
+                      <AttackForm 
                         addAttack={addAttack}
                         setAttackOpen={setAttackOpen}
+                        currentAttack={currentAttack}
+                        setCurrentAttack={setCurrentAttack}
                       />
                     </>
                   ) : (
                     <button
                       className="btn btn-danger btn-sm"
                       onClick={() => {
+                        setCurrentAttack()
                         setAttackOpen(true);
                       }}
                       style={{ marginLeft: "20px" }}
@@ -305,11 +363,19 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
                   )}
                   <br />
                   {attacks.length > 0
-                    ? attacks.map((a) => {
+                    ? attacks.map((a, i) => {
                         return (
                           <div
                             key={uuid()}
-                          >{`${a.weapon} ${a.amountOfDice}D${a.diceType}+${a.plus} CRIT${a.critOn}x${a.critTimes} `}</div>
+                          >{`${a.weapon}`}
+                          <IconButton size='small' onClick={()=>{handleAttackEdit(i)}} >
+                            <Edit style={{height: '14px'}} />
+                          </IconButton>
+                          <IconButton size='small' onClick={()=>{handleAttackDelete(i)}}>
+                            <Delete style={{height: '14px'}} />
+                          </IconButton>
+                          <br/>
+                          {`${a.amountOfDice}D${a.diceType}+${a.plus} CRIT${a.critOn}x${a.critTimes} `}</div>
                         );
                       })
                     : "none"}
@@ -335,11 +401,18 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
                   )}
                   <br />
                   {spells.length > 0
-                    ? spells.map((spell) => {
+                    ? spells.map((spell, i) => {
                         return (
                           <div
                             key={uuid()}
-                          >{`${spell.name} ${spell.effect} ${spell.dc} ${spell.other} `}</div>
+                          >{`${spell.name}`}
+                           <IconButton size='small' onClick={()=>{handleSpellEdit(i)}}>
+                            <Edit style={{height: '14px'}} />
+                          </IconButton>
+                          <IconButton size='small' onClick={()=>{handleSpellDelete(i)}}>
+                            <Delete style={{height: '14px'}} />
+                          </IconButton>
+                           <br/> {`${spell.effect} ${spell.dc} ${spell.other} `}</div>
                         );
                       })
                     : "none"}
@@ -363,11 +436,18 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
                   )}
                   <br />
                   {usableItems.length > 0
-                    ? usableItems.map((item) => {
+                    ? usableItems.map((item, i) => {
                         return (
                           <div
                             key={uuid()}
-                          >{`${item.quantity} ${item.name} ${item.effect}`}</div>
+                          >{`${item.quantity} ${item.name}`} 
+                           <IconButton size='small' onClick={()=>{handleItemEdit(i)}}>
+                          <Edit style={{height: '14px'}} />
+                        </IconButton>
+                        <IconButton size='small' onClick={()=>{handleItemDelete(i)}}>
+                          <Delete style={{height: '14px'}} />
+                        </IconButton>
+                           <br/>{`${item.effect}`}</div>
                         );
                       })
                     : "none"}
@@ -394,11 +474,17 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
                   )}
                   <br />
                   {skills.length > 0
-                    ? skills.map((skill) => {
+                    ? skills.map((skill, i) => {
                         return (
                           <div
                             key={uuid()}
-                          >{`${skill.name} +${skill.bonus} `}</div>
+                          >{`${skill.name} +${skill.bonus} `} 
+                           <IconButton size='small' onClick={handleSkillEdit(i)}>
+                          <Edit style={{height: '14px'}} />
+                        </IconButton>
+                        <IconButton size='small' onClick={handleSkillDelete(i)}>
+                          <Delete style={{height: '14px'}} />
+                        </IconButton></div>
                         );
                       })
                     : "none"}
@@ -587,46 +673,10 @@ export const AddPlayerDialog = ({ addSavedPlayer, isMonster }) => {
                 </div>
               </div>
             </div>
-
-            {/* 
-             
-             
-          
-            <div className="form-group">
-              
-              <Input
-                form="form"
-                type="text"
-                placeholder="Spell/Abilities"
-                name="spells"
-                value={spells}
-                onChange={onChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <Input
-                form="form"
-                type="text"
-                placeholder="Skills"
-                name="skills"
-                value={skills}
-                onChange={onChange}
-              />
-            </div>
-            <div className="form-group">
-              <Input
-                form="form"
-                type="text"
-                placeholder="Usable Items"
-                name="items"
-                value={items}
-                onChange={onChange}
-              />
-            </div>
-            <input form="form" type="submit" className="btn btn-primary my-1" /> */}
         </DialogContent>
       </Dialog>
     </div>
   );
 };
+
+export default connect(null,{addSavedPlayer, editPlayer})(AddPlayerDialog) 

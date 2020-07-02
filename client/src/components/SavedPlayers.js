@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import {AddPlayerDialog} from './AddPlayerDialog';
+import { connect } from "react-redux";
+import { addSavedPlayer, addPlayer ,getSavedPlayers, deleteSavedPlayer} from "../actions/players";
 
 import { PlayerPage } from "./PlayerPage";
 
-export const SavedPlayers = ({
+const SavedPlayers = ({
   addPlayer,
   savedPlayers,
   getSavedPlayers,
-  addSavedPlayer,
   deleteSavedPlayer,
+  setEdit,
+  setFormOpen 
 }) => {
   const [open, setOpen] = useState(false);
   const [openOne, setOpenOne] = useState(false);
@@ -30,6 +32,11 @@ export const SavedPlayers = ({
     setOpenOne(true);
   };
 
+  const handleAdd = () => {
+    setEdit(false);
+    setFormOpen(true);
+  };
+
   return (
     <div>
       <div className="btn btn-primary" onClick={handleClickOpen}>Add Character</div>
@@ -43,8 +50,13 @@ export const SavedPlayers = ({
       >
         <DialogContent style={{ textAlign: "center" }}>
           <div>
-            <AddPlayerDialog addSavedPlayer={addSavedPlayer} />
-            <h2 style={{ fontSize: "20px",display: "inline-block" }}>Saved Characters</h2>
+          <button
+              className="btn btn-info"
+              style={{float: "left" }}
+              onClick={handleAdd}
+            >
+              New Player
+            </button>
             <button
               className="btn btn-info"
               style={{float: "right" }}
@@ -52,11 +64,12 @@ export const SavedPlayers = ({
             >
               cancel
             </button>
+            <h2 style={{ fontSize: "20px"}}>Saved Characters</h2>
             {savedPlayers &&
               savedPlayers.map((p) => {
                 return (
                    !p.monster ?
-                    <div key={p.name}>
+                    <div style={{display:'inline-block', margin:"10px"}} key={p.name}>
                     <PlayerPage
                       setOpen={setOpen}
                       openOne={openOne}
@@ -86,3 +99,13 @@ export const SavedPlayers = ({
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  savedPlayers: state.savedPlayers,
+});
+
+export default connect(mapStateToProps, 
+  {addPlayer,
+  getSavedPlayers,
+  addSavedPlayer,
+  deleteSavedPlayer})(SavedPlayers)

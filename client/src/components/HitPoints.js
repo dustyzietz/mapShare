@@ -2,12 +2,20 @@ import React, {useState, useEffect} from "react";
 import  HitPointsPlayer  from "./HitPointsPlayer";
 import { editAllPlayers, editPlayer } from '../actions/players';
 import { connect } from "react-redux";
+import { setAlert } from "../actions/alert";
 import Draggable from "react-draggable";
 
-const HitPoints = ({ players, editAllPlayers }) => {
-  const [editing, setEditing] = useState(false);
+const HitPoints = ({ players, editAllPlayers, setAlert }) => {
  const [shuffled, setShuffled] = useState([]);
+ const [active, setActive] = useState()
  
+ useEffect(()=> {
+   if (active === players.length){setActive(0)}
+   if(players[active]){
+     let message = `${players[active].name}'s Turn`
+  setAlert(message, "indigo", 5000); 
+   }
+ },[active])
 
  useEffect(()=> {
 if(shuffled.length == 0) {setShuffled(players);} 
@@ -16,8 +24,8 @@ if(shuffled.length == 0) {setShuffled(players);}
   const handleInitiative = () => {
     let array = players;
     for (let i = array.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-  
+      let j = Math.floor(Math.random() * (i + 1)); 
+      // random index from 0 to i
       // swap elements array[i] and array[j]
       // we use "destructuring assignment" syntax to achieve that
       // you'll find more details about that syntax in later chapters
@@ -26,14 +34,16 @@ if(shuffled.length == 0) {setShuffled(players);}
       [array[i], array[j]] = [array[j], array[i]];
     }
     editAllPlayers(array);
-    
+    let message = 'Initiative Rolled!'
+    setAlert(message, "indigo", 2000);
+    setActive(0)
   }
  
 
 
   return (
     <Draggable>
-    <div className="card text-white bg-primary mb-3" style={{maxWidth: "20rem"}}>
+    <div className="card text-white bg-primary mb-3" style={{maxWidth: "25rem"}}>
   <div className="card-header">HIT POINTS <button 
   className="btn btn-light ml-5" 
      onClick={handleInitiative}
@@ -42,9 +52,12 @@ if(shuffled.length == 0) {setShuffled(players);}
   <div className="card-body">
     <div className="card-text">
     { players &&
-         players.map((p) =>{
+         players.map((p, i) =>{
          return (
-        <HitPointsPlayer key={p._id} p={p} editing={editing} players={players} />
+           <div key={p.playerId}>
+        <HitPointsPlayer  p={p} players={players} setActive={setActive} />
+        {i === active && <button className='btn btn-success' onClick={()=>{setActive(active + 1)}} >Next</button> }
+      </div>
        )
        }
          )}
@@ -60,6 +73,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  editAllPlayers
+  editAllPlayers,
+  setAlert
 })(HitPoints);
 

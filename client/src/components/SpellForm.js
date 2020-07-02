@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const SpellForm = ({ addSpell, setSpellsOpen }) => {
+const SpellForm = ({ addSpell, setSpellsOpen, currentSpell, setCurrentSpell  }) => {
  
   const [spell, setSpell] = useState({
    name: "",
@@ -19,6 +19,12 @@ const SpellForm = ({ addSpell, setSpellsOpen }) => {
   const onChange = (e) => {
     setSpell({ ...spell, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    if(currentSpell){
+      setSpell(currentSpell)
+    }
+  },[currentSpell])
 
   return (
     <div>
@@ -92,7 +98,8 @@ const SpellForm = ({ addSpell, setSpellsOpen }) => {
         className="btn btn-info"
         onClick={(e) => {
           addSpell(e, spell);
-          setSpellsOpen(false);
+          setCurrentSpell()
+           setSpellsOpen(false);
         }}
       >
         Add Spell

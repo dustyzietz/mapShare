@@ -9,7 +9,6 @@ export const PlayerPage = ({
   addPlayer,
   setOpen,
 }) => {
-  console.log(currentPlayer)
   const handleClose = () => {
     setOpenOne(false);
   };
@@ -31,7 +30,6 @@ export const PlayerPage = ({
       {currentPlayer && (
         <div>
           <h2 style={{ textAlign: "center" }}> {currentPlayer.name} </h2>
-          {console.log(currentPlayer)}
           <img
             alt="player image"
             src={currentPlayer.url}

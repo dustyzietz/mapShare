@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const io = require('../client/src/socket');
-
+const { uuid } = require('uuidv4');
 const Map = require('../models/map');
+
+
 
 router.post('/',async (req, res) => {
   try {
     let map = await Map.findOne();
     map.players.map(player => {
-     if (player._id == req.body._id) {
+     if (player.playerId == req.body.playerId) {
        player.controlledPosition.x = req.body.x
        player.controlledPosition.y = req.body.y
      }
@@ -47,9 +49,7 @@ router.get('/players', async (req, res) => {
 router.post('/add-player', async (req, res) => {
  try {
     const map = await Map.findOne();
-   // console.log(map);
-   // console.log(name, url);
-   map.players = [ ...map.players, { ...req.body,  controlledPosition :{ x:600, y:-800 } , size: 10}];
+   map.players = [ ...map.players, { ...req.body,  controlledPosition :{ x:600, y:-800 } ,playerId: uuid(), size: 10 , currentHp: req.body.hp}];
   await  map.save();
   io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
   res.json(map.players);
@@ -57,15 +57,30 @@ router.post('/add-player', async (req, res) => {
     console.log(err);
   }
 })
+
+router.post('/add-monsters', async (req, res) => {
+  const {name , qty} = req.body
+  try {
+    const map = await Map.findOne();
+    let monster = map.savedPlayers.find(p => p.name.toLowerCase() === name.toLowerCase())
+    monster = { ...monster._doc,  controlledPosition :{ x:600, y:-800 } , size: 10 , currentHp: monster._doc.hp}
+   let monsters = []
+   for(let i = 0; i < qty; i++){ monsters = [...monsters, {...monster, playerId: uuid()}]}
+    map.players = [ ...map.players, ...monsters];
+   await  map.save();
+   io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
+   res.json(map.players);
+   } catch (err) {
+     console.log(err);
+   }
+ })
 
 router.post('/edit-player', async (req, res) => {
   const newPlayer = req.body;
  try {
     const map = await Map.findOne();
-  //  console.log(newPlayer._id)
-  const editedIndex = map.players.findIndex(p => p._id.toString() === newPlayer._id);
+  const editedIndex = map.players.findIndex(p => p.playerId.toString() === newPlayer.playerId);
 map.players[editedIndex] = newPlayer;
-  // map.players = [ ...map.players, newPlayer ];
   await  map.save();
   io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
   res.json(map.players);
@@ -74,11 +89,11 @@ map.players[editedIndex] = newPlayer;
   }
 })
 
-router.delete('/player/:_id', async (req, res) => {
+router.delete('/player/:playerId', async (req, res) => {
   try {
     const map = await Map.findOne();
     map.players = map.players.filter(
-      p => p._id.toString() !== req.params._id
+      p => p.playerId !== req.params.playerId
     );
     await map.save();
     io.getIO().emit('maps', { action: 'players', newPlayers: map.players });
@@ -99,12 +114,13 @@ router.get('/saved-players', async (req, res) => {
 })
 
 router.post('/edit-saved-player', async (req, res) => {
+  console.log(req.body)
   const newPlayer = req.body;
  try {
     const map = await Map.findOne();
   //  console.log(newPlayer._id)
   map.savedPlayers = map.savedPlayers.filter(p => p.name !== newPlayer.name);
-  map.savedPlayers = [ {  controlledPosition :{ x:750, y:-750 } , url: newPlayer.playerUrl, ...newPlayer },  ...map.savedPlayers  ];
+  map.savedPlayers = [ {  controlledPosition :{ x:750, y:-750 } , ...newPlayer },  ...map.savedPlayers  ];
   await  map.save();
   res.json(map.savedPlayers);
   } catch (err) {
@@ -220,7 +236,7 @@ router.post('/size',async (req, res) => {
   try {
     let map = await Map.findOne();
     map.players.map(player => {
-     if (player._id == req.body.id) {
+     if (player.playerId == req.body.id) {
        player.size = req.body.mySize
      }
     });
@@ -253,6 +269,92 @@ router.post('/edit-all-players', async (req, res) => {
   }
 })
 
+router.post('/add-saved-event', async (req, res) => {
+  const event = req.body;
+ try {
+    const map = await Map.findOne();
+    map.savedEvents = [event, ...map.savedEvents]
+  await  map.save(); 
+  res.json(null);
+  } catch (err) {
+    console.log(err);
+  }
+})
 
+router.get('/get-saved-events', async (req, res) => {
+ try {
+    const map = await Map.findOne();
+  res.json(map.savedEvents);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/add-event', async (req, res) => {
+  const {event, mapName} = req.body
+ try {
+    const map = await Map.findOne();
+    let currentMap = map.savedMaps.find(m => m.name === mapName)
+    currentMap.events = [{...event, controlledPosition :{ x:500, y:-1000 }, stage: 0, eventId: uuid()}, ...currentMap.events]
+  await  map.save(); 
+  io.getIO().emit('maps', { action: 'events', newEvents: currentMap.events });
+  res.json(null);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/edit-event', async (req, res) => {
+  const {event, mapName} = req.body
+ try {
+    const map = await Map.findOne();
+    let currentMap = map.savedMaps.find(m => m.name === mapName)
+    console.log(currentMap.events, event)
+    currentMap.events = currentMap.events.filter(e => e.eventId !== event.eventId)
+    currentMap.events = [event, ...currentMap.events]
+  await  map.save(); 
+  res.json(null);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post('/get-events', async (req, res) => {
+  const{ mapName }= req.body
+ try {
+    const map = await Map.findOne();
+    let currentMap = map.savedMaps.find(m => m.name === mapName)
+    let currentEvents = currentMap.events
+  await  map.save(); 
+  res.json(currentEvents);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.delete('/event/:eventId/:mapName', async (req, res) => {
+  try {
+    const map = await Map.findOne();
+    let mapIndex = map.savedMaps.findIndex(m => m.name === req.params.mapName)
+    console.log(mapIndex)
+   map.savedMaps[mapIndex].events =  map.savedMaps[mapIndex].events.filter(e => e.eventId !== req.params.eventId)
+    await map.save();
+    io.getIO().emit('maps', { action: 'events', newEvents: map.savedMaps[mapIndex].events });
+   res.json(null);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+router.delete('/saved-event/:id', async (req, res) => {
+  try {
+    const map = await Map.findOne();
+    map.savedEvents = map.savedEvents.filter(e => e._id.toString() !== req.params.id.toString())
+    await map.save();
+   res.json(map.savedEvents);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 module.exports = router;

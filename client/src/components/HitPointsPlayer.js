@@ -5,13 +5,13 @@ import { editPlayer } from "../actions/players";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-const HitPointsPlayer = ({ players, p, editPlayer }) => {
+const HitPointsPlayer = ({ players, p, editPlayer, setActive, active }) => {
   const [initialHp, setInitialHp] = useState(p.currentHp);
   const [currentHp, setCurrentHp] = useState(p.currentHp);
 
   useEffect(() => {
     const newPlayer = players.filter((player) => {
-      return player._id === p._id;
+      return player.playerId === p.playerId;
     });
     const newHp = newPlayer[0].currentHp;
     setCurrentHp(newHp);
@@ -28,15 +28,17 @@ const HitPointsPlayer = ({ players, p, editPlayer }) => {
     editPlayer(p);
   };
 
-  const bar = (currentHp / p.hp) * 100;
+  let bar = (currentHp / p.hp) * 100;
+  if(bar < 0){
+    bar = 0
+  }
   return (
     <form
       onSubmit={handleSubmit}
       className="hp-line"
-      style={{ display: "flex" }}
     >
-      <span style={{flexGrow:"1"}}>{p.name} </span>
-      <div className="progress" style={{ width: "150px" }}>
+      <span style={{width:'100px',float:'left'}}>{p.name} </span>
+      <div className="progress" style={{ width: "150px",float:'left'}}>
         {bar > 50 ? (
           <div
             className="progress-bar progress-bar-striped progress-bar-animated bg-success"
@@ -57,19 +59,25 @@ const HitPointsPlayer = ({ players, p, editPlayer }) => {
           ></div>
         )}
       </div>
+      {" "}
+      <div style={{float:'left'}}>
       {initialHp}
-      {currentHp !== p.currentHp && (
-        <IconButton type="submit" size="small" style={{height:"1rem"}}>
-          <Send style={{ color: "white" }} />
-        </IconButton>
-      )}
+       </div>
+       <div style={{float: 'right'}}>
       <input
+      max={p.hp}
         className="hp-input"
         type="number"
         value={currentHp}
         onChange={handleChange}
-        style={{ width: "35px" }}
+        style={{ width: "35px"}}
       />
+     {currentHp !== p.currentHp && (
+        <IconButton  type="submit" size="small" style={{height:"1rem"}}>
+          <Send style={{ color: "white" }} />
+        </IconButton>
+      )} 
+       </div>
     </form>
   );
 };

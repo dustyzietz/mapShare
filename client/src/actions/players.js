@@ -8,15 +8,16 @@ import {
   UPDATE_SAVED_MONSTERS,
   LOAD_HITPOINTS,
   SET_ALERT,
-   REMOVE_ALERT
+   REMOVE_ALERT,
+   LOAD_EVENTS
 } from "./types";
 import { v4 as uuidv4 } from 'uuid';
 
 
 
-export const updatePosition = (name, x, y, _id) => async (dispatch) => {
+export const updatePosition = (name, x, y, playerId) => async (dispatch) => {
   const config = { headers: { "Content-Type": "application/json" } };
-  const body = JSON.stringify({ name, x, y, _id });
+  const body = JSON.stringify({ name, x, y, playerId });
   try {
     await axios.post("/map", body, config);
     // await dispatch({
@@ -46,10 +47,10 @@ export const syncPlayers = (data) => (dispatch) => {
 };
 
 export const syncMap = (data) => (dispatch) => {
-  const { name, url } = data.newMap;
+  const { newMap } = data;
   dispatch({
     type: LOAD_MAP,
-    payload: { name, url },
+    payload: newMap,
   });
 };
 
@@ -57,6 +58,13 @@ export const syncMessage = (data) => (dispatch) => {
   dispatch({
     type: ADD_CHAT,
     payload: data.newMessage,
+  });
+};
+
+export const syncEvent = (data) => (dispatch) => {
+  dispatch({
+    type: LOAD_EVENTS,
+    payload: data.newEvents,
   });
 };
 
@@ -90,6 +98,7 @@ export const addPlayer = (player) => async (dispatch) => {
 };
 
 export const editPlayer = (player) => async (dispatch) => {
+  console.log(player)
   try {
     const config = {
       headers: {
@@ -106,15 +115,32 @@ export const editPlayer = (player) => async (dispatch) => {
   }
 };
 
-export const deletePlayer = (id) => async (dispatch) => {
+export const deletePlayer = (playerId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/map/player/${id}`);
+    const res = await axios.delete(`/map/player/${playerId}`);
     dispatch({
       type: LOAD_PLAYERS,
       payload: res.data,
     });
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const addMonsters = (name, qty) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.post("/map/add-monsters", {name:name, qty:qty}, config);
+    dispatch({
+      type: LOAD_PLAYERS,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 

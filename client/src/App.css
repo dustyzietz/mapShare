@@ -5615,6 +5615,12 @@
    background-color: #d6dfe7;
    border-color: #c6d2de;
  }
+
+ .alert-indigo {
+  color: #1a3047;
+  background-color: var(--indigo);
+  border-color: #c6d2de;
+}
  
  .alert-primary hr {
    border-top-color: #b6c5d5;

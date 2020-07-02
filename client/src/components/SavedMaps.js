@@ -27,8 +27,6 @@ import PropTypes from "prop-types";
    const newplayers = players.map(p => {
     return  {...p, controlledPosition: { x: 600, y: -800 }}
       });
-      console.log(players);
-      console.log(newplayers);
       editAllPlayers(newplayers);
     addMap(map);
     setOpen(false);
@@ -49,7 +47,7 @@ import PropTypes from "prop-types";
           <div>
             <AddMap addSavedMap={addSavedMap} />
             <button
-              className="btn"
+              className="btn btn-danger"
               style={{ float: "right" }}
               onClick={handleClose}
             >
@@ -58,12 +56,12 @@ import PropTypes from "prop-types";
             <h2 style={{ fontSize: "20px" }}>Saved Maps</h2>
             {savedMaps &&
               savedMaps.map((m) => {
-                const map = { name: m.name, url: m.url };
                 return (
                   <div
+                  style={{display:'inline-block', margin:'20px'}}
                     key={m._id}
                     onClick={() => {
-                      makeMap(map);
+                      makeMap(m);
                     }}
                     className="savedPlayersContainer"
                   >

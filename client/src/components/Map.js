@@ -2,56 +2,50 @@ import React, { useEffect, useState } from "react";
 import Item from "./Item";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { SavedPlayers } from "./SavedPlayers";
-import { SavedMonsters } from "./SavedMonsters";
-
+import SavedPlayers from "./SavedPlayers";
+import SavedMonsters from "./SavedMonsters";
 import SavedMaps from "./SavedMaps";
 import io from "socket.io-client";
 import { Chatbox } from "./Chatbox";
 import ChatInput from "./ChatInput";
 import HitPoints from "./HitPoints";
 import Alert from "./Alert";
+import AddPlayerDialog from "./AddPlayerDialog"
+import SavedEvents from "./SavedEvents"
+import Event from "./Event"
 
 import {
   getMap,
   getPlayers,
   addPlayer,
-  getSavedPlayers,
-  addSavedPlayer,
-  deleteSavedPlayer,
   syncMap,
   syncPlayers,
   sendMessage,
   syncMessage,
   syncAlert,
-  getSavedMonsters,
-  addSavedMonster,
+  syncEvent,
 } from "../actions/players";
-import EditPlayer from "./EditPlayer";
+import { getSavedEvents,  getEvents } from "../actions/event";
 
 const Map = ({
   players,
   getPlayers,
-  addPlayer,
-  savedPlayers,
-  getSavedPlayers,
-  addSavedPlayer,
   map,
   getMap,
-  deleteSavedPlayer,
   syncMap,
   syncPlayers,
   chatbox,
   sendMessage,
   syncMessage,
   syncAlert,
-  getSavedMonsters,
-  addSavedMonster,
-  savedMonsters,
   hitPoints,
+  getEvents,
+  event,
+  syncEvent,
 }) => {
-  const [editedPlayer, setEditedPlayer] = useState({});
-  const [openPlayerEdit, setOpenPlayerEdit] = useState(false);
+  const [formOpen, setFormOpen] = useState(false)
+  const [playerToEdit, setPlayerToEdit] = useState()
+  const [edit, setEdit] = useState(false)
   const [chatsOpen, setChatsOpen] = useState(false);
   const [chatName, setChatName] = useState("");
 
@@ -70,12 +64,16 @@ const Map = ({
       if (data.action === "alert") {
         syncAlert(data);
       }
+      if (data.action === "events") {
+        syncEvent(data);
+      }
     });
   }, []);
 
   const openEdit = (player) => {
-    setEditedPlayer(player);
-    setOpenPlayerEdit(true);
+    setEdit(true)
+    setPlayerToEdit(player);
+    setFormOpen(true);
   };
 
   const openChat = (name) => {
@@ -91,13 +89,16 @@ const Map = ({
     loadPlayers();
   }, []);
 
+  useEffect(() => {
+    if(map.name){
+      const mapName = map.name
+      getEvents(mapName)
+    }
+  }, [map]);
+
   return (
     <div style={{ position: "relative", height: "1200px", width: "1200px" }}>
-      <EditPlayer
-        open={openPlayerEdit}
-        editedPlayer={editedPlayer}
-        setOpen={setOpenPlayerEdit}
-      />
+      <AddPlayerDialog edit={edit} playerToEdit={playerToEdit} setFormOpen={setFormOpen} formOpen={formOpen}  openEdit={openEdit} />
       <img
         draggable="false"
         src={map.url}
@@ -116,14 +117,9 @@ const Map = ({
           setChatsOpen={setChatsOpen}
         />
 
-        <SavedPlayers
-          getSavedPlayers={getSavedPlayers}
-          addPlayer={addPlayer}
-          savedPlayers={savedPlayers}
-          addSavedPlayer={addSavedPlayer}
-          deleteSavedPlayer={deleteSavedPlayer}
-        />
+        <SavedPlayers setFormOpen={setFormOpen} setEdit={setEdit} />
         <SavedMaps />
+        <SavedEvents  events={event} />
         <div>
           <a href="http://dzietz.com/" target="_blank">
             <button type="button" className="btn btn-info">
@@ -132,13 +128,7 @@ const Map = ({
             </button>
           </a>
         </div>
-        <SavedMonsters
-          getSavedPlayers={getSavedPlayers}
-          addPlayer={addPlayer}
-          savedPlayers={savedPlayers}
-          addSavedPlayer={addSavedPlayer}
-          deleteSavedPlayer={deleteSavedPlayer}
-        />
+        <SavedMonsters />
         <HitPoints players={players} hitPoints={hitPoints} />
         <Chatbox
           messages={chatbox}
@@ -148,13 +138,23 @@ const Map = ({
           setChatsOpen={setChatsOpen}
         />
       </div>
+      {event &&
+        event.map((e) => {
+          return (
+            <Event
+              key={e.eventId}
+              event={e}
+              events={event}
+            />
+          );
+        })} 
       {players &&
         players.map((p) => {
           return (
             <Item
               openChat={openChat}
               openEdit={openEdit}
-              key={p._id}
+              key={p.playerId}
               player={p}
               players={players}
             />
@@ -166,46 +166,35 @@ const Map = ({
 
 Map.propTypes = {
   players: PropTypes.array,
-  savedPlayers: PropTypes.array,
   getPlayers: PropTypes.func.isRequired,
   addPlayer: PropTypes.func.isRequired,
-  getSavedPlayers: PropTypes.func.isRequired,
-  addSavedPlayer: PropTypes.func.isRequired,
-  deleteSavedPlayer: PropTypes.func.isRequired,
   syncMap: PropTypes.func.isRequired,
   syncPlayers: PropTypes.func.isRequired,
   chatbox: PropTypes.array.isRequired,
   sendMessage: PropTypes.func.isRequired,
   syncMessage: PropTypes.func.isRequired,
-  getSavedMonsters: PropTypes.func.isRequired,
-  addSavedMonster: PropTypes.func.isRequired,
-  savedMonsters: PropTypes.array.isRequired,
   hitPoints: PropTypes.array.isRequired,
   syncAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   players: state.players,
-  savedPlayers: state.savedPlayers,
   map: state.map,
   savedMaps: state.savedMaps,
   chatbox: state.chatbox,
-  savedMonsters: state.savedMonsters,
   hitPoints: state.hitPoints,
+  event: state.event,
 });
 
 export default connect(mapStateToProps, {
   getMap,
   getPlayers,
   addPlayer,
-  getSavedPlayers,
-  addSavedPlayer,
-  deleteSavedPlayer,
   syncMap,
   syncPlayers,
   sendMessage,
   syncMessage,
-  getSavedMonsters,
-  addSavedMonster,
   syncAlert,
+  getEvents,
+  syncEvent,
 })(Map);

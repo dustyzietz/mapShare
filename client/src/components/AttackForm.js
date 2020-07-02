@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
+import React, { useState, useEffect } from "react";
 
-export const AttackForm = ({ addAttack, setAttackOpen }) => {
-  const [numOpen, setNumOpen] = useState(1);
+export const AttackForm = ({ addAttack, setAttackOpen, currentAttack, setCurrentAttack }) => {
 
   const [attack, setAttack] = useState({
     weapon: "",
@@ -32,8 +29,15 @@ export const AttackForm = ({ addAttack, setAttackOpen }) => {
   const submitAction = (e) => {
     e.preventDefault();
     addAttack(e, attack)
+    setCurrentAttack()
     setAttackOpen(false);
   };
+
+  useEffect(() => {
+    if(currentAttack){
+      setAttack(currentAttack)
+    }
+  },[currentAttack])
 
   return (
     <div>

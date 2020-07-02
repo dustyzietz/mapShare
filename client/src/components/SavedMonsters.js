@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import {AddPlayerDialog} from './AddPlayerDialog';
-
+import AddPlayerDialog from './AddPlayerDialog';
+import { connect } from "react-redux";
+import { addSavedPlayer, addPlayer ,getSavedPlayers, deleteSavedPlayer } from "../actions/players";
 import { PlayerPage } from "./PlayerPage";
 
-export const SavedMonsters = ({
+ const SavedMonsters = ({
   addPlayer,
   savedPlayers,
   getSavedPlayers,
@@ -44,7 +45,6 @@ export const SavedMonsters = ({
         <DialogContent style={{ textAlign: "center" }}>
           <div>
             <AddPlayerDialog addSavedPlayer={addSavedPlayer} isMonster={true} />
-            <h2 style={{ fontSize: "20px",display: "inline-block" }}>Monsters</h2>
             <button
               className="btn btn-danger"
               style={{float: "right" }}
@@ -52,11 +52,12 @@ export const SavedMonsters = ({
             >
               cancel
             </button>
+            <h2 style={{ fontSize: "20px"}}>Monsters</h2>
             {savedPlayers &&
               savedPlayers.map((p) => {
                 return (
                    p.monster ?
-                    <div key={p.name}>
+                    <div style={{display:'inline-block'}} key={p.name}>
                     <PlayerPage
                       setOpen={setOpen}
                       openOne={openOne}
@@ -86,3 +87,13 @@ export const SavedMonsters = ({
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  savedPlayers: state.savedPlayers,
+});
+
+export default connect(mapStateToProps, 
+  {addPlayer,
+  getSavedPlayers,
+  addSavedPlayer,
+  deleteSavedPlayer})(SavedMonsters)

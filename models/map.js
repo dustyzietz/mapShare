@@ -13,6 +13,10 @@ const mapSchema = new Schema({
     },
     players: [
       {
+        playerId: {
+          type: String,
+          required: true 
+          },
         name: {
         type: String,
         required: true 
@@ -148,8 +152,34 @@ const mapSchema = new Schema({
       url: {
         type: String,
         required: true
-      }
+      },
+      events: [
+        {
+          name: String,
+          number: Number,
+          details: String,
+          monster: String,
+          qty: Number,
+          treasure: String,
+          eventId: String,
+          stage: Number,
+          controlledPosition: {
+            x: Number,
+            y: Number
+          }
+        },
+      ]
     }
+    ],
+    savedEvents: [
+      {
+        name: String,
+        number: Number,
+        details: String,
+        monster: String,
+        qty: Number,
+        treasure: String,   
+      }
     ]
 });
 

@@ -8,7 +8,7 @@ import PlayerStats from "./PlayerStats";
 
 
 const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePosition, openEdit, openChat, sendMessage, editSavedPlayer }) => {
-  const { controlledPosition, size, _id, name, url } = player;
+  const { controlledPosition, size, name, url, playerId } = player;
   const [isShown, setIsShown] = useState(false);
   const [myPosition, setMyPosition] = useState({
     x: controlledPosition.x,
@@ -26,22 +26,22 @@ const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePos
   };
 
   const handleDelete = () => {
-    deletePlayer(_id);
+    deletePlayer(playerId);
   };
 
   const handleGrow = () => {
     const newSize = size + 1;
-    updateSize(newSize, _id);
+    updateSize(newSize, playerId);
   };
 
   const handleShrink = () => {
     const newSize = size - 1;
-    updateSize(newSize, _id);
+    updateSize(newSize, playerId);
   };
 
   useEffect(() => {
     players.map(p => {
-      if (p._id === _id) {
+      if (p.playerId === playerId) {
         if (loading && myPosition.x === p.controlledPosition.x){
         setLoading(false);
         }
@@ -56,7 +56,7 @@ const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePos
     const x = myPosition.x;
     const y = myPosition.y;
     setLoading(true);
-    updatePosition(name, x, y, _id);
+    updatePosition(name, x, y, playerId);
     console.log(x, y);
   }, [myPosition]);
   return (
@@ -82,7 +82,7 @@ const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePos
          handleGrow={handleGrow}
          handleShrink={handleShrink}
          handleDelete={handleDelete}
-         key={_id}
+         key={playerId}
          player={player}
        />
       )} 
