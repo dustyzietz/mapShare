@@ -136,7 +136,7 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
       event.stage === 1 && 
       <button
       className="btn btn-light"
-      onClick={handleTreasure}
+        onClick={handleTreasure}
     >
       treasure
     </button>
