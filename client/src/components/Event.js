@@ -141,6 +141,9 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
       treasure
     </button>
 }
+{event.stage === 2 &&
+<div></div>
+}
 </div>
     </Draggable> 
         </>
