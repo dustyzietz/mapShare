@@ -1,21 +1,38 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
-import { updatePosition, deletePlayer, updateSize, sendMessage, editSavedPlayer, editPlayer } from "../actions/players";
+import {
+  updatePosition,
+  deletePlayer,
+  updateSize,
+  sendMessage,
+  editSavedPlayer,
+  editPlayer,
+} from "../actions/players";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import PlayerStats from "./PlayerStats";
 
-
-
-const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePosition, openEdit, openChat, sendMessage, editSavedPlayer }) => {
+const Item = ({
+  editPlayer,
+  player,
+  players,
+  deletePlayer,
+  updateSize,
+  updatePosition,
+  openEdit,
+  openChat,
+  sendMessage,
+  editSavedPlayer,
+}) => {
   const { controlledPosition, size, name, url, playerId } = player;
   const [isShown, setIsShown] = useState(false);
   const [myPosition, setMyPosition] = useState({
     x: controlledPosition.x,
-    y: controlledPosition.y
+    y: controlledPosition.y,
   });
   const [loading, setLoading] = useState(false);
- 
+  const [onTop, setOnTop] = useState(false);
+
   const onControlledDrag = (e, position) => {
     const { x, y } = position;
     setMyPosition({ x, y });
@@ -40,14 +57,14 @@ const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePos
   };
 
   useEffect(() => {
-    players.map(p => {
+    players.map((p) => {
       if (p.playerId === playerId) {
-        if (loading && myPosition.x === p.controlledPosition.x){
-        setLoading(false);
+        if (loading && myPosition.x === p.controlledPosition.x) {
+          setLoading(false);
         }
         if (!loading && myPosition.x !== p.controlledPosition.x) {
-         setMyPosition(p.controlledPosition);
-        } 
+          setMyPosition(p.controlledPosition);
+        }
       }
     });
   }, [players]);
@@ -60,32 +77,42 @@ const Item = ({ editPlayer, player, players, deletePlayer, updateSize, updatePos
     console.log(x, y);
   }, [myPosition]);
   return (
-    <div className="item-div"  onMouseEnter={() => setIsShown(true)}
-    onMouseLeave={() => setIsShown(false)} style={{position: "absolute",zIndex:"0"}}>
+    <div
+      className="item-div"
+      onMouseEnter={() => {
+        setIsShown(true);
+        setOnTop(true);
+      }}
+      onMouseLeave={() => {
+        setIsShown(false);
+        setOnTop(false);
+      }}
+      style={{ position: "absolute", zIndex: `${onTop ? 2: 1}` }}
+    >
       <Draggable position={myPosition} onStop={onControlledDragStop}>
         <div>
           <img
             draggable="false"
             src={url}
             alt=""
-            style={{ width: `${size * 5}px`}}
+            style={{ width: `${size * 5}px` }}
             className="playerImg"
           />
-           {isShown && (
-       <PlayerStats
-       editPlayer={editPlayer}
-       players={players}
-       editSavedPlayer={editSavedPlayer}
-       sendMessage={sendMessage}
-       openChat={openChat}
-         openEdit={openEdit}
-         handleGrow={handleGrow}
-         handleShrink={handleShrink}
-         handleDelete={handleDelete}
-         key={playerId}
-         player={player}
-       />
-      )} 
+          {isShown && (
+            <PlayerStats
+              editPlayer={editPlayer}
+              players={players}
+              editSavedPlayer={editSavedPlayer}
+              sendMessage={sendMessage}
+              openChat={openChat}
+              openEdit={openEdit}
+              handleGrow={handleGrow}
+              handleShrink={handleShrink}
+              handleDelete={handleDelete}
+              key={playerId}
+              player={player}
+            />
+          )}
         </div>
       </Draggable>
     </div>
@@ -102,8 +129,8 @@ Item.propTypes = {
   editPlayer: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  players: state.players
+const mapStateToProps = (state) => ({
+  players: state.players,
 });
 
 export default connect(mapStateToProps, {
@@ -112,5 +139,5 @@ export default connect(mapStateToProps, {
   updateSize,
   sendMessage,
   editSavedPlayer,
-  editPlayer
+  editPlayer,
 })(Item);

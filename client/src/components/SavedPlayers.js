@@ -76,6 +76,7 @@ const SavedPlayers = ({
                       setOpenOne={setOpenOne}
                       currentPlayer={currentPlayer}
                       addPlayer={addPlayer}
+                      deleteSavedPlayer={deleteSavedPlayer}
                     />
                     <div onClick={() => openPlayerPage(p)}>
                       <img

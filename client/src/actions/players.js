@@ -290,6 +290,18 @@ export const getSavedMaps = () => async (dispatch) => {
   }
 };
 
+export const deleteSavedMap = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/map/saved-map/${id}`);
+    dispatch({
+      type: UPDATE_SAVED_MAPS,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const updateSize = (mySize, id) => async (dispatch) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const body = JSON.stringify({ mySize, id });

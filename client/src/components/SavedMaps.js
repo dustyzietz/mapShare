@@ -6,12 +6,22 @@ import {
   addMap,
   getSavedMaps,
   addSavedMap,
-  editAllPlayers
+  editAllPlayers,
+  deleteSavedMap,
+  deleteSavedPlayer,
 } from "../actions/players";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
- const SavedMaps = ({ addMap, getSavedMaps, addSavedMap, savedMaps, players, editAllPlayers }) => {
+const SavedMaps = ({
+  addMap,
+  getSavedMaps,
+  addSavedMap,
+  savedMaps,
+  players,
+  editAllPlayers,
+  deleteSavedMap,
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -24,17 +34,23 @@ import PropTypes from "prop-types";
   };
 
   const makeMap = async (map) => {
-   const newplayers = players.map(p => {
-    return  {...p, controlledPosition: { x: 600, y: -800 }}
-      });
-      editAllPlayers(newplayers);
+    const newplayers = players.map((p) => {
+      return { ...p, controlledPosition: { x: 600, y: -800 } };
+    });
+    editAllPlayers(newplayers);
     addMap(map);
     setOpen(false);
   };
 
   return (
     <div>
-      <button type="button" className="btn btn-success" onClick={handleClickOpen}>Add Map</button>
+      <button
+        type="button"
+        className="btn btn-success"
+        onClick={handleClickOpen}
+      >
+        Add Map
+      </button>
       <Dialog
         maxWidth="md"
         fullWidth
@@ -58,14 +74,16 @@ import PropTypes from "prop-types";
               savedMaps.map((m) => {
                 return (
                   <div
-                  style={{display:'inline-block', margin:'20px'}}
                     key={m._id}
-                    onClick={() => {
-                      makeMap(m);
+                    className="card text-white bg-primary mb-3"
+                    style={{
+                      maxWidth: "20rem",
+                      display: "inline-block",
+                      margin: "10px",
                     }}
-                    className="savedPlayersContainer"
                   >
-                    <div className="box">
+                    <div className="card-body">
+                      <h4 className="card-title">{m.name}</h4>
                       <img
                         draggable="false"
                         src={m.url}
@@ -73,8 +91,26 @@ import PropTypes from "prop-types";
                         width="150px"
                         height="150px"
                       />
+                      <br />
+                      <button
+                        className="btn btn-success"
+                        style={{ margin: "5%", padding: "0", width: "40%" }}
+                        onClick={() => {
+                          makeMap(m);
+                        }}
+                      >
+                        Select
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        style={{ margin: "5%", padding: "0", width: "40%" }}
+                        onClick={() => {
+                          deleteSavedMap(m._id);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </div>
-                    <p>{m.name}</p>
                   </div>
                 );
               })}
@@ -88,7 +124,7 @@ SavedMaps.propTypes = {};
 
 const mapStateToProps = (state) => ({
   savedMaps: state.savedMaps,
-  players: state.players
+  players: state.players,
 });
 
 export default connect(mapStateToProps, {
@@ -96,4 +132,5 @@ export default connect(mapStateToProps, {
   addMap,
   getSavedMaps,
   addSavedMap,
+  deleteSavedMap,
 })(SavedMaps);

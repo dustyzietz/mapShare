@@ -3,6 +3,7 @@ import Dialog from "@material-ui/core/Dialog";
 import uuid from "uuid";
 
 export const PlayerPage = ({
+  deleteSavedPlayer,
   openOne,
   setOpenOne,
   currentPlayer,
@@ -84,20 +85,30 @@ export const PlayerPage = ({
             currentPlayer.UsableItems.map((item) => item.name)}
           <br />
           <button
-            style={{ marginBottom: "25px" }}
+            style={{ margin: "20px" }}
             className="btn btn-primary"
             onClick={addToMap}
           >
             Add To Map
           </button>
-          <br />
           <button
-            className="btn btn-danger"
+          style={{ margin: "20px" }}
+            className="btn btn-warning"
             onClick={() => {
               setOpenOne(false);
             }}
           >
             Cancel
+          </button>
+          <button
+          style={{ margin: "20px" }}
+            className="btn btn-danger"
+            onClick={() => {
+              deleteSavedPlayer(currentPlayer._id)
+              setOpenOne(false);
+            }}
+          >
+            Delete
           </button>
         </div>
       )}

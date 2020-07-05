@@ -177,6 +177,8 @@ function PlayerStats({
         borderRadius: "0.25rem",
         textAlign: "center",
         transform: "translate(-100px, 0)",
+      zIndex:"4",
+        display: 'fixed'
       }}
     >
       {name}

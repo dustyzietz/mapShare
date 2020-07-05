@@ -375,7 +375,9 @@ const handleSkillDelete = () => {
                             <Delete style={{height: '14px'}} />
                           </IconButton>
                           <br/>
-                          {`${a.amountOfDice}D${a.diceType}+${a.plus} CRIT${a.critOn}x${a.critTimes} `}</div>
+                          {`hit: +${a.hit} damage: ${a.amountOfDice}D${a.diceType}+${a.plus} CRIT: `}
+                          {a.critOn === 21 ? `none`: `${a.critOn}x${a.critTimes}`}
+                          </div>
                         );
                       })
                     : "none"}

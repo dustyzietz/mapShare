@@ -60,7 +60,7 @@ export const AttackForm = ({ addAttack, setAttackOpen, currentAttack, setCurrent
       </div>
       <div
         className="form-group"
-        style={{ width: "50px", display: "inline-block" }}
+        style={{ width: "60px", display: "inline-block" }}
       >
         <label htmlFor="attackBonus">Hit Bonus</label>
         <input
@@ -141,6 +141,7 @@ export const AttackForm = ({ addAttack, setAttackOpen, currentAttack, setCurrent
         onChange={onChange}
         form="actionForm"
       >
+        <option value={21}>none</option>
        <option value={20}>20</option>
         <option value={19}>19-20</option>
         <option value={18}>18-20</option>

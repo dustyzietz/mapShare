@@ -281,6 +281,17 @@ router.post('/add-saved-event', async (req, res) => {
   }
 })
 
+router.delete('/saved-map/:id', async (req, res) => {
+  try {
+    const map = await Map.findOne();
+    map.savedMaps = map.savedMaps.filter(m => m._id.toString() !== req.params.id.toString())
+    await map.save();
+   res.json(map.savedMaps);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 router.get('/get-saved-events', async (req, res) => {
  try {
     const map = await Map.findOne();
