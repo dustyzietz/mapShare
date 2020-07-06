@@ -394,4 +394,32 @@ router.delete("/saved-event/:id", async (req, res) => {
   }
 });
 
+router.post("/add-monsters", async (req, res) => {
+  const{name, qty} = req.body
+  try {
+    const map = await Map.findOne();
+    let monster = map.savedPlayers.find(p =>  p.name.toLowerCase() === name.toLowerCase())
+    monster =  {
+      ...monster._doc,
+      controlledPosition: { x: 600, y: -800 },
+      size: 10,
+      currentHp: monster.hp,
+    }
+    let monsters = []
+     for (let i = 0; i < qty ; i++){monsters[i] = {...monster, playerId: uuid(),}}
+    
+    map.players = [
+      ...map.players,
+     ...monsters
+    ];
+    await map.save();
+    io.getIO().emit("maps", { action: "players", newPlayers: map.players });
+    res.json(map.players);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+
 module.exports = router;
