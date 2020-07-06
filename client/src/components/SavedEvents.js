@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import AddEvent from "./AddEvent";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import { getSavedEvents, addEvent, deleteEvent, deleteSavedEvent } from "../actions/event";
+import { getSavedEvents, addEvent, deleteEvent, deleteSavedEvent, editEvent } from "../actions/event";
 import { connect } from "react-redux";
 
-const SavedEvents = ({ getSavedEvents, savedEvents, addEvent, map, events, deleteEvent, deleteSavedEvent}) => {
+const SavedEvents = ({ getSavedEvents, savedEvents, addEvent, map, events, deleteEvent, deleteSavedEvent, editEvent}) => {
   const [open, setOpen] = useState(false);
   const mapName = map.name
 
@@ -25,6 +25,11 @@ const SavedEvents = ({ getSavedEvents, savedEvents, addEvent, map, events, delet
 
   const handleDelete = (id) => {
     deleteSavedEvent(id)
+   }
+
+   const restartEvent = (event, mapName) => {
+     const restartedEvent = { ...event, stage: 0 }
+    editEvent(restartedEvent, mapName)
    }
 
   return (
@@ -69,7 +74,8 @@ const SavedEvents = ({ getSavedEvents, savedEvents, addEvent, map, events, delet
                           {event.number}
                         </span>
                       </span>
-                      <button className="btn btn-danger" onClick={()=>{deleteEvent(event.eventId, mapName)}} >Remove</button>
+                      <button className="btn btn-primary btn-sm" onClick={()=>{restartEvent(event, mapName)}} >Restart</button>
+                      <button className="btn btn-danger btn-sm" onClick={()=>{deleteEvent(event.eventId, mapName)}} >Remove</button>
                     </li>
                   );
                 })}
@@ -95,8 +101,8 @@ const SavedEvents = ({ getSavedEvents, savedEvents, addEvent, map, events, delet
                           {event.number}
                         </span>
                       </span>
-                      <button className="btn btn-primary" onClick={()=>{handleEvent(event)}} >Add To Map</button>
-                      <button className="btn btn-danger" onClick={()=>{handleDelete(event._id)}} >Delete</button>
+                      <button className="btn btn-primary btn-sm" onClick={()=>{handleEvent(event)}} >Add To Map</button>
+                      <button className="btn btn-danger btn-sm" onClick={()=>{handleDelete(event._id)}} >Delete</button>
                     </li>
                   );
                 })}
@@ -113,4 +119,4 @@ const mapStateToProps = (state) => ({
   map: state.map,
 });
 
-export default connect(mapStateToProps, { getSavedEvents, addEvent, deleteEvent, deleteSavedEvent })(SavedEvents);
+export default connect(mapStateToProps, { getSavedEvents, addEvent, deleteEvent, deleteSavedEvent, editEvent })(SavedEvents);
