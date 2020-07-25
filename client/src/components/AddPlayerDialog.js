@@ -90,13 +90,10 @@ import Edit from "@material-ui/icons/Edit";
 
   const addSkill = (e, skill) => {
     e.preventDefault();
-    if(currentSkill){
-      let newSkills = skills.filter(a => a.name !== currentSkill.name) 
-      setPlayer({ ...player, skills: [...newSkills, skill] });
-     }else{
+  
        setPlayer({ ...player, skills: [...skills, skill] });
      }
-  };
+  
 
 
 
@@ -127,7 +124,6 @@ import Edit from "@material-ui/icons/Edit";
     setPlayer({ ...player, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
-    console.log(edit)
     e.preventDefault();
  if(edit){editPlayer(player)} 
  else{
@@ -179,32 +175,40 @@ const handleAttackEdit = (index) => {
    setCurrentAttack(attacks[index])
 }
 
-const handleAttackDelete = () => {
-
+const handleAttackDelete = (index) => {
+    const theAttacks = attacks
+    theAttacks.splice(index, 1)
+   setPlayer({ ...player, attacks: theAttacks })
 }
 
 const handleSpellEdit = () => {
   
 }
 
-const handleSpellDelete = () => {
-  
+const handleSpellDelete = (index) => {
+    const theSpells = spells
+    theSpells.splice(index, 1)
+   setPlayer({ ...player, spells: theSpells })
 }
 
 const handleItemEdit = () => {
   
 }
 
-const handleItemDelete = () => {
-  
+const handleItemDelete = (index) => {
+     const theItems = usableItems
+     theItems.splice(index, 1)
+    setPlayer({ ...player, usableItems: theItems })
 }
 
 const handleSkillEdit = () => {
   
 }
 
-const handleSkillDelete = () => {
-  
+const handleSkillDelete = (index) => {
+     const theSkill = skills
+     theSkill.splice(index, 1)
+    setPlayer({ ...player, skills: theSkill })
 }
   return (
     <div>
@@ -388,6 +392,7 @@ const handleSkillDelete = () => {
                       <SpellForm
                         addSpell={addSpell}
                         setSpellsOpen={setSpellsOpen}
+                        setCurrentSpell={setCurrentSpell}
                       />
                     </>
                   ) : (
@@ -481,10 +486,10 @@ const handleSkillDelete = () => {
                           <div
                             key={uuid()}
                           >{`${skill.name} +${skill.bonus} `} 
-                           <IconButton size='small' onClick={handleSkillEdit(i)}>
+                           <IconButton size='small' onClick={() => {handleSkillEdit(i)}}>
                           <Edit style={{height: '14px'}} />
                         </IconButton>
-                        <IconButton size='small' onClick={handleSkillDelete(i)}>
+                        <IconButton size='small' onClick={() => {handleSkillDelete(i)}}>
                           <Delete style={{height: '14px'}} />
                         </IconButton></div>
                         );
