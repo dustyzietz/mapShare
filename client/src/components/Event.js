@@ -43,10 +43,10 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
   };
 
   const runEvent = () => {
-    addMonsters(event.monster, event.qty);
     let message = `${event.details} `;
     if (event.monster) {
-      message = message + ` MONSTERS: ${event.qty} ${event.monster}`;
+      addMonsters(event.monster, event.qty);
+      message = message + `. MONSTERS: ${event.qty} ${event.monster}`;
     }
     setAlert(message, "dark", 10000);
     setOpen(false);
@@ -54,7 +54,7 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
   };
 
   const handleTreasure = () => {
-    let message = `TREASURE: ${event.treasure}`;
+    let message = `TREASURE. ${event.treasure}`;
     setAlert(message, "indigo", 12000);
     setStage(2);
   };

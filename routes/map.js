@@ -395,6 +395,7 @@ router.delete("/saved-event/:id", async (req, res) => {
 });
 
 router.post("/add-monsters", async (req, res) => {
+  console.log("fired")
   const{name, qty} = req.body
   try {
     const map = await Map.findOne();

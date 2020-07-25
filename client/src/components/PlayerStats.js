@@ -104,17 +104,17 @@ function PlayerStats({
     let color = result >= dc ? "success" : "danger";
     let message =
       result >= dc
-        ? `${roll}/20 ${name} Saved! ${result} for ${save}`
-        : `${roll}/20 ${name} Failed! ${result} for Fortitude`;
+        ? `${roll} out of 20, ${name} Saved! ${result} for ${save}`
+        : `${roll} out of 20, ${name} Failed! ${result} for ${save}`;
     setAlert(message, color, 6000);
     setSaveOpen(false);
   };
 
   const handleSpell = () => {
     if (spells[spellIndex]) {
-      const message = `${name} casts ${spells[spellIndex].name} -  
-     ${spells[spellIndex].effect} - 
-     ${spells[spellIndex].dc} - ${spells[spellIndex].other} `;
+      const message = `${name} casts ${spells[spellIndex].name}. -  
+     ${spells[spellIndex].effect}, - 
+     ${spells[spellIndex].dc}, - ${spells[spellIndex].other} `;
       setAlert(message, "info", 20000);
     }
     setSpellOpen(false);
@@ -122,7 +122,7 @@ function PlayerStats({
 
   const handleItem = () => {
     if (usableItems[itemIndex] && usableItems[itemIndex].quantity > 0) {
-      const message = `${name} uses ${usableItems[itemIndex].name} 
+      const message = `${name} uses ${usableItems[itemIndex].name}. 
      ${usableItems[itemIndex].effect}`;
       let changedPlayer = player;
       changedPlayer.usableItems[itemIndex].quantity =
@@ -146,7 +146,7 @@ function PlayerStats({
     const hitRoll = roll + myAttack.hit;
     let message = ``;
     if (hitRoll < myTarget.ac) {
-      message = `${roll}/20 ${name} Misses ${myTarget.name}`;
+      message = `${roll} out of 20, ${name} Misses ${myTarget.name}`;
       setAlert(message, "danger");
     } else {
       let damage = Math.floor(
@@ -157,8 +157,8 @@ function PlayerStats({
         damage = damage * myAttack.critTimes;    
       }
       message = crit
-        ? `${roll}/20 CRITICAL HIT! ${name} hits ${myTarget.name} for ${damage} points of damage`
-        : `${roll}/20 ${name} hits ${myTarget.name} for ${damage} points of damage`;
+        ? `${roll} out of 20, CRITICAL HIT! ${name} hits ${myTarget.name} for ${damage} points of damage`
+        : `${roll} out of 20, ${name} hits ${myTarget.name} for ${damage} points of damage`;
       myTarget.currentHp = myTarget.currentHp - damage;
       setAlert(message, "success", 10000);
       editPlayer(myTarget);

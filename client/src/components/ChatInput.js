@@ -12,7 +12,8 @@ const ChatInput = ({sendMessage, chatsOpen, setChatsOpen, chatName, setAlert}) =
 
   const onSubmit = () => {
     sendMessage(message, chatName);
-    setAlert(message, 'secondary', 10000)
+    let alertMessage = `${chatName} says. ${message}`
+    setAlert(alertMessage , 'secondary', 10000)
     setMessage(''); 
     
       }
