@@ -123,7 +123,7 @@ import Edit from "@material-ui/icons/Edit";
   const onChange = (e) =>
     setPlayer({ ...player, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
+  const onSubmit = (e) => {  
     e.preventDefault();
  if(edit){editPlayer(player)} 
  else{
