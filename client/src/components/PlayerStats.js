@@ -202,7 +202,7 @@ function PlayerStats({
       <strong>HP:</strong> {hp} <strong>AC:</strong> {ac}{" "}
       <strong>Speed:</strong> {speed}
       <br />
-      <div style={{ display: "flex"}}>
+      <div style={{ display: "flex", height:'35px'}}>
         <img
           style={{ flexGrow: "1" }}
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-twenty-faces-twenty.svg"
