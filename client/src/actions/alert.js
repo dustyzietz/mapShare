@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 export const setAlert = (msg, alertType, timeout = 5000) =>async dispatch => {
- // speechSynthesis.speak(new SpeechSynthesisUtterance(msg))
  const lang = 'en-GB'
 const voiceIndex = 1  
 

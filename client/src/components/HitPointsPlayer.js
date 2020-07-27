@@ -33,12 +33,9 @@ const HitPointsPlayer = ({ players, p, editPlayer, setActive, active }) => {
     bar = 0
   }
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="hp-line"
-    >
-      <span style={{width:'100px',float:'left'}}>{p.name} </span>
-      <div className="progress" style={{ width: "150px",float:'left'}}>
+    <>
+      <span style={{ paddingRight:'10px',flexGrow:'1'}}>{p.name} </span>
+      <div className="progress" style={{ width: "150px"}}>
         {bar > 50 ? (
           <div
             className="progress-bar progress-bar-striped progress-bar-animated bg-success"
@@ -59,11 +56,10 @@ const HitPointsPlayer = ({ players, p, editPlayer, setActive, active }) => {
           ></div>
         )}
       </div>
-      {" "}
-      <div style={{float:'left'}}>
-      {initialHp}
-       </div>
-       <div style={{float: 'right'}}>
+      
+           <form
+      onSubmit={handleSubmit}
+    >
       <input
       max={p.hp}
         className="hp-input"
@@ -72,13 +68,15 @@ const HitPointsPlayer = ({ players, p, editPlayer, setActive, active }) => {
         onChange={handleChange}
         style={{ width: "35px"}}
       />
-     {currentHp !== p.currentHp && (
+       {currentHp !== p.currentHp && 
+          <div>
         <IconButton  type="submit" size="small" style={{height:"1rem"}}>
           <Send style={{ color: "white" }} />
         </IconButton>
-      )} 
-       </div>
-    </form>
+          </div>
+      } 
+         </form> 
+ </>
   );
 };
 

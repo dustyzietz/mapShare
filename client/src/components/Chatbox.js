@@ -43,7 +43,7 @@ export const Chatbox = ({
         </div>
         </Draggable>
         :
-        <IconButton onClick={()=>{setOpen(!open)}} style={{background:'white'}}>
+        <IconButton size="small" onClick={()=>{setOpen(!open)}} style={{background:'white', opacity:'.5'}}>
         <Minimize />
       </IconButton>
         } 

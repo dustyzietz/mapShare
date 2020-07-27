@@ -108,8 +108,9 @@ const Map = ({
       <Alert />
       <div
         className="main-buttons"
-        style={{ position: "fixed", top: "0", left: "20px" }}
+        style={{ position: "fixed", top: "20px", left: "20px" }}
       >
+        <HitPoints players={players} hitPoints={hitPoints} />
         <ChatInput
           sendMessage={sendMessage}
           chatsOpen={chatsOpen}
@@ -129,7 +130,6 @@ const Map = ({
           </a>
         </div>
         <SavedMonsters />
-        <HitPoints players={players} hitPoints={hitPoints} />
         <Chatbox
           messages={chatbox}
           chatsOpen={chatsOpen}

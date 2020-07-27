@@ -3,11 +3,13 @@ import  HitPointsPlayer  from "./HitPointsPlayer";
 import { editAllPlayers, editPlayer } from '../actions/players';
 import { connect } from "react-redux";
 import { setAlert } from "../actions/alert";
-import Draggable from "react-draggable";
+import IconButton from "@material-ui/core/IconButton";
+import Minimize from "@material-ui/icons/Minimize";
 
 const HitPoints = ({ players, editAllPlayers, setAlert }) => {
  const [shuffled, setShuffled] = useState([]);
  const [active, setActive] = useState()
+ const [open, setOpen] = useState(true)
  
  useEffect(()=> {
    if (active === players.length){setActive(0)}
@@ -39,24 +41,26 @@ if(shuffled.length == 0) {setShuffled(players);}
     setActive(0)
   }
  
-
-
   return (
-    <Draggable>
-    <div className="card text-white bg-primary mb-3" style={{maxWidth: "25rem"}}>
+      <>
+        {open ?
+    <div className="card text-white bg-primary mb-3" >
   <div className="card-header">HIT POINTS <button 
   className="btn btn-light ml-5" 
      onClick={handleInitiative}
        >Initiative</button>
-       </div>
+       <IconButton  onClick={()=>{setOpen(!open)}} size="small" style={{float:'right'}}>
+            <Minimize />
+          </IconButton>
+            </div>
   <div className="card-body">
     <div className="card-text">
     { players &&
          players.map((p, i) =>{
          return (
-           <div key={p.playerId}>
+           <div key={p.playerId} style={{display:'flex'}} >
         <HitPointsPlayer  p={p} players={players} setActive={setActive} />
-        {i === active && <button className='btn btn-success' onClick={()=>{setActive(active + 1)}} >Next</button> }
+        {i === active && <button className='btn btn-success' style={{height:'1.5rem',padding:'0 0.5rem'}} onClick={()=>{setActive(active + 1)}} >Next</button> }
       </div>
        )
        }
@@ -64,7 +68,12 @@ if(shuffled.length == 0) {setShuffled(players);}
       </div>
   </div>
 </div>
-</Draggable>
+ :
+ <IconButton onClick={()=>{setOpen(!open)}} size="small" style={{background:'#3E3F3A', opacity:'.5'}}>
+ <Minimize />
+</IconButton>
+ } 
+ </>
   );
 };
 

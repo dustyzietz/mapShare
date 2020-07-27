@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
-import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ControlPoint from "@material-ui/icons/ControlPoint";
 import RemoveCircle from "@material-ui/icons/RemoveCircle";
 import HighlightOffOutlinedIcon from "@material-ui/icons/HighlightOffOutlined";
@@ -73,7 +70,8 @@ function PlayerStats({
   const handleRoll = (num) => {
     const roll = Math.floor(Math.random() * num + 1);
     const chatName = name;
-    const message = ` ROLLED ${roll} out of ${num}`;
+    const message = `${name}, ROLLED ${roll} out of ${num}`;
+    setAlert(message, "secondary", 6000);
     sendMessage(message, chatName);
   };
 
@@ -81,8 +79,9 @@ function PlayerStats({
     if (skills[skillIndex]) {
       const roll = Math.floor(Math.random() * 20 + 1);
       const result = roll + skills[skillIndex].bonus;
-      const message = `${roll}/20 ${name} got ${result} for ${skills[skillIndex].name}`;
+      const message = `${roll} out of 20, ${name} got ${result} for ${skills[skillIndex].name}`;
       setAlert(message, "warning", 6000);
+      sendMessage(message, name);
     }
     setSkillOpen(false);
   };
@@ -107,6 +106,7 @@ function PlayerStats({
         ? `${roll} out of 20, ${name} Saved! ${result} for ${save}`
         : `${roll} out of 20, ${name} Failed! ${result} for ${save}`;
     setAlert(message, color, 6000);
+    sendMessage(message, name);
     setSaveOpen(false);
   };
 
@@ -116,6 +116,7 @@ function PlayerStats({
      ${spells[spellIndex].effect}, - 
      ${spells[spellIndex].dc}, - ${spells[spellIndex].other} `;
       setAlert(message, "info", 20000);
+      sendMessage(message, name);
     }
     setSpellOpen(false);
   };
@@ -128,6 +129,7 @@ function PlayerStats({
       changedPlayer.usableItems[itemIndex].quantity =
         changedPlayer.usableItems[itemIndex].quantity - 1;
       setAlert(message, "secondary", 6000);
+      sendMessage(message, name);
       editPlayer(changedPlayer);
     }
     setItemOpen(false);
@@ -200,13 +202,12 @@ function PlayerStats({
       <strong>HP:</strong> {hp} <strong>AC:</strong> {ac}{" "}
       <strong>Speed:</strong> {speed}
       <br />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex"}}>
         <img
           style={{ flexGrow: "1" }}
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-twenty-faces-twenty.svg"
           alt="20sided"
-          // height="15%"
-          width="15%"
+          width="35px"
           onClick={() => {
             handleRoll(20);
           }}
@@ -215,8 +216,7 @@ function PlayerStats({
           style={{ flexGrow: "1" }}
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d12.svg"
           alt="12sided"
-          // height="15%"
-          width="15%"
+          width="35px"
           onClick={() => {
             handleRoll(12);
           }}
@@ -225,8 +225,7 @@ function PlayerStats({
           style={{ flexGrow: "1" }}
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d10.svg"
           alt="10sided"
-          //  height="15%"
-          width="15%"
+          width="35px"
           onClick={() => {
             handleRoll(10);
           }}
@@ -235,8 +234,7 @@ function PlayerStats({
           style={{ flexGrow: "1" }}
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/dice-eight-faces-eight.svg"
           alt="8sided"
-          //  height="15%"
-          width="15%"
+          width="35px"
           onClick={() => {
             handleRoll(8);
           }}
@@ -245,8 +243,7 @@ function PlayerStats({
           style={{ flexGrow: "1" }}
           src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/perspective-dice-six.svg"
           alt="6sided"
-          //  height="15%"
-          width="15%"
+          width="35px"
           onClick={() => {
             handleRoll(6);
           }}
@@ -255,8 +252,7 @@ function PlayerStats({
           style={{ flexGrow: "1" }}
           src="https://game-icons.net/icons/ffffff/000000/1x1/skoll/d4.svg"
           alt="4sided"
-          //  height="15%"
-          width="15%"
+          width="35px"
           onClick={() => {
             handleRoll(4);
           }}
