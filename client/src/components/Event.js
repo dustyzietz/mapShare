@@ -48,7 +48,7 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
       addMonsters(event.monster, event.qty);
       message = message + `. MONSTERS: ${event.qty} ${event.monster}`;
     }
-    setAlert(message, "dark", 10000, 3);
+    setAlert(message, "dark", 20000, 3);
     setOpen(false);
     setStage(1);
   };
