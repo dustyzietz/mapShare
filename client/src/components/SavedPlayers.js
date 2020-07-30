@@ -39,7 +39,7 @@ const SavedPlayers = ({
 
   return (
     <div>
-      <div className="btn btn-primary" onClick={handleClickOpen}>Add Character</div>
+      <div style={{width:"100%" }} className="btn btn-primary" onClick={handleClickOpen}>Add Character</div>
       <Dialog
         maxWidth="md"
         fullWidth

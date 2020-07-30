@@ -335,6 +335,7 @@ router.post("/edit-event", async (req, res) => {
     let mapIndex = map.savedMaps.findIndex(
       (m) => m.name === mapName
     );
+    console.log(mapIndex)
     map.savedMaps[mapIndex].events =  map.savedMaps[mapIndex].events.filter(
       (e) => e.eventId !== event.eventId
     );

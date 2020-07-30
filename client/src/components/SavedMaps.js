@@ -45,6 +45,7 @@ const SavedMaps = ({
   return (
     <div>
       <button
+      style={{width:"100%" }}
         type="button"
         className="btn btn-success"
         onClick={handleClickOpen}

@@ -34,7 +34,7 @@ const SavedEvents = ({ getSavedEvents, savedEvents, addEvent, map, events, delet
 
   return (
     <div>
-      <div className="btn btn-secondary" onClick={handleClickOpen}>
+      <div style={{width:"100%" }} className="btn btn-secondary" onClick={handleClickOpen}>
         Events
       </div>
       <Dialog

@@ -12,7 +12,7 @@ export const Chatbox = ({
   setChatsOpen,
 }) => {
   const [message, setMessage] = useState("");
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const onSubmit = () => {
     sendMessage(message, chatName);
     setChatsOpen(false);

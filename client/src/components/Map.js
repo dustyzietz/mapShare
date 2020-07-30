@@ -10,9 +10,11 @@ import { Chatbox } from "./Chatbox";
 import ChatInput from "./ChatInput";
 import HitPoints from "./HitPoints";
 import Alert from "./Alert";
-import AddPlayerDialog from "./AddPlayerDialog"
-import SavedEvents from "./SavedEvents"
-import Event from "./Event"
+import AddPlayerDialog from "./AddPlayerDialog";
+import SavedEvents from "./SavedEvents";
+import Event from "./Event";
+import IconButton from "@material-ui/core/IconButton";
+import Minimize from "@material-ui/icons/Minimize";
 
 import {
   getMap,
@@ -25,7 +27,7 @@ import {
   syncAlert,
   syncEvent,
 } from "../actions/players";
-import { getSavedEvents,  getEvents } from "../actions/event";
+import { getSavedEvents, getEvents } from "../actions/event";
 
 const Map = ({
   players,
@@ -43,11 +45,12 @@ const Map = ({
   event,
   syncEvent,
 }) => {
-  const [formOpen, setFormOpen] = useState(false)
-  const [playerToEdit, setPlayerToEdit] = useState()
-  const [edit, setEdit] = useState(false)
+  const [formOpen, setFormOpen] = useState(false);
+  const [playerToEdit, setPlayerToEdit] = useState();
+  const [edit, setEdit] = useState(false);
   const [chatsOpen, setChatsOpen] = useState(false);
   const [chatName, setChatName] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const socket = io.connect();
@@ -71,7 +74,7 @@ const Map = ({
   }, []);
 
   const openEdit = (player) => {
-    setEdit(true)
+    setEdit(true);
     setPlayerToEdit(player);
     setFormOpen(true);
   };
@@ -90,15 +93,21 @@ const Map = ({
   }, []);
 
   useEffect(() => {
-    if(map.name){
-      const mapName = map.name
-      getEvents(mapName)
+    if (map.name) {
+      const mapName = map.name;
+      getEvents(mapName);
     }
   }, [map]);
 
   return (
     <div style={{ position: "relative", height: "1200px", width: "1200px" }}>
-      <AddPlayerDialog edit={edit} playerToEdit={playerToEdit} setFormOpen={setFormOpen} formOpen={formOpen}  openEdit={openEdit} />
+      <AddPlayerDialog
+        edit={edit}
+        playerToEdit={playerToEdit}
+        setFormOpen={setFormOpen}
+        formOpen={formOpen}
+        openEdit={openEdit}
+      />
       <img
         draggable="false"
         src={map.url}
@@ -111,25 +120,58 @@ const Map = ({
         style={{ position: "fixed", top: "20px", left: "20px" }}
       >
         <HitPoints players={players} hitPoints={hitPoints} />
+        {menuOpen ? (
+          <div class="card text-white bg-info mb-3" style={{ width: "200px" }}>
+            <div class="card-header">
+              Menu
+              <IconButton
+                onClick={() => {
+                  setMenuOpen(!menuOpen);
+                }}
+                size="small"
+                style={{ float: "right" }}
+              >
+                <Minimize />
+              </IconButton>
+            </div>
+            <div class="card-body">
+              <div>
+                <SavedPlayers setFormOpen={setFormOpen} setEdit={setEdit} />
+                <SavedMaps />
+                <SavedEvents events={event} />
+                <div>
+                  <a href="http://dzietz.com/" target="_blank">
+                    <button
+                      style={{ width: "100%" }}
+                      type="button"
+                      className="btn btn-warning"
+                    >
+                      Refrences
+                    </button>
+                  </a>
+                </div>
+                <SavedMonsters />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <IconButton
+            onClick={() => {
+              setMenuOpen(!menuOpen);
+            }}
+            size="small"
+            style={{ background: "#29ABE0", opacity: ".5" }}
+          >
+            <Minimize />
+          </IconButton>
+        )}
+
         <ChatInput
           sendMessage={sendMessage}
           chatsOpen={chatsOpen}
           chatName={chatName}
           setChatsOpen={setChatsOpen}
         />
-
-        <SavedPlayers setFormOpen={setFormOpen} setEdit={setEdit} />
-        <SavedMaps />
-        <SavedEvents  events={event} />
-        <div>
-          <a href="http://dzietz.com/" target="_blank">
-            <button type="button" className="btn btn-info">
-              {" "}
-              Refrences
-            </button>
-          </a>
-        </div>
-        <SavedMonsters />
         <Chatbox
           messages={chatbox}
           chatsOpen={chatsOpen}
@@ -140,14 +182,8 @@ const Map = ({
       </div>
       {event &&
         event.map((e) => {
-          return (
-            <Event
-              key={e.eventId}
-              event={e}
-              events={event}
-            />
-          );
-        })} 
+          return <Event key={e.eventId} event={e} events={event} />;
+        })}
       {players &&
         players.map((p) => {
           return (

@@ -141,7 +141,6 @@ function PlayerStats({
     }
     const myAttack = attacks[attackIndex];
     const myTarget = players.find((p) => {
-      console.log(p.playerId, attPlayers[target].playerId);
       return p.playerId === attPlayers[target].playerId;
     });
     const roll = Math.floor(Math.random() * 20 + 1);

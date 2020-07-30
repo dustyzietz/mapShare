@@ -33,7 +33,7 @@ import { PlayerPage } from "./PlayerPage";
 
   return (
     <div>
-      <div className="btn btn-danger" onClick={handleClickOpen}>Monsters</div>
+      <div style={{width:"100%" }} className="btn btn-danger" onClick={handleClickOpen}>Monsters</div>
       <Dialog
         maxWidth="md"
         fullWidth
