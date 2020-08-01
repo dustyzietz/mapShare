@@ -21,6 +21,7 @@ const EventEdit = ({editOpen, setEditOpen, initialEvent, editEvent, map}) => {
      e.preventDefault()
      editEvent(event, map.name)
      console.log(event)
+     setEditOpen(false)
     }
   
   return (

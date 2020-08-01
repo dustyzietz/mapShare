@@ -15,7 +15,8 @@
     "react-speech-recognition": "^3.0.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "speak-tts": "^2.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

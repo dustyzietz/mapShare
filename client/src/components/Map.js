@@ -24,10 +24,10 @@ import {
   syncPlayers,
   sendMessage,
   syncMessage,
-  syncAlert,
   syncEvent,
 } from "../actions/players";
 import { getSavedEvents, getEvents } from "../actions/event";
+import { syncAlert } from "../actions/alert";
 
 const Map = ({
   players,
@@ -121,8 +121,8 @@ const Map = ({
       >
         <HitPoints players={players} hitPoints={hitPoints} />
         {menuOpen ? (
-          <div class="card text-white bg-info mb-3" style={{ width: "200px" }}>
-            <div class="card-header">
+          <div className="card text-white bg-info mb-3" style={{ width: "200px" }}>
+            <div className="card-header">
               Menu
               <IconButton
                 onClick={() => {
@@ -134,7 +134,7 @@ const Map = ({
                 <Minimize />
               </IconButton>
             </div>
-            <div class="card-body">
+            <div className="card-body">
               <div>
                 <SavedPlayers setFormOpen={setFormOpen} setEdit={setEdit} />
                 <SavedMaps />

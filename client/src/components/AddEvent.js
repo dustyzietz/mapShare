@@ -4,7 +4,7 @@ import { addSavedEvent } from "../actions/event";
 import { connect } from "react-redux";
 
 
-const AddEvent = () => {
+const AddEvent = ({addSavedEvent}) => {
    const [open, setOpen] = useState(false);
    const [event, setEvent] = useState({
      name:'',
@@ -28,7 +28,9 @@ const AddEvent = () => {
 
     const handleSubmit = (e) =>{
      e.preventDefault()
+     console.log("handle", event)
      addSavedEvent(event)
+     setOpen(false)
     }
   return (
     <div>

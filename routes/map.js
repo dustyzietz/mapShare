@@ -278,7 +278,7 @@ router.post("/add-saved-event", async (req, res) => {
     const map = await Map.findOne();
     map.savedEvents = [event, ...map.savedEvents];
     await map.save();
-    res.json(null);
+    res.json(map.savedEvents);
   } catch (err) {
     console.log(err);
   }

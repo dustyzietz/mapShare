@@ -42,11 +42,16 @@ export const getSavedEvents = () => async(dispatch) => {
   }
 };
 
-export const addSavedEvent = async(event)  => {
+export const addSavedEvent = (event)  =>  async (dispatch)=> {
+    console.log('Event ', event)
   const config = {headers: {'Content-Type': 'application/json' } };
   const body = JSON.stringify(event);
   try {
-    await axios.post('/map/add-saved-event', body, config);
+ const res = await axios.post('/map/add-saved-event', body, config);
+ dispatch({
+    type: LOAD_SAVED_EVENTS,
+    payload: res.data,
+  });
   } catch (err) {
     console.log(err); 
   }
