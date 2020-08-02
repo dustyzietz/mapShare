@@ -33,6 +33,7 @@ export const syncAlert = (data) => async (
     }
   
     const useSpeech = async sentence => {
+      if(sentence){
         await  speech
         .speak({
           text: sentence,
@@ -57,6 +58,7 @@ export const syncAlert = (data) => async (
             }
           }
         })
+      }
     }
     
 
