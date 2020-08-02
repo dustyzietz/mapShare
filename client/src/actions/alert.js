@@ -25,6 +25,8 @@ export const syncAlert = (data) => async (
   ) => {
     const {msg, alertType, timeout} = data.newAlert
     const id = uuidv4();
+    let msgArray = msg.split(".")
+    console.log(msgArray, "msgArray")
     const speech = new Speech() // will throw an exception if not browser supported
     if(speech.hasBrowserSupport()) { // returns a boolean
         console.log("speech synthesis supported")
@@ -36,7 +38,7 @@ export const syncAlert = (data) => async (
      // lang: "en-GB",
       rate: 1,
       pitch: 1,
-    //  voice:'Google UK English Male',
+     // voice:'Google UK English Male',
       splitSentences: false,
     })
     .then(data => {
@@ -46,39 +48,43 @@ export const syncAlert = (data) => async (
       console.error("An error occured while initializing : ", e);
     });
 
-   // speech.setLanguage('en-GB')
-   // speech.setVoice('Google UK English Male')
+       speech.setLanguage('en-GB')
+    speech.setVoice('Google UK English Male')
     
-    speech
-    .speak({
-      text: msg,
-      queue: true,
-      listeners: {
-        onstart: () => {
-          console.log("Start utterance");
-        },
-        onend: () => {
-          console.log("End utterance");
-        },
-        onresume: () => {
-          console.log("Resume utterance");
-        },
-        onboundary: event => {
-          console.log(
-            event.name +
-              " boundary reached after " +
-              event.elapsedTime +
-              " milliseconds."
-          );
-        }
-      }
+    msgArray.map(sentence => {
+        speech
+        .speak({
+          text: sentence,
+          queue: true,
+          listeners: {
+            onstart: () => {
+              console.log("Start utterance");
+            },
+            onend: () => {
+              console.log("End utterance");
+            },
+            onresume: () => {
+              console.log("Resume utterance");
+            },
+            onboundary: event => {
+              console.log(
+                event.name +
+                  " boundary reached after " +
+                  event.elapsedTime +
+                  " milliseconds."
+              );
+            }
+          }
+        })
+        .then(data => {
+          console.log("Success !", data);
+        })
+        .catch(e => {
+          console.error("An error occurred :", e);
+        });
+
     })
-    .then(data => {
-      console.log("Success !", data);
-    })
-    .catch(e => {
-      console.error("An error occurred :", e);
-    });
+    
      dispatch({
        type: SET_ALERT,
        payload: { msg, alertType, id },
