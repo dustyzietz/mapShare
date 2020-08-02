@@ -31,28 +31,9 @@ export const syncAlert = (data) => async (
     if(speech.hasBrowserSupport()) { // returns a boolean
         console.log("speech synthesis supported")
     }
-
-    speech
-    .init({
-      volume: 0.5,
-     // lang: "en-GB",
-      rate: 1,
-      pitch: 1,
-     // voice:'Google UK English Male',
-      splitSentences: false,
-    })
-    .then(data => {
-      console.log("Speech is ready", data);
-    })
-    .catch(e => {
-      console.error("An error occured while initializing : ", e);
-    });
-
-    //   speech.setLanguage('en-GB')
-     //  speech.setVoice('Google UK English Male')
-    
-    msgArray.map(sentence => {
-        speech
+  
+    const useSpeech = async sentence => {
+        await  speech
         .speak({
           text: sentence,
           queue: true,
@@ -76,14 +57,30 @@ export const syncAlert = (data) => async (
             }
           }
         })
-        .then(data => {
-          console.log("Success !", data);
-        })
-        .catch(e => {
-          console.error("An error occurred :", e);
-        });
+    }
+    
 
+    try {
+        const data = await  speech
+    .init({
+      volume: 0.5,
+     // lang: "en-GB",
+      rate: 1,
+      pitch: 1,
+     // voice:'Google UK English Male',
+     splitSentences: false, })
+    console.log(data.voices[5].name)
+    if(data.voices[5].name === "Google UK English Male"){
+        speech.setLanguage("en-GB")
+        speech.setVoice('Google UK English Male')
+    }
+    msgArray.map(sentence => {
+        useSpeech(sentence)
     })
+     
+    } catch (error) {
+        console.log(error)
+    }
     
      dispatch({
        type: SET_ALERT,
