@@ -48,8 +48,8 @@ export const syncAlert = (data) => async (
       console.error("An error occured while initializing : ", e);
     });
 
-       speech.setLanguage('en-GB')
-    speech.setVoice('Google UK English Male')
+    //   speech.setLanguage('en-GB')
+     //  speech.setVoice('Google UK English Male')
     
     msgArray.map(sentence => {
         speech
