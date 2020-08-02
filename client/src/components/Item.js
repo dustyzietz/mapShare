@@ -89,7 +89,7 @@ const Item = ({
       }}
       style={{ position: "absolute", zIndex: `${onTop ? 2: 1}` }}
     >
-      <Draggable position={myPosition} onStop={onControlledDragStop} ondragstart="return false;" >
+      <Draggable position={myPosition} onStop={onControlledDragStop} ondragstart="return false;" ondrop="return false;">
         <div>
           <img
             draggable="false"
