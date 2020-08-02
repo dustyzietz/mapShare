@@ -25,7 +25,7 @@ export const syncAlert = (data) => async (
   ) => {
     const {msg, alertType, timeout} = data.newAlert
     const id = uuidv4();
-    let msgArray = msg.split(".")
+    let msgArray = msg.trim().split(".")
     console.log(msgArray, "msgArray")
     const speech = new Speech() // will throw an exception if not browser supported
     if(speech.hasBrowserSupport()) { // returns a boolean

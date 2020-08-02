@@ -44,18 +44,20 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
 
   const runEvent = () => {
     let message = `${event.details} `;
+    message = message
     if (event.monster) {
       addMonsters(event.monster, event.qty);
-      message = message + `. MONSTERS: ${event.qty} ${event.monster}`;
+     message = message + `. MONSTERS: ${event.qty} ${event.monster}`;
     }
-    setAlert(message, "dark", 20000, 3);
+    console.log("Ran" ,message)
+    setAlert(message, "dark", 20000);
     setOpen(false);
     setStage(1);
   };
 
   const handleTreasure = () => {
     let message = `TREASURE. ${event.treasure}`;
-    setAlert(message, "indigo", 12000, 3);
+    setAlert(message, "indigo", 12000);
     setStage(2);
   };
 
@@ -142,12 +144,12 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
               </button>
             </div>
           )}
-          {dragDisabled && event.stage === 1 && event.monster && (
+          {dragDisabled && event.stage === 1 && event.treasure && (
             <button className="btn btn-light" onClick={handleTreasure}>
               treasure
             </button>
           )}
-           {dragDisabled && event.stage === 1 && !event.monster && 
+           {dragDisabled && event.stage === 1 && !event.treasure &&
              setStage(0)
             }
           {event.stage === 2 && <div></div>}
