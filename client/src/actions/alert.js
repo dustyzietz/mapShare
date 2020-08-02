@@ -33,10 +33,10 @@ export const syncAlert = (data) => async (
     speech
     .init({
       volume: 0.5,
-      lang: "en-GB",
+     // lang: "en-GB",
       rate: 1,
       pitch: 1,
-      voice:'Google UK English Male',
+    //  voice:'Google UK English Male',
       splitSentences: false,
     })
     .then(data => {
@@ -46,8 +46,8 @@ export const syncAlert = (data) => async (
       console.error("An error occured while initializing : ", e);
     });
 
-    speech.setLanguage('en-US')
-    speech.setVoice('Google UK English Male')
+   // speech.setLanguage('en-GB')
+   // speech.setVoice('Google UK English Male')
     
     speech
     .speak({
