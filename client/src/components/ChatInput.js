@@ -19,16 +19,17 @@ const ChatInput = ({
   const [message, setMessage] = useState("");
 
   const onSubmit = () => {
-    sendMessage(message, chatName);
     let alertMessage = `${chatName} . ${message}`;
-    setAlert(alertMessage, "secondary", 15000, 4);
+     sendMessage(alertMessage);
+    setAlert(alertMessage, "secondary", 15000);
     setMessage("");
   };
 
   const chatStop = () => {
     SpeechRecognition.stopListening()
-    sendMessage(transcript, chatName);
+   
     let alertMessage = `${chatName} . ${transcript}`;
+     sendMessage(alertMessage);
     setAlert(alertMessage, "secondary", 15000, 4);
     setMessage("");
     resetTranscript()

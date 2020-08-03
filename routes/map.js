@@ -22,13 +22,13 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/messages", (req, res) => {
-  const { message, chatName } = req.body;
+  const { message } = req.body;
 
   io.getIO().emit("maps", {
     action: "message",
-    newMessage: { message, chatName },
+    newMessage: { message },
   });
-  res.json({ message, chatName });
+  res.json({ message });
 });
 
 router.post("/alerts", (req, res) => {

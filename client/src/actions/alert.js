@@ -24,6 +24,7 @@ export const syncAlert = (data) => async (
     dispatch
   ) => {
     const {msg, alertType, timeout} = data.newAlert
+    sendMessage(msg)
     const id = uuidv4();
     let msgArray = msg.trim().split(".")
     console.log(msgArray, "msgArray")
@@ -91,4 +92,15 @@ export const syncAlert = (data) => async (
   
      setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
   };
+
+  export const sendMessage = (message) => async (dispatch) => {
+    const config = { headers: { "Content-Type": "application/json" } };
+    const body = JSON.stringify({ message});
+    try {
+      await axios.post("/map/messages", body, config);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
   

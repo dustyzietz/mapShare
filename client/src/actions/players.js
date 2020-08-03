@@ -27,9 +27,9 @@ export const updatePosition = (name, x, y, playerId) => async (dispatch) => {
   }
 };
 
-export const sendMessage = (message, chatName) => async (dispatch) => {
+export const sendMessage = (message) => async (dispatch) => {
   const config = { headers: { "Content-Type": "application/json" } };
-  const body = JSON.stringify({ message, chatName });
+  const body = JSON.stringify({ message});
   try {
     await axios.post("/map/messages", body, config);
   } catch (err) {

@@ -13,11 +13,11 @@ export const Chatbox = ({
 }) => {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false)
-  const onSubmit = () => {
-    sendMessage(message, chatName);
-    setChatsOpen(false);
-    setMessage("");
-  };
+  // const onSubmit = () => {
+  //   sendMessage(message, chatName);
+  //   setChatsOpen(false);
+  //   setMessage("");
+  // };
   return (
     <>
         {open ?
@@ -33,8 +33,6 @@ export const Chatbox = ({
               messages.map((m, i) => (
                 <div key={i}>
                   {" "}
-                  {m.chatName}
-                  {" : "}
                   {m.message}{" "}
                 </div>
               ))}
