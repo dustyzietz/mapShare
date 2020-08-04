@@ -84,7 +84,7 @@ const Item = ({
         setIsShown(!isShown);
         setOnTop(true);
       }}
-      ondragstart="return false;" ondrop="return false;"
+      onClose={()=> {setIsShown(false)}}
     >
       <Draggable  
        position={myPosition} onStop={onControlledDragStop} >
