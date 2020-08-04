@@ -49,11 +49,12 @@ function PlayerStats({
     usableItems,
     skills,
     playerId,
+    monster
   } = player;
 
   const [target, setTarget] = useState(0);
   const [attPlayers, setAttPlayers] = useState(
-    players.filter((p) => p.playerId !== playerId)
+    players.filter((p) => p.monster !== monster)
   );
   const [attackIndex, setAttackIndex] = useState(0);
   const [attOpen, setAttOpen] = useState(false);
