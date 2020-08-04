@@ -79,7 +79,7 @@ const Item = ({
   return (
     <div
       className="item-div"
-      onclick={() => {
+      onClick={() => {
         setIsShown(!isShown);
         setOnTop(true);
       }}
