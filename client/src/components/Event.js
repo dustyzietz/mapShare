@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
 import { connect } from "react-redux";
 import { setAlert } from "../actions/alert";
-import { addMonsters, addMap, getSavedMaps } from "../actions/players";
+import { addMonsters, addMap, getSavedMaps, sendMessage } from "../actions/players";
 import { editEvent } from "../actions/event";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import EventEdit from "./EventEdit";
 
-const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps, getSavedMaps }) => {
+const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps, getSavedMaps, sendMessage }) => {
   const [open, setOpen] = useState(false);
   const { controlledPosition, name, eventId, stage } = event;
   const [isShown, setIsShown] = useState(false);
@@ -56,6 +56,7 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps
      message = message + `. MONSTERS: ${event.qty} ${event.monster}`;
     }
     setAlert(message, "dark", 20000);
+    sendMessage(message)
     if(event.newMap){
       //we need saved maps   then get the one with the same name
     let eventMap =  savedMaps.find(savedMap =>  (savedMap.name.trim().toLowerCase() === event.newMap.trim().toLowerCase()))
@@ -175,6 +176,6 @@ const mapStateToProps = (state) => ({
   savedMaps: state.savedMaps,
   map: state.map,
 });
-export default connect(mapStateToProps, {getSavedMaps, setAlert, addMonsters, editEvent, addMap })(
+export default connect(mapStateToProps, {getSavedMaps, setAlert, addMonsters, editEvent, addMap, sendMessage })(
   Event
 );
