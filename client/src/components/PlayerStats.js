@@ -136,7 +136,8 @@ function PlayerStats({
     setItemOpen(false);
   };
 
-  const handleAttack = () => {
+  const handleAttack = (event) => {
+    event.stopPropagation();
     if (attacks.length === 0) {
       return;
     }
@@ -260,7 +261,7 @@ function PlayerStats({
       </div>
       {attOpen && (
         <>
-          <button onClick={handleAttack} className="btn btn-success">
+          <button onClick={(event)=>{handleAttack(event)}} className="btn btn-success">
             Attack
           </button>
           <button
