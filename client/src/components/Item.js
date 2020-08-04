@@ -80,16 +80,16 @@ const Item = ({
     <div
       className="item-div"
       style={{ position: "absolute", zIndex: `${onTop ? 2: 1}` }}
-      onClick={() => {
-        setIsShown(!isShown);
-        setOnTop(true);
-      }}
       onClose={()=> {setIsShown(false)}}
     >
       <Draggable  
        position={myPosition} onStop={onControlledDragStop} >
         <div>
-          <img
+          <img 
+           onClick={() => {
+            setIsShown(!isShown);
+            setOnTop(true);
+          }}
             draggable="false"
             src={url}
             alt=""
