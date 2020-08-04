@@ -79,13 +79,9 @@ const Item = ({
   return (
     <div
       className="item-div"
-      onMouseEnter={() => {
-        setIsShown(true);
+      onclick={() => {
+        setIsShown(!isShown);
         setOnTop(true);
-      }}
-      onMouseLeave={() => {
-        setIsShown(false);
-        setOnTop(false);
       }}
       style={{ position: "absolute", zIndex: `${onTop ? 2: 1}` }}
     >
