@@ -163,6 +163,7 @@ const mapSchema = new Schema({
           treasure: String,
           eventId: String,
           stage: Number,
+          newMap: String,
           controlledPosition: {
             x: Number,
             y: Number
@@ -178,7 +179,8 @@ const mapSchema = new Schema({
         details: String,
         monster: String,
         qty: Number,
-        treasure: String,   
+        treasure: String,
+        newMap: String,   
       }
     ]
 });

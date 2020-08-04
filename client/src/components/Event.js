@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
 import { connect } from "react-redux";
 import { setAlert } from "../actions/alert";
-import { addMonsters, editAllPlayers } from "../actions/players";
+import { addMonsters, addMap, getSavedMaps } from "../actions/players";
 import { editEvent } from "../actions/event";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import EventEdit from "./EventEdit";
 
-const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
+const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps, getSavedMaps }) => {
   const [open, setOpen] = useState(false);
   const { controlledPosition, name, eventId, stage } = event;
   const [isShown, setIsShown] = useState(false);
@@ -42,15 +42,27 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
     onControlledDrag(e, position);
   };
 
-  const runEvent = () => {
+  useEffect(()=>{
+    if(event.newMap){
+      getSavedMaps()
+    }
+  }, [])
+
+  const runEvent = async () => {
+
     let message = `${event.details} `;
-    message = message
     if (event.monster) {
-      addMonsters(event.monster, event.qty);
+     await addMonsters(event.monster, event.qty);
      message = message + `. MONSTERS: ${event.qty} ${event.monster}`;
     }
-    console.log("Ran" ,message)
     setAlert(message, "dark", 20000);
+    if(event.newMap){
+      //we need saved maps   then get the one with the same name
+    let eventMap =  savedMaps.find(savedMap =>  (savedMap.name.trim().toLowerCase() === event.newMap.trim().toLowerCase()))
+    console.log(eventMap, "eventMap")
+   await addMap(eventMap)
+  return
+    }
     setOpen(false);
     setStage(1);
   };
@@ -160,8 +172,9 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map }) => {
 };
 const mapStateToProps = (state) => ({
   savedPlayers: state.savedPlayers,
+  savedMaps: state.savedMaps,
   map: state.map,
 });
-export default connect(mapStateToProps, { setAlert, addMonsters, editEvent })(
+export default connect(mapStateToProps, {getSavedMaps, setAlert, addMonsters, editEvent, addMap })(
   Event
 );

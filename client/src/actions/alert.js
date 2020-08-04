@@ -8,8 +8,6 @@ import axios from 'axios';
 import Speech from "speak-tts";
 
 export const setAlert = (msg, alertType, timeout = 5000) =>async dispatch => {
-
-console.log('gets here')
   const config = {headers: {'Content-Type': 'application/json' } };
   const body = JSON.stringify({msg, alertType, timeout});
   try {
@@ -27,7 +25,6 @@ export const syncAlert = (data) => async (
     sendMessage(msg)
     const id = uuidv4();
     let msgArray = msg.trim().split(".")
-    console.log(msgArray, "msgArray")
     const speech = new Speech() // will throw an exception if not browser supported
     if(speech.hasBrowserSupport()) { // returns a boolean
         console.log("speech synthesis supported")
@@ -41,21 +38,12 @@ export const syncAlert = (data) => async (
           queue: true,
           listeners: {
             onstart: () => {
-              console.log("Start utterance");
             },
             onend: () => {
-              console.log("End utterance");
             },
             onresume: () => {
-              console.log("Resume utterance");
             },
             onboundary: event => {
-              console.log(
-                event.name +
-                  " boundary reached after " +
-                  event.elapsedTime +
-                  " milliseconds."
-              );
             }
           }
         })
@@ -72,7 +60,6 @@ export const syncAlert = (data) => async (
       pitch: 1,
      // voice:'Google UK English Male',
      splitSentences: false, })
-    console.log(data.voices[5].name)
     if(data.voices[5].name === "Google UK English Male"){
         speech.setLanguage("en-GB")
         speech.setVoice('Google UK English Male')

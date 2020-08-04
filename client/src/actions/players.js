@@ -242,6 +242,7 @@ export const getMap = () => async (dispatch) => {
 };
 
 export const addMap = (map) => async (dispatch) => {
+  console.log('addMap action', map)
   try {
     const config = {
       headers: {
@@ -329,6 +330,7 @@ export const setHp = (newHitPoints) => async (dispatch) => {
 };
 
 export const editAllPlayers = (players) => async (dispatch) => {
+  console.log('editAllPlayers', players)
   try {
     const config = {
       headers: {

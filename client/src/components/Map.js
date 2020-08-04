@@ -17,6 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Minimize from "@material-ui/icons/Minimize";
 
 import {
+  editAllPlayers,
   getMap,
   getPlayers,
   addPlayer,
@@ -26,7 +27,7 @@ import {
   syncMessage,
   syncEvent,
 } from "../actions/players";
-import { getSavedEvents, getEvents } from "../actions/event";
+import { getEvents } from "../actions/event";
 import { syncAlert } from "../actions/alert";
 
 const Map = ({
@@ -44,6 +45,7 @@ const Map = ({
   getEvents,
   event,
   syncEvent,
+  editAllPlayers
 }) => {
   const [formOpen, setFormOpen] = useState(false);
   const [playerToEdit, setPlayerToEdit] = useState();
@@ -96,6 +98,8 @@ const Map = ({
     if (map.name) {
       const mapName = map.name;
       getEvents(mapName);
+      if(players.length > 0 ){
+    }
     }
   }, [map]);
 
@@ -233,4 +237,5 @@ export default connect(mapStateToProps, {
   syncAlert,
   getEvents,
   syncEvent,
+  editAllPlayers,
 })(Map);

@@ -13,8 +13,9 @@ const AddEvent = ({addSavedEvent}) => {
      monster: '',
      qty: 0,
      treasure: '',
+     newMap: '',
    })
-   const{name, number, details, monster, qty, treasure} = event
+   const{name, number, details, monster, qty, treasure, newMap} = event
 
    const handleClickOpen = () => {
     setOpen(true);
@@ -134,6 +135,23 @@ const AddEvent = ({addSavedEvent}) => {
                       onChange={onChange}
                     />
                   </div>
+                  <br/>
+                  <div
+                    className="form-group"
+                    style={{ width: "150px", display: "inline-block" }}
+                  >
+                    <label htmlFor="newMap">Event Monster</label>
+                    <input
+                      id="newMap"
+                      className="form-control"
+                      type="text"
+                      placeholder="New Map"
+                      name="newMap"
+                      value={newMap}
+                      onChange={onChange}
+                    />
+                  </div>
+                  <br/>
                   <button type='submit' className="btn btn-primary"  >Submit</button>
       </form>
       </Dialog>

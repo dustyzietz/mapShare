@@ -34,10 +34,6 @@ const SavedMaps = ({
   };
 
   const makeMap = async (map) => {
-    const newplayers = players.map((p) => {
-      return { ...p, controlledPosition: { x: 600, y: -800 } };
-    });
-    editAllPlayers(newplayers);
     addMap(map);
     setOpen(false);
   };

@@ -110,11 +110,9 @@ router.get("/saved-players", async (req, res) => {
 });
 
 router.post("/edit-saved-player", async (req, res) => {
-  console.log(req.body);
   const newPlayer = req.body;
   try {
     const map = await Map.findOne();
-    //  console.log(newPlayer._id)
     map.savedPlayers = map.savedPlayers.filter(
       (p) => p.name !== newPlayer.name
     );
@@ -172,7 +170,6 @@ router.get("/saved-monsters", async (req, res) => {
 
 router.post("/add-saved-monster", async (req, res) => {
   const monster = req.body;
-  console.log(monster);
   try {
     const map = await Map.findOne();
 
@@ -200,8 +197,8 @@ router.get("/map", async (req, res) => {
 });
 
 router.post("/map", async (req, res) => {
+ 
   const { name, url } = req.body;
-  console.log(name, url);
   try {
     const map = await Map.findOne();
     map.mapName = name;
@@ -217,7 +214,6 @@ router.post("/map", async (req, res) => {
 
 router.post("/saved-map", async (req, res) => {
   const { name, url } = req.body;
-  console.log(name, url);
   try {
     const map = await Map.findOne();
     map.savedMaps = [{ name, url }, ...map.savedMaps];
@@ -254,7 +250,6 @@ router.post("/size", async (req, res) => {
 });
 
 router.post("/hit-points", async (req, res) => {
-  console.log(req.body);
   io.getIO().emit("maps", { action: "hit points", newHitPoints: req.body });
   res.json(null);
 });
@@ -335,7 +330,6 @@ router.post("/edit-event", async (req, res) => {
     let mapIndex = map.savedMaps.findIndex(
       (m) => m.name === mapName
     );
-    console.log(mapIndex)
     map.savedMaps[mapIndex].events =  map.savedMaps[mapIndex].events.filter(
       (e) => e.eventId !== event.eventId
     );
@@ -367,7 +361,6 @@ router.delete("/event/:eventId/:mapName", async (req, res) => {
     let mapIndex = map.savedMaps.findIndex(
       (m) => m.name === req.params.mapName
     );
-    console.log(mapIndex);
     map.savedMaps[mapIndex].events = map.savedMaps[mapIndex].events.filter(
       (e) => e.eventId !== req.params.eventId
     );
@@ -396,19 +389,17 @@ router.delete("/saved-event/:id", async (req, res) => {
 });
 
 router.post("/add-monsters", async (req, res) => {
-  console.log("fired")
   const{name, qty} = req.body
   try {
     const map = await Map.findOne();
     let monster = map.savedPlayers.find(p =>  p.name.toLowerCase() === name.toLowerCase())
     monster =  {
       ...monster._doc,
-      controlledPosition: { x: 600, y: -800 },
       size: 10,
       currentHp: monster.hp,
     }
     let monsters = []
-     for (let i = 0; i < qty ; i++){monsters[i] = {...monster, playerId: uuid(),}}
+     for (let i = 0; i < qty ; i++){monsters[i] = {...monster,controlledPosition: { x: (400 + Math.random() * 400), y: (-1000 + Math.random() * 400) }, playerId: uuid(),}}
     
     map.players = [
       ...map.players,
