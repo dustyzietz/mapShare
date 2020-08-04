@@ -71,6 +71,7 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps
   const handleTreasure = () => {
     let message = `TREASURE. ${event.treasure}`;
     setAlert(message, "indigo", 12000);
+    sendMessage(message)
     setStage(2);
   };
 
