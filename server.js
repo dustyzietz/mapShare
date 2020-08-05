@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Map = require("./models/map");
 const app = express();
 const path = require("path");
-const CONNECTION_URI = process.env.MONGODB_URI || "mongodb+srv://dzietz:kqQIl8PlTEV2SEfh@cluster0-uvrcp.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
+const CONNECTION_URI = process.env.MONGODB_URI || "mongodb+srv://dusty:aAFTdImMc95X1Tan@cluster0.zpjo6.mongodb.net/test?authSource=admin&replicaSet=atlas-fokr1z-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
 const PORT = process.env.PORT || 5000;
 
 const connectDB = async () => {

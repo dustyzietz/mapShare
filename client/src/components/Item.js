@@ -32,6 +32,7 @@ const Item = ({
   });
   const [loading, setLoading] = useState(false);
   const [onTop, setOnTop] = useState(false);
+  const [dragging, setDragging] = useState(false)
 
   const onControlledDrag = (e, position) => {
     const { x, y } = position;
@@ -40,6 +41,7 @@ const Item = ({
 
   const onControlledDragStop = (e, position) => {
     onControlledDrag(e, position);
+    setTimeout(function(){ setDragging(false) }, 300);
   };
 
   const handleDelete = () => {
@@ -55,6 +57,10 @@ const Item = ({
     const newSize = size - 1;
     updateSize(newSize, playerId);
   };
+
+  const onDrag = () => {
+   setDragging(true)
+  }  
 
   useEffect(() => {
     players.map((p) => {
@@ -80,16 +86,13 @@ const Item = ({
     <div
       className="item-div"
       style={{ position: "absolute", zIndex: `${onTop ? 2: 1}` }}
-      onClose={()=> {setIsShown(false)}}
-    >
-      <Draggable  
-       position={myPosition} onStop={onControlledDragStop} >
-        <div>
-          <img 
-           onClick={() => {
-            setIsShown(!isShown);
-            setOnTop(true);
-          }}
+      onMouseLeave={()=>{setIsShown(false); setOnTop(false)}}
+      >
+      <Draggable 
+       position={myPosition} onStop={onControlledDragStop} onDrag={onDrag} >
+        <div  > 
+          <img
+            onClick={!dragging ? ()=>{setIsShown(!isShown); setOnTop(true)}: null }
             draggable="false"
             src={url}
             alt=""
