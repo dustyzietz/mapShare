@@ -53,7 +53,7 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps
     let message = `${event.details} `;
     if (event.monster) {
      await addMonsters(event.monster, event.qty);
-     message = message + `. MONSTERS: ${event.qty} ${event.monster}`;
+     message = message + ` MONSTERS: ${event.qty} ${event.monster}`;
     }
     setAlert(message, "dark", 20000);
     sendMessage(message)
