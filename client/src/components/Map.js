@@ -29,6 +29,7 @@ import {
 } from "../actions/players";
 import { getEvents } from "../actions/event";
 import { syncAlert } from "../actions/alert";
+import { syncActive } from "../actions/active";
 
 const Map = ({
   players,
@@ -45,6 +46,7 @@ const Map = ({
   getEvents,
   event,
   syncEvent,
+  syncActive,
   editAllPlayers
 }) => {
   const [formOpen, setFormOpen] = useState(false);
@@ -71,6 +73,9 @@ const Map = ({
       }
       if (data.action === "events") {
         syncEvent(data);
+      }
+      if (data.action === "active") {
+        syncActive(data);
       }
     });
   }, []);
@@ -238,4 +243,5 @@ export default connect(mapStateToProps, {
   getEvents,
   syncEvent,
   editAllPlayers,
+  syncActive,
 })(Map);

@@ -413,6 +413,16 @@ router.post("/add-monsters", async (req, res) => {
   }
 });
 
+router.post("/active", async (req, res) => {
+  const { activeIndex } = req.body;
+  try {
+    io.getIO().emit("maps", { action: "active", newActive: activeIndex });
+    res.json(null);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 
 
 module.exports = router;

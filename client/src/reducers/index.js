@@ -9,9 +9,11 @@ import hitPoints from './hitPoints';
 import alert from './alert';
 import event from './event';
 import savedEvents from './savedEvents'
+import active from './active'
 
 
 export default combineReducers({
+  active,
   event,
   hitPoints,
   players,

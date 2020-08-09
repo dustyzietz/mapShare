@@ -9,4 +9,6 @@ export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const LOAD_SAVED_EVENTS = 'LOAD_SAVED_EVENTS'
 export const LOAD_EVENTS = 'LOAD_EVENTS'
+export const LOAD_ACTIVE = 'LOAD_ACTIVE'
+
 

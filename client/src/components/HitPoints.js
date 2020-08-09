@@ -3,16 +3,15 @@ import  HitPointsPlayer  from "./HitPointsPlayer";
 import { editAllPlayers, editPlayer } from '../actions/players';
 import { connect } from "react-redux";
 import { setAlert } from "../actions/alert";
+import { setActive } from "../actions/active";
 import IconButton from "@material-ui/core/IconButton";
 import Minimize from "@material-ui/icons/Minimize";
 
-const HitPoints = ({ players, editAllPlayers, setAlert }) => {
+const HitPoints = ({ players, editAllPlayers, setAlert, active, setActive }) => {
  const [shuffled, setShuffled] = useState([]);
- const [active, setActive] = useState()
  const [open, setOpen] = useState(true)
  
  useEffect(()=> {
-   if (active === players.length){setActive(0)}
    if(players[active]){
      let message = `${players[active].name}'s Turn`
   setAlert(message, "indigo", 5000); 
@@ -60,7 +59,7 @@ if(shuffled.length == 0) {setShuffled(players);}
          return (
            <div key={p.playerId} style={{display:'flex'}} >
         <HitPointsPlayer  p={p} players={players} setActive={setActive} />
-        {i === active && <button className='btn btn-success' style={{height:'1.5rem',padding:'0 0.5rem'}} onClick={()=>{setActive(active + 1)}} >Next</button> }
+        {i === active && <button className='btn btn-success' style={{height:'1.5rem',padding:'0 0.5rem'}} onClick={()=>{setActive(active + 1); console.log('setActive', active)}} >Next</button> }
       </div>
        )
        }
@@ -78,11 +77,13 @@ if(shuffled.length == 0) {setShuffled(players);}
 };
 
 const mapStateToProps = (state) => ({
-  players: state.players
+  players: state.players,
+  active: state.active
 });
 
 export default connect(mapStateToProps, {
   editAllPlayers,
-  setAlert
+  setAlert,
+  setActive,
 })(HitPoints);
 
