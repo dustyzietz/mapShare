@@ -88,7 +88,8 @@ const Item = ({
       style={{ position: "absolute", zIndex: `${onTop ? 2: 1}` }}
       onMouseLeave={()=>{setIsShown(false); setOnTop(false)}}
       >
-      <Draggable 
+      <Draggable
+      disabled={isShown} 
        position={myPosition} onStop={onControlledDragStop} onDrag={onDrag} >
         <div  > 
           <img
