@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 
 const EventEdit = ({editOpen, setEditOpen, initialEvent, editEvent, map}) => {
   const [event, setEvent] = useState(initialEvent)
-  const{name, number, details, monster, qty, treasure} = event
+  const{name, number, details, monster, qty, treasure, newMap} = event
 
   const handleClose = () => {
     setEditOpen(false);
@@ -124,6 +124,22 @@ const EventEdit = ({editOpen, setEditOpen, initialEvent, editEvent, map}) => {
                       type="text"
                       name="treasure"
                       value={treasure}
+                      onChange={onChange}
+                    />
+                  </div>
+                  <br/>
+                  <div
+                    className="form-group"
+                    style={{ width: "200px", display: "inline-block" }}
+                  >
+                    <label htmlFor="newMap">New Map Name</label>
+                    <input
+                      id="newMap"
+                      className="form-control"
+                      type="text"
+                      placeholder="New Map"
+                      name="newMap"
+                      value={newMap}
                       onChange={onChange}
                     />
                   </div>

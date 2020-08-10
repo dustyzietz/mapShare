@@ -93,6 +93,11 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps
     editEvent(newEvent, mapName);
   };
 
+  const handleHide = () => {
+    setOpen(false);
+    setStage(2);
+  }
+
   return (
     <>
       <EventEdit
@@ -127,7 +132,7 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps
             >
               Edit
             </button>
-            <button className="btn btn-danger" onClick={runEvent}>
+            <button className="btn btn-danger" onClick={handleHide}>
               Delete
             </button>
           </div>
