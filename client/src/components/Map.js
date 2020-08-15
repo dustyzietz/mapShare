@@ -108,6 +108,7 @@ const Map = ({
     }
   }, [map]);
 
+
   return (
     <div style={{ position: "relative", height: "1200px", width: "1200px" }}>
       <AddPlayerDialog

@@ -186,15 +186,18 @@ router.post("/add-saved-monster", async (req, res) => {
   }
 });
 
+
 router.get("/map", async (req, res) => {
   try {
-    const map = await Map.findOne();
+    const map = await Map.findOne({_id: "5f29ee16c45bfc31bc7fa820"});
     const oldMap = { name: map.mapName, url: map.mapUrl };
     res.json(oldMap);
   } catch (err) {
     console.log(err);
   }
 });
+
+
 
 router.post("/map", async (req, res) => {
  

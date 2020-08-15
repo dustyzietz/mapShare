@@ -230,7 +230,8 @@ export const deleteSavedPlayer = (id) => async (dispatch) => {
 };
 
 export const getMap = () => async (dispatch) => {
-  try {
+
+    try {
     const res = await axios.get("/map/map");
     dispatch({
       type: LOAD_MAP,
@@ -239,6 +240,7 @@ export const getMap = () => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+  
 };
 
 export const addMap = (map) => async (dispatch) => {
