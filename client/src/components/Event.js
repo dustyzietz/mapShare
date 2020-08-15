@@ -55,7 +55,8 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps
      await addMonsters(event.monster, event.qty);
      message = message + ` MONSTERS: ${event.qty} ${event.monster}`;
     }
-    setAlert(message, "dark", 20000);
+    const timer = message.length * 50 + 1000
+    setAlert(message, "dark", timer);
     sendMessage(message)
     if(event.newMap){
       //we need saved maps   then get the one with the same name
@@ -70,7 +71,8 @@ const Event = ({ event, setAlert, addMonsters, editEvent, map, addMap, savedMaps
 
   const handleTreasure = () => {
     let message = `TREASURE. ${event.treasure}`;
-    setAlert(message, "indigo", 12000);
+    const timer = message.length * 50 + 1000
+    setAlert(message, "indigo", timer);
     sendMessage(message)
     setStage(2);
   };

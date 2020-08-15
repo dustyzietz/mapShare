@@ -22,6 +22,7 @@ export const syncAlert = (data) => async (
     dispatch
   ) => {
     const {msg, alertType, timeout} = data.newAlert
+    const rate = msg.length > 200 ? 1.1 : 1
     sendMessage(msg)
     const id = uuidv4();
     let msgArray = msg.trim().split(".")
@@ -56,7 +57,7 @@ export const syncAlert = (data) => async (
     .init({
       volume: 0.5,
      // lang: "en-GB",
-      rate: 1,
+      rate: rate,
       pitch: 1,
      // voice:'Google UK English Male',
      splitSentences: false, })
