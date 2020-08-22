@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Delete from "@material-ui/icons/Delete";
 import Edit from "@material-ui/icons/Edit";
+import Upload from "./Upload"
 
  const AddPlayerDialog = ({ isMonster, playerToEdit, edit, formOpen, setFormOpen, editPlayer, addSavedPlayer }) => {
   const [attackOpen, setAttackOpen] = useState(false);
@@ -242,6 +243,7 @@ const handleSkillDelete = (index) => {
                     <img src={url} alt="player" style={{ maxWidth: "400px",border: '2px solid #325D88', borderRadius: '0.25rem' }} />
                   </div>
                 )}
+                <Upload  setPlayer={setPlayer} player={player}/>
                 <label htmlFor="imageAddress">Image address</label>
                 <input
                   type="text"

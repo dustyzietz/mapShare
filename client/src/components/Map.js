@@ -57,6 +57,14 @@ const Map = ({
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    async function loadPlayers() {
+     await getMap();
+      await getPlayers();
+    }
+    loadPlayers();
+  }, []);
+
+  useEffect(() => {
     const socket = io.connect();
     socket.on("maps", (data) => {
       if (data.action === "create") {
@@ -90,14 +98,6 @@ const Map = ({
     setChatName(name);
     setChatsOpen(true);
   };
-
-  useEffect(() => {
-    async function loadPlayers() {
-      getMap();
-      await getPlayers();
-    }
-    loadPlayers();
-  }, []);
 
   useEffect(() => {
     if (map.name) {

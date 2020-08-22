@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const Map = require("./models/map");
 const app = express();
 const path = require("path");
-const CONNECTION_URI = process.env.MONGODB_URI || "mongodb+srv://dusty:aAFTdImMc95X1Tan@cluster0.zpjo6.mongodb.net/test?authSource=admin&replicaSet=atlas-fokr1z-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
+const CONNECTION_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/test"
+//"mongodb+srv://dusty:aAFTdImMc95X1Tan@cluster0.zpjo6.mongodb.net/test?authSource=admin&replicaSet=atlas-fokr1z-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true";
+
 const PORT = process.env.PORT || 5000;
 
 const connectDB = async () => {
@@ -18,7 +20,7 @@ const connectDB = async () => {
       const map = await new Map({
         mapName: "Default Map",
         mapUrl:
-          "https://i.pinimg.com/736x/9f/ec/db/9fecdba47cfcda751e4eadce08ff95a7.jpg",
+          "https://slyflourish.com/images/menzer_dyson_map.jpg",
         players: [],
         savedPlayers: []
       });
@@ -37,6 +39,7 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 app.use("/map", require("./routes/map"));
+app.use("/upload", require("./routes/upload"));
 
 // Serve static assets in production 
 if (process.env.NODE_ENV === "production") {

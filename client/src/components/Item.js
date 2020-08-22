@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
+import goblin from '../images/goblin.png'
 import {
   updatePosition,
   deletePlayer,
