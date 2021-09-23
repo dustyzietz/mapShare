@@ -59,6 +59,13 @@ const SavedPlayers = ({
             </button>
             <button
               className="btn btn-info"
+              style={{float: "left" }}
+              onClick={handleAdd}
+            >
+            Upload From dndbeyond
+            </button>
+            <button
+              className="btn btn-info"
               style={{float: "right" }}
               onClick={handleClose}
             >

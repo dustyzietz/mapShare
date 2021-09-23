@@ -9,8 +9,6 @@ import {
   LOAD_HITPOINTS,
    LOAD_EVENTS
 } from "./types";
-import { v4 as uuidv4 } from 'uuid';
-
 
 
 export const updatePosition = (name, x, y, playerId) => async (dispatch) => {
